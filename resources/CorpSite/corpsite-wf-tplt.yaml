@@ -1,0 +1,289 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: corpsite-ci-wf-tplt
+spec:
+  arguments:
+    parameters:
+      - name: REPO
+      - name: REVISION
+      - name: SHA
+  entrypoint: ci-pipeline
+  templates:
+    - name: ci-pipeline
+      inputs:
+        parameters:
+          - name: REPO
+          - name: REVISION
+          - name: SHA
+      dag:
+        tasks:
+        - name: clone
+          templateRef:
+            name: lr.git
+            template: clone
+          arguments:
+            parameters:
+            - name: REPO_URL
+              value: "{{inputs.parameters.REPO}}"
+            - name: REVISION
+              value: "{{inputs.parameters.REVISION}}"
+            - name: GIT_TOKEN_SECRET
+              value: github-access
+        - name: clone-config
+          templateRef:
+            name: lr.git
+            template: clone
+          arguments:
+            parameters:
+            - name: REPO_URL
+              value: "https://github.com/lrochette/CorpSite_gitops.git"
+            - name: REVISION
+              value: "refs/heads/main"
+            - name: GIT_TOKEN_SECRET
+              value: github-access
+        - name: ls1
+          template: listing
+          depends: clone
+          arguments:
+            parameters:
+              - name: DIR
+                value: "{{tasks.clone.outputs.parameters.REPO_NAME}}"
+        - name: ls2
+          template: listing
+          depends: clone-config
+          arguments:
+            parameters:
+              - name: DIR
+                value: "{{tasks.clone-config.outputs.parameters.REPO_NAME}}"
+
+        - name: maven-build
+          template: maven
+          arguments:
+            parameters:
+            - name: target
+              value: "package"
+          depends: clone
+
+        - name: maven-test
+          template: maven
+          arguments:
+            parameters:
+            - name: target
+              value: "test"
+          depends: maven-build
+
+        - name: build-image
+          template: kaniko-build
+          arguments:
+            parameters:
+            - name: image
+              value: "lrochette/globex"
+            - name: tag
+              value: "{{inputs.parameters.SHA}}"
+          depends: maven-build
+
+        - name: enrich-image-jira
+          depends: build-image
+          templateRef:
+            name: argo-hub.codefresh-csdp.0.0.5
+            template: image-enricher-jira-info
+          arguments:
+            parameters:
+            - name: IMAGE
+              value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+            - name: JIRA_PROJECT_PREFIX
+              value: 'FT'
+            - name: MESSAGE
+              value: 'FT-50'
+            - name: JIRA_HOST
+              value: 'codefresh-io.atlassian.net'
+            # - name: JIRA_EMAIL
+            #   value: 'laurent.rochette@codefresh.io'
+            - name: JIRA_API_TOKEN_SECRET
+              value: 'jira-token'
+            - name: CF_API_KEY
+              value: "codefresh-token"
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: 'codefresh-token'
+              #     key: token
+
+        - name: update-manifest
+          depends: "build-image && clone-config"
+          templateRef:
+            name: lr.generic
+            template: freestyle
+          arguments:
+            parameters:
+              - name: image
+                value: "mikefarah/yq:3.3.4"
+              - name: working_directory
+                value: "{{tasks.clone-config.outputs.parameters.REPO_NAME}}"
+              - name: commands
+                value: |
+                  yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{inputs.parameters.SHA}}"
+                  yq r deployment.yaml
+
+        - name: commit-config-change
+          depends: update-manifest
+          templateRef:
+            name: lr.git
+            template: commit
+          arguments:
+            parameters:
+              - name: REPO
+                value: "lrochette/{{ tasks.clone-config.outputs.parameters.REPO_NAME }}"
+              - name: GIT_TOKEN_SECRET
+                value: "github-access"
+              - name: WORKING_DIR
+                value: "{{ tasks.clone-config.outputs.parameters.REPO_NAME }}"
+              - name: GIT_USER_NAME
+                value: "lrochette"
+              - name: GIT_USER_EMAIL
+                value: "laurent.rochette@codefresh.io"
+              - name: commit_message
+                value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
+
+        - name: create-sn-cr
+          depends: clone
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: createcr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: DEBUG
+              value: true
+            - name: CR_DATA
+              value: >-
+                {"short_description": "Globex deployment to QA environment",
+                "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh plugin",
+                "justification": "I do not need a justification\nMy app is awesome",
+                "cmdb_ci":"tomcat"
+                }
+
+        - name: update-sn-cr
+          depends: "build-image && create-sn-cr"
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: DEBUG
+              value: false
+            - name: CR_DATA
+              value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+
+        - name: update-sn-cr-with-config-commit
+          depends: "commit-config-change && create-sn-cr"
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: DEBUG
+              value: false
+            - name: CR_DATA
+              value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.SHA}}"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+        - name: approve
+          depends: update-sn-cr-with-config-commit
+          template: approve
+        - name: close-sn-cr
+          depends: approve
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: closecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: DEBUG
+              value: true
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+            - name: CR_CLOSE_CODE
+              value: "successful"
+            - name: CR_CLOSE_NOTES
+              value: "Closed automatically by Argo-Hub ServiceNow workflow template"
+
+    # Additional templates
+    - name: approve
+      suspend: {}
+
+    - name: listing
+      inputs:
+        parameters:
+          - name: DIR
+            value: "."
+      script:
+        image: alpine:3.7
+        workingDir: /codefresh/volume
+        command: [ sh ]
+        source : |
+         cd {{ inputs.paramters.DIR}}
+         ls -ail
+        volumeMounts:                     # same syntax as k8s Pod spec
+        - name: codefresh-volume
+          mountPath: /codefresh/volume
+
+    - name: maven
+      inputs:
+        parameters:
+        - name: target
+      script:
+        image: maven:3.3-jdk-8
+        workingDir: /codefresh/volume/CorpSite
+        command: [ bash ]
+        source: |
+          mvn -Dmaven.repo.local=/codefresh/volume/m2_repository {{inputs.parameters.target}}
+        volumeMounts:
+        - name: codefresh-volume
+          mountPath: /codefresh/volume
+
+    - name: kaniko-build
+      inputs:
+        parameters:
+        - name: image
+        - name: tag
+      volumes:
+        - name: docker-config
+          secret:
+            secretName: dockerhub
+      container:
+        image: gcr.io/kaniko-project/executor:v1.6.0
+        # workingDir: /codefresh/volume/CorpSite
+        volumeMounts:
+          - name: codefresh-volume
+            mountPath: /codefresh/volume
+          - name: docker-config
+            mountPath: /kaniko/.docker
+        command:
+          - /kaniko/executor
+        args:
+          - "--dockerfile=Dockerfile"
+          - "--context=dir:///codefresh/volume/CorpSite"
+          - "--destination={{inputs.parameters.image}}:{{inputs.parameters.tag}}"
+          - "--destination={{inputs.parameters.image}}:latest"
+          - "--image-name-with-digest-file=/codefresh/volume/tmp/image_name_digest.txt"
+          - "--image-name-tag-with-digest-file=/codefresh/volume/tmp/image_name_tag.txt"
+        env:
+          - name: DOCKER_CONFIG
+            value: /kaniko/.docker

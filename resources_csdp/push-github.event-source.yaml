@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  creationTimestamp: null
+  name: push-github
+spec:
+  eventBusName: codefresh-eventbus
+  github:
+    push:
+      active: true
+      apiToken:
+        key: git_token
+        name: autopilot-secret
+      contentType: json
+      events:
+      - push
+      id: 0
+      insecure: true
+      owner: ""
+      repositories:
+      - names:
+        - v2_git-source
+        owner: lrochette
+      repository: ""
+      webhook:
+        endpoint: /webhooks/push-github/
+        method: POST
+        port: "13000"
+        url: https://lrcsdp.support.cf-cd.com
+  service:
+    ports:
+    - port: 13000
+      targetPort: 0
+status: {}

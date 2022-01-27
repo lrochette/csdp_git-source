@@ -1,0 +1,29 @@
+# Info on GitHub Webhook: https://developer.github.com/v3/repos/hooks/#create-a-hook
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github
+spec:
+  eventBusName: codefresh-eventbus
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+  github:
+    corpsite-push:
+      repositories:
+        - owner: lrochette
+      webhook:
+        endpoint: /push
+        port: "12000"
+        method: POST
+        #url: http://lr-v2.support.cf-cd.com
+        url: http://a8f818b5986ab457983a60c95cd39bc1-1414542051.us-east-1.elb.amazonaws.com
+      events:
+        - "push"
+      apiToken:
+        name: github-access
+        key: token
+      insecure: true
+      active: true
+      contentType: "json"

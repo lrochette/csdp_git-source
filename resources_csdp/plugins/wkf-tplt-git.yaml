@@ -1,0 +1,97 @@
+# From Vadim
+# https://raw.githubusercontent.com/codefresh-io/argo-platform/CR-5723/.deploy/workflows/templates/git.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: lr.git
+spec:
+  templates:
+  - name: clone
+    inputs:
+      parameters:
+      - name: REPO_URL
+      - name: REVISION
+        default: main
+      - name: GIT_TOKEN_SECRET
+      artifacts:
+      - name: git-repo
+        path: /src
+        git:
+          repo: '{{ inputs.parameters.REPO_URL }}'
+          revision: '{{ inputs.parameters.REVISION }}'
+          usernameSecret:
+            name: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
+            key: token
+    script:
+      image: bitnami/git:latest
+      workingDir: /codefresh/volume
+      command: [bash]
+      source: |
+        export REPO_NAME=$(echo '{{ inputs.parameters.REPO_URL }}' | rev | cut -d'/' -f 1 | cut -d'.' -f2- | rev)
+        echo ${REPO_NAME} > /tmp/repo_name.txt
+        # echo "REPO_NAME=$REPO_NAME"
+        # ls -ail /src
+        cp -RT /src /codefresh/volume/${REPO_NAME}
+        cd /codefresh/volume/${REPO_NAME}
+        pwd
+        ls -ail
+        git status
+        git log -2 --pretty=oneline
+        echo cloned repo = {{ inputs.parameters.REPO_URL }} with revision = {{ inputs.parameters.REVISION }}
+      volumeMounts:
+        - name: codefresh-volume
+          mountPath: /codefresh/volume
+    outputs:
+      parameters:
+      - name: REPO_NAME
+        valueFrom:
+          path: /tmp/repo_name.txt
+
+  - name: commit
+    inputs:
+      parameters:
+        - name: REPO
+        - name: GIT_TOKEN_SECRET
+          value: github-access
+        - name: COMMIT_MSG
+          value: "Committing new changes"
+        - name: GIT_USER_NAME
+        - name: GIT_USER_EMAIL
+        - name: WORKING_DIR
+        - name: VOLUMENAME
+          value: codefresh-volume
+    script:
+      image: quay.io/bitnami/git
+      workingDir: /codefresh/volume
+      command: [bash]
+      source: |
+        #set -euo pipefail
+        IFS=$'\n\t'
+        cd {{ inputs.parameters.WORKING_DIR }}
+        export GIT_FQDN=$(git remote get-url --push origin | awk -F[/:] '{print $4}')
+        echo GIT_USER_NAME={{ inputs.parameters.GIT_USER_NAME }}
+        echo GIT_USER_EMAIL={{ inputs.parameters.GIT_USER_EMAIL }}
+        git config --global user.name {{ inputs.parameters.GIT_USER_NAME }}
+        git config --global user.email {{ inputs.parameters.GIT_USER_EMAIL }}
+        git status
+        git add .
+        git commit --allow-empty -m "{{ inputs.parameters.COMMIT_MSG }}"
+        git status
+        git push "https://{{ inputs.parameters.GIT_USER_NAME }}:$GIT_TOKEN@$GIT_FQDN/{{ inputs.parameters.REPO }}.git"
+        git log | head -1 | awk '{print $2}' | tee /tmp/sha.txt
+        echo "Commit SHA: $(cat /tmp/sha.txt)"
+        exit 0
+      env:
+        - name: GIT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
+              key: token
+      volumeMounts:
+        - name: codefresh-volume
+          mountPath: /codefresh/volume
+    outputs:
+      parameters:
+      - name: COMMIT_SHA
+        valueFrom:
+          path: /tmp/sha.txt

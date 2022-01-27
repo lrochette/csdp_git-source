@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  creationTimestamp: null
+  name: calendar
+spec:
+  calendar:
+    example-with-interval:
+      interval: 60m
+      schedule: ""
+  eventBusName: codefresh-eventbus
+status: {}

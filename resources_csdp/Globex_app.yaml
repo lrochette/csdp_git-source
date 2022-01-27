@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: globex
+spec:
+  destination:
+    namespace: csdp
+    server: https://kubernetes.default.svc
+  project: demo
+  source:
+    path: .
+    repoURL: https://github.com/lrochette/CorpSite_gitops.git
+  syncPolicy:
+    automated:
+      allowEmpty: true
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - allowEmpty=true
