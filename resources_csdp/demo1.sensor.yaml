@@ -66,11 +66,11 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-b043785e-5f4a-4920-9c67-fd90c557f17b
-                dataTemplate: lrochette/service1
+                dataTemplate: quay.io/lrochette/service1
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-b043785e-5f4a-4920-9c67-fd90c557f17b
-                dataTemplate: latest
+                dataTemplate: '{{ .Input.body.after }}'
             - dest: spec.arguments.parameters.3.value
               src:
                 dependencyName: github-b043785e-5f4a-4920-9c67-fd90c557f17b
