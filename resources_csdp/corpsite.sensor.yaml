@@ -60,15 +60,17 @@ spec:
                         requests:
                           storage: 1Gi
           parameters:
-            - dest: spec.arguments.parameters.0.value
+            - dest: spec.arguments.parameters.0.value # REPO
               src:
                 dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
                 dataTemplate: '{{ .Input.body.repository.clone_url }}'
-            - dest: spec.arguments.parameters.1.value
+
+            - dest: spec.arguments.parameters.1.value #REVISION
               src:
                 dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
                 dataTemplate: '{{ .Input.body.ref }}'
-            - dest: spec.arguments.parameters.2.value
+
+            - dest: spec.arguments.parameters.2.value # SHA
               src:
                 dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
                 dataTemplate: '{{ .Input.body.after }}'
