@@ -9,3 +9,7 @@ metadata:
 spec:
   # Project description
   description: Demo Project
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
