@@ -65,7 +65,7 @@ spec:
                     - name: REGISTRY_CREDS
                       value: registry-creds
                     - name: DOCKER_CONFIG
-                      value: docker-config
+                      value: ''
                 workflowTemplateRef:
                   name: ci-simple-demo3
           parameters:
