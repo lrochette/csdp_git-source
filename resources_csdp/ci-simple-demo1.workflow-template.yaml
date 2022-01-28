@@ -97,8 +97,6 @@ spec:
               parameters:
                 - name: IMAGE
                   value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.TAG }}'
-                - name: IMAGE_URI
-                  value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.TAG }}'
                 - name: CF_API_KEY
                   value: codefresh-token # this secret is created as part of the runtime installation
                 - name: GIT_REVISION
