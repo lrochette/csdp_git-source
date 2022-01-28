@@ -97,3 +97,11 @@ spec:
               src:
                 dependencyName: github-3fd8b9b6-0bae-4135-a7bd-e0b5ba3f1772
                 dataTemplate: '{{ .Input.body.head_commit.message }}'
+            - dest: spec.arguments.parameters.10.value
+              src:
+                dependencyName: github-3fd8b9b6-0bae-4135-a7bd-e0b5ba3f1772
+                dataTemplate: registry-creds
+            - dest: spec.arguments.parameters.11.value
+              src:
+                dependencyName: github-3fd8b9b6-0bae-4135-a7bd-e0b5ba3f1772
+                dataTemplate: registry-creds
