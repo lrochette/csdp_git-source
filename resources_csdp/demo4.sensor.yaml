@@ -1,0 +1,99 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: demo4
+spec:
+  template:
+    serviceAccountName: argo-server
+  eventBusName: codefresh-eventbus
+  dependencies:
+    - name: github-4587eac5-6d37-4234-b953-6b842048f94e
+      eventName: github-4587eac5-6d37-4234-b953-6b842048f94e
+      eventSourceName: demo4
+      filters:
+        data:
+          - path: body.X-GitHub-Event
+            value:
+              - push
+            type: string
+          - path: body.ref
+            template: '{{ (split "/" .Input)._1 }}'
+            value:
+              - heads
+            type: string
+          - path: body.ref
+            comparator: '='
+            template: '{{ trimPrefix "refs/heads/" .Input }}'
+            type: string
+            value:
+              - master
+  triggers:
+    - template:
+        name: ci
+        conditions: github-4587eac5-6d37-4234-b953-6b842048f94e
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: WorkflowTemplate
+              metadata:
+                generateName: demo4-ci-
+              spec:
+                arguments:
+                  parameters:
+                    - name: GIT_REPO_URL
+                      value: ''
+                    - name: IMAGE_NAME
+                      value: ''
+                    - name: IMAGE_TAG
+                      value: latest
+                    - name: GIT_REVISION
+                      value: main
+                    - name: GIT_BRANCH
+                      value: main
+                    - name: GIT_COMMIT_URL
+                      value: ''
+                    - name: GIT_COMMIT_MESSAGE
+                      value: ''
+                    - name: DOCKERFILE
+                      value: Dockerfile
+                    - name: GIT_TOKEN_SECRET
+                      value: github-token
+                    - name: CONTEXT
+                      value: .
+                    - name: REGISTRY_CREDS
+                      value: registry-creds
+                    - name: DOCKER_CONFIG
+                      value: docker-config
+                workflowTemplateRef:
+                  name: demo4-ci-simple
+          parameters:
+            - dest: spec.arguments.parameters.0.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+            - dest: spec.arguments.parameters.1.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: quay.io/lrochette/service4
+            - dest: spec.arguments.parameters.2.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: '{{ .Input.body.after }}'
+            - dest: spec.arguments.parameters.3.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: '{{ .Input.body.after }}'
+            - dest: spec.arguments.parameters.4.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            - dest: spec.arguments.parameters.5.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: '{{ .Input.body.head_commit.url }}'
+            - dest: spec.arguments.parameters.6.value
+              src:
+                dependencyName: github-4587eac5-6d37-4234-b953-6b842048f94e
+                dataTemplate: '{{ .Input.body.head_commit.message }}'
