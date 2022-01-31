@@ -65,7 +65,7 @@ spec:
                     - name: REGISTRY_CREDS_SECRET
                       value: ''
                     - name: DOCKER_CONFIG_SECRET
-                      value: ''
+#                      value: ''
                 workflowTemplateRef:
                   name: demo8-ci-simple
           parameters:
