@@ -76,7 +76,7 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-ae8bcc9f-7aac-4436-a0de-4b5edcae00f9
-                dataTemplate: quay.io/lrochette.microservice
+                dataTemplate: quay.io/lrochette/microservice
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-ae8bcc9f-7aac-4436-a0de-4b5edcae00f9
