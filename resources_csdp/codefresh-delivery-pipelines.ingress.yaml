@@ -14,3 +14,10 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+          - path: /webhooks/demo
+            backend:
+              service:
+                name: demo-eventsource-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
