@@ -210,25 +210,25 @@ spec:
         - name: approve
           depends: update-sn-cr-with-config-commit
           template: approve
-        # - name: close-sn-cr
-        #   depends: approve
-        #   templateRef:
-        #     name: argo-hub.servicenow.1.0.0
-        #     template: closecr
-        #   arguments:
-        #     parameters:
-        #     - name: SN_INSTANCE
-        #       value: "https://dev110939.service-now.com"
-        #     - name: SN_AUTH
-        #       value: "sn-auth"
-        #     - name: DEBUG
-        #       value: "true"
-        #     - name: CR_SYSID
-        #       value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-        #     - name: CR_CLOSE_CODE
-        #       value: "successful"
-        #     - name: CR_CLOSE_NOTES
-        #       value: "Closed automatically by Argo-Hub ServiceNow workflow template"
+        - name: close-sn-cr
+          depends: approve
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: closecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: DEBUG
+              value: "true"
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+            - name: CR_CLOSE_CODE
+              value: "successful"
+            - name: CR_CLOSE_NOTES
+              value: "Closed automatically by Argo-Hub ServiceNow workflow template"
 
     # Additional templates
     - name: approve
