@@ -204,7 +204,7 @@ spec:
             - name: DEBUG
               value: "false"
             - name: CR_DATA
-              value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.SHA}}"}'
+              value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.COMMIT_SHA}}"}'
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
         - name: approve
