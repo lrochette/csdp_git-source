@@ -162,8 +162,8 @@ spec:
               value: "https://dev110939.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: DEBUG
-              value: "true"
+            - name: LOGLEVEL
+              value: "info"
             - name: CR_DATA
               value: >-
                 {"short_description": "Globex deployment to QA environment",
@@ -183,8 +183,8 @@ spec:
               value: "https://dev110939.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: DEBUG
-              value: "false"
+            - name: LOGLEVEL
+              value: "info"
             - name: CR_DATA
               value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
             - name: CR_SYSID
@@ -201,8 +201,8 @@ spec:
               value: "https://dev110939.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: DEBUG
-              value: "false"
+            - name: LOGLEVEL
+              value: "info"
             - name: CR_DATA
               value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.COMMIT_SHA}}"}'
             - name: CR_SYSID
@@ -221,8 +221,8 @@ spec:
               value: "https://dev110939.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: DEBUG
-              value: "true"
+            - name: LOGLEVEL
+              value: "info"
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
             - name: CR_CLOSE_CODE
