@@ -92,7 +92,7 @@ spec:
         - name: enrich-image-jira
           depends: build-image
           templateRef:
-            name: argo-hub.codefresh-csdp.0.0.5
+            name: argo-hub.codefresh-csdp.0.0.6
             template: image-enricher-jira-info
           arguments:
             parameters:
@@ -277,7 +277,7 @@ spec:
             items:
             - key: .dockerconfigjson
               path: config.json
-            secretName: docker-registry
+            secretName: dockerhub-config
       container:
         image: gcr.io/kaniko-project/executor:v1.6.0
         # workingDir: /codefresh/volume/CorpSite
