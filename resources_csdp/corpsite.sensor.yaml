@@ -27,6 +27,10 @@ spec:
             type: string
             value:
               - master
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - ".*istreamPlanet/*"
   triggers:
     - template:
         name: ci
