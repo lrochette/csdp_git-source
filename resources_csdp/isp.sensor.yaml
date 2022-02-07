@@ -17,16 +17,11 @@ spec:
               - push
             type: string
           - path: body.ref
-            template: '{{ (split "/" .Input)._1 }}'
-            value:
-              - heads
-            type: string
-          - path: body.ref
             comparator: '='
             template: '{{ trimPrefix "refs/heads/" .Input }}'
             type: string
             value:
-              - master
+              - main
   triggers:
     - template:
         name: gpu
