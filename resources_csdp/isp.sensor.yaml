@@ -50,6 +50,15 @@ spec:
                       value: ''
                 workflowTemplateRef:
                   name: ci-simple
+                volumeClaimTemplates:
+                  - metadata:
+                      name: codefresh-volume
+                    spec:
+                      accessModes:
+                        - ReadWriteOnce
+                      resources:
+                        requests:
+                          storage: 1Gi
           parameters:
             - dest: spec.arguments.parameters.0.value
               src:

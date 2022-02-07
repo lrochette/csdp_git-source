@@ -1,5 +1,9 @@
 # This Workflow Template is used to create your first CI pipeline in CSDP
 # This CI pipeline builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image
+
+# docker build -t lrochette/argo-hub-workflows-servicenow-versions-1.0.0-integration:main ~/src/lrochette/argo-hub/workflows/servicenow/versions/1.0.0/images/integration
+# docker push lrochette/argo-hub-workflows-servicenow-versions-1.0.0-integration:main
+
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
