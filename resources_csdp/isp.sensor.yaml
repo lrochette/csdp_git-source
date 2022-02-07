@@ -22,6 +22,10 @@ spec:
             type: string
             value:
               - main
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - ".*istreamPlanet/*"
   triggers:
     - template:
         name: gpu
@@ -44,7 +48,7 @@ spec:
                     - name: SHA
                       value: ''
                 workflowTemplateRef:
-                  name: ci-simple
+                  name: isp-pipeline
                 volumeClaimTemplates:
                   - metadata:
                       name: codefresh-volume
