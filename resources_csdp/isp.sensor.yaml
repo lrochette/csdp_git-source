@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: isp
+spec:
+  template:
+    serviceAccountName: argo-server
+  eventBusName: codefresh-eventbus
+  dependencies:
+    - name: github-49463ada-719b-4a77-a208-f59d8fb6cc65
+      eventName: github-49463ada-719b-4a77-a208-f59d8fb6cc65
+      eventSourceName: isp
+      filters:
+        data:
+          - path: body.X-GitHub-Event
+            value:
+              - push
+            type: string
+          - path: body.ref
+            template: '{{ (split "/" .Input)._1 }}'
+            value:
+              - heads
+            type: string
+          - path: body.ref
+            comparator: '='
+            template: '{{ trimPrefix "refs/heads/" .Input }}'
+            type: string
+            value:
+              - master
+  triggers:
+    - template:
+        name: gpu
+        conditions: github-49463ada-719b-4a77-a208-f59d8fb6cc65
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: WorkflowTemplate
+              metadata:
+                generateName: isp-gpu-
+              spec:
+                arguments:
+                  parameters:
+                    - name: REPO
+                      value: ''
+                    - name: REVISION
+                      value: ''
+                    - name: SHA
+                      value: ''
+                workflowTemplateRef:
+                  name: ci-simple
+          parameters:
+            - dest: spec.arguments.parameters.0.value
+              src:
+                dependencyName: github-49463ada-719b-4a77-a208-f59d8fb6cc65
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+            - dest: spec.arguments.parameters.1.value
+              src:
+                dependencyName: github-49463ada-719b-4a77-a208-f59d8fb6cc65
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            - dest: spec.arguments.parameters.2.value
+              src:
+                dependencyName: github-49463ada-719b-4a77-a208-f59d8fb6cc65
+                dataTemplate: '{{ .Input.body.after }}'

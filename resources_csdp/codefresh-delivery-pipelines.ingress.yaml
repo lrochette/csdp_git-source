@@ -21,3 +21,10 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+          - path: /webhooks/isp
+            backend:
+              service:
+                name: isp-eventsource-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific

@@ -1,0 +1,58 @@
+# This Workflow Template is used to create your first CI pipeline in CSDP
+# This CI pipeline builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image
+# https://codefresh.io/csdp-docs/docs/getting-started/quick-start/create-ci-pipeline/
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: ci-simple
+spec:
+
+  entrypoint: pipeline
+  templates:
+    - name: pipeline
+      inputs:
+        parameters:
+          - name: REPO
+          - name: REVISION
+          - name: SHA
+      dag:
+        tasks:
+        - name: clone
+          templateRef:
+            name: lr.git
+            template: clone
+          arguments:
+            parameters:
+            - name: REPO_URL
+              value: "{{inputs.parameters.REPO}}"
+            - name: REVISION
+              value: "{{inputs.parameters.REVISION}}"
+            - name: GIT_TOKEN_SECRET
+              value: github-token
+
+        - name: ls1
+          template: listing
+          depends: clone
+          arguments:
+            parameters:
+              - name: DIR
+                value: "{{tasks.clone.outputs.parameters.REPO_NAME}}"            
+
+
+    # Other templates
+    - name: listing
+      inputs:
+        parameters:
+          - name: DIR
+            value: "."
+      script:
+        image: alpine:3.7
+        workingDir: /codefresh/volume
+        command: [ sh ]
+        source : |
+         cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us || true
+         cd {{ inputs.paramters.DIR}}
+         ls -ail
+        volumeMounts:                     # same syntax as k8s Pod spec
+        - name: codefresh-volume
+          mountPath: /codefresh/volume         
