@@ -24,8 +24,15 @@ spec:
               - main
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
+            template: '{{ matches "^istreamPlanet/.*" }}
             value:
-              - "^streamPlanet/.*"
+              - "true"
+          # - path: '{body.commits.#.modified,body.commits.#.added,body.commits.#.removed}'
+          #   type: string
+          #   # Example string: {"modified":[["prod/values.yaml", "prod/chart.yaml"]],"added":[["prod/mynewfile"]],"removed":[["prod/ingress.yaml"]]}
+          #   template: '{{ contains "\"prod/" .Input }}'
+          #   value:
+          #     - "true"
   triggers:
     - template:
         name: gpu
