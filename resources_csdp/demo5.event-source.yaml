@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: demo5
+spec:
+  eventBusName: codefresh-eventbus
+  service:
+    ports:
+      - port: 80
+  template:
+    serviceAccountName: argo-server
+  github:
+    github-f8b74135-3379-4d15-9f8e-b26b6ba4ac21:
+      events:
+        - push
+      repositories:
+        - owner: lrochette
+          names:
+            - express-microservice
+      webhook:
+        port: '80'
+        method: POST
+        endpoint: /webhooks/demo5/github-f8b74135-3379-4d15-9f8e-b26b6ba4ac21
+        url: https://lrcsdp.support.cf-cd.com
+      active: true
+      insecure: false
+      contentType: json
+      deleteHookOnFinish: true
+      apiToken:
+        name: autopilot-secret
+        key: git_token
