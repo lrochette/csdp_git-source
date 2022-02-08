@@ -57,6 +57,9 @@ spec:
       container:
         # https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile
         image: "k8s.gcr.io/cuda-vector-add:v0.1"
+        command: [ sh ]
+        args:
+          - ls
         resources:
         # don't use requests for GPUs: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
         limits:
