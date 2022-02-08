@@ -24,7 +24,7 @@ spec:
               - main
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
-            template: '{{ matches "^istreamPlanet/.*" }}
+            template: '{{ matches "^istreamPlanet/.*" }}'
             value:
               - "true"
           # - path: '{body.commits.#.modified,body.commits.#.added,body.commits.#.removed}'
