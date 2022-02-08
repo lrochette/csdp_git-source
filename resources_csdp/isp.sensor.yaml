@@ -25,7 +25,7 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - ".*istreamPlanet/*"
+              - "^streamPlanet/.*"
   triggers:
     - template:
         name: gpu
