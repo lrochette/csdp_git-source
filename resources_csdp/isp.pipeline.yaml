@@ -41,18 +41,23 @@ spec:
 
     # Other templates
     - name: listing
+      # requires this pod to be run on an nvidia.com/gpu labeled node
+      nodeSelector:
+        nvidia.com/gpu: "true"
+      # allows this pod to be run on an nvidia.com/gpu tainted node
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Exists"
+        effect: "NoSchedule"
+
       inputs:
         parameters:
           - name: DIR
             value: "."
-      script:
-        image: alpine:3.7
-        workingDir: /codefresh/volume
-        command: [ sh ]
-        source : |
-         cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us || true
-         cd {{ inputs.paramters.DIR}}
-         ls -ail
-        volumeMounts:                     # same syntax as k8s Pod spec
-        - name: codefresh-volume
-          mountPath: /codefresh/volume
+      container:
+        # https://github.com/kubernetes/kubernetes/blob/v1.7.11/test/images/nvidia-cuda/Dockerfile
+        image: "k8s.gcr.io/cuda-vector-add:v0.1"
+        resources:
+        # don't use requests for GPUs: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
+        limits:
+          nvidia.com/gpu: 1 # requesting 1 GPU
