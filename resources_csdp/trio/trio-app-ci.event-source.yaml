@@ -14,7 +14,7 @@ spec:
       events:
         - push
       repositories:
-        - owner: clrochette
+        - owner: lrochette
           names:
             - example-multiservice2
       webhook:
@@ -33,7 +33,7 @@ spec:
       events:
         - push
       repositories:
-        - owner: clrochette
+        - owner: lrochette
           names:
             - example-multiservice2
       webhook:
@@ -52,7 +52,7 @@ spec:
       events:
         - push
       repositories:
-        - owner: clrochette
+        - owner: lrochette
           names:
             - example-multiservice2
       webhook:
