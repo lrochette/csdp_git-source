@@ -21,27 +21,6 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
-          - path: /webhooks/demo4
-            backend:
-              service:
-                name: demo4-eventsource-svc
-                port:
-                  number: 80
-            pathType: ImplementationSpecific
-          - path: /webhooks/demo5
-            backend:
-              service:
-                name: demo5-eventsource-svc
-                port:
-                  number: 80
-            pathType: ImplementationSpecific
-          - path: /webhooks/demo6
-            backend:
-              service:
-                name: demo6-eventsource-svc
-                port:
-                  number: 80
-            pathType: ImplementationSpecific
           - path: /webhooks/trio-app-ci
             backend:
               service:
