@@ -151,7 +151,7 @@ spec:
                 - name: JIRA_HOST
                   value: 'cf-demo-jira.atlassian.net'
                 - name: JIRA_API_TOKEN_SECRET
-                  value: 'jira-creds'
+                  value: 'jira-token'
 
           - name: test-image
             template: test
