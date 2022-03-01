@@ -42,3 +42,10 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+          - path: /webhooks/trio-app-ci
+            backend:
+              service:
+                name: trio-app-ci-eventsource-svc
+                port:
+                  number: 80
+            pathType: ImplementationSpecific

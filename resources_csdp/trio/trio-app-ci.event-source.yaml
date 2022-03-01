@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: trio-app-ci
+spec:
+  eventBusName: codefresh-eventbus
+  service:
+    ports:
+      - port: 80
+  template:
+    serviceAccountName: argo-server
+  github:
+    github-4974779e-d82a-4702-96be-a88c8ed0f613:
+      events:
+        - push
+      repositories:
+        - owner: clrochette
+          names:
+            - example-multiservice2
+      webhook:
+        port: '80'
+        method: POST
+        endpoint: /webhooks/trio-app-ci/github-4974779e-d82a-4702-96be-a88c8ed0f613
+        url: https://lrcsdp.support.cf-cd.com
+      active: true
+      insecure: false
+      contentType: json
+      deleteHookOnFinish: true
+      apiToken:
+        name: autopilot-secret
+        key: git_token
+    github-66663a58-5c5d-45ef-a7b0-e74abef4a448:
+      events:
+        - push
+      repositories:
+        - owner: clrochette
+          names:
+            - example-multiservice2
+      webhook:
+        port: '80'
+        method: POST
+        endpoint: /webhooks/trio-app-ci/github-66663a58-5c5d-45ef-a7b0-e74abef4a448
+        url: https://lrcsdp.support.cf-cd.com
+      active: true
+      insecure: false
+      contentType: json
+      deleteHookOnFinish: true
+      apiToken:
+        name: autopilot-secret
+        key: git_token
+    github-abebe3b3-87bd-4078-8a2c-92557d2f2d63:
+      events:
+        - push
+      repositories:
+        - owner: clrochette
+          names:
+            - example-multiservice2
+      webhook:
+        port: '80'
+        method: POST
+        endpoint: /webhooks/trio-app-ci/github-abebe3b3-87bd-4078-8a2c-92557d2f2d63
+        url: https://lrcsdp.support.cf-cd.com
+      active: true
+      insecure: false
+      contentType: json
+      deleteHookOnFinish: true
+      apiToken:
+        name: autopilot-secret
+        key: git_token
