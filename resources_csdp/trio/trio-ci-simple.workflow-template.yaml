@@ -118,8 +118,7 @@ spec:
                   #value: '{{ regexReplaceAll "https?://github.com/(.*).git" .Input.body.repository.clone_url "${1}" | trim }}'
                   #value: '{{ inputs.parameters.REPO_SLUG }}'
                 - name: CF_API_KEY
-                  #value: codefresh-token
-                  value: 'codefresh-v1-token'
+                  value: codefresh-token
                 - name: GITHUB_TOKEN
                   value: 'github-token'
 
@@ -142,8 +141,7 @@ spec:
                 - name: IMAGE
                   value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
                 - name: CF_API_KEY
-                  #value: codefresh-token # this secret is created as part of the runtime installation
-                  value: codefresh-v1-token
+                  value: codefresh-token # this secret is created as part of the runtime installation
                 - name: JIRA_PROJECT_PREFIX
                   value: 'KPT'
                 - name: MESSAGE
