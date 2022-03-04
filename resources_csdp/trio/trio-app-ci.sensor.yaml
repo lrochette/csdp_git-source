@@ -134,7 +134,7 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-66663a58-5c5d-45ef-a7b0-e74abef4a448
-                dataTemplate: quay.io/lrochette/flask-ui
+                dataTemplate: docker.io/lrochette/flask-ui
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-66663a58-5c5d-45ef-a7b0-e74abef4a448
@@ -223,7 +223,7 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-abebe3b3-87bd-4078-8a2c-92557d2f2d63
-                dataTemplate: quay.io/lrochette/buslog
+                dataTemplate: docker.io/lrochette/buslog
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-abebe3b3-87bd-4078-8a2c-92557d2f2d63
@@ -312,7 +312,7 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-4974779e-d82a-4702-96be-a88c8ed0f613
-                dataTemplate: quay.io/lrochette/ctrlr
+                dataTemplate: docker.io/lrochette/ctrlr
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-4974779e-d82a-4702-96be-a88c8ed0f613
