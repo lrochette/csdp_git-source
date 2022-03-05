@@ -12,7 +12,7 @@ spec:
         items:
           - key: .dockerconfigjson
             path: config.json
-        secretName: dockerhub-config
+        secretName: '{{ inputs.parameters.DOCKER_CONFIG }}'
   entrypoint: ci-tasks
   templates:
     - name: ci-tasks
@@ -85,9 +85,9 @@ spec:
                   value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
                 - name: GIT_COMMIT_MESSAGE
                   value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
-                - name: USERNAME
+                - name: DOCKER_USERNAME
                   value: '{{ inputs.parameters.REGISTRY_CREDS }}'
-                - name: PASSWORD
+                - name: DOCKER_PASSWORD
                   value: '{{ inputs.parameters.REGISTRY_CREDS }}'
                 - name: DOMAIN
                   value: '{{ inputs.parameters.REGISTRY_CREDS }}'
