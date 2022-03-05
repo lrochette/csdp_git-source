@@ -121,9 +121,9 @@ spec:
                     - name: CONTEXT
                       value: .
                     - name: REGISTRY_CREDS
-                      value: registry-creds
+                      value: dockerhub-creds
                     - name: DOCKER_CONFIG
-                      value: docker-registry
+                      value: dockerhub-config
                 workflowTemplateRef:
                   name: trio-ci-simple
           parameters:
@@ -170,11 +170,11 @@ spec:
             - dest: spec.arguments.parameters.10.value
               src:
                 dependencyName: github-66663a58-5c5d-45ef-a7b0-e74abef4a448
-                dataTemplate: registry-creds
+                dataTemplate: dockerhub-creds
             - dest: spec.arguments.parameters.11.value
               src:
                 dependencyName: github-66663a58-5c5d-45ef-a7b0-e74abef4a448
-                dataTemplate: docker-registry
+                dataTemplate: dockerhub-config
     - template:
         name: buslog
         conditions: github-abebe3b3-87bd-4078-8a2c-92557d2f2d63
@@ -210,9 +210,9 @@ spec:
                     - name: CONTEXT
                       value: .
                     - name: REGISTRY_CREDS
-                      value: registry-creds
+                      value: dockerhub-creds
                     - name: DOCKER_CONFIG
-                      value: docker-registry
+                      value: dockerhub-config
                 workflowTemplateRef:
                   name: trio-ci-simple
           parameters:
@@ -259,11 +259,11 @@ spec:
             - dest: spec.arguments.parameters.10.value
               src:
                 dependencyName: github-abebe3b3-87bd-4078-8a2c-92557d2f2d63
-                dataTemplate: registry-creds
+                dataTemplate: dockerhub-creds
             - dest: spec.arguments.parameters.11.value
               src:
                 dependencyName: github-abebe3b3-87bd-4078-8a2c-92557d2f2d63
-                dataTemplate: docker-registry
+                dataTemplate: dockerhub-config
     - template:
         name: ctrlr
         conditions: github-4974779e-d82a-4702-96be-a88c8ed0f613
@@ -299,9 +299,9 @@ spec:
                     - name: CONTEXT
                       value: .
                     - name: REGISTRY_CREDS
-                      value: registry-creds
+                      value: dockerhub-creds
                     - name: DOCKER_CONFIG
-                      value: docker-registry
+                      value: dockerhub-config
                 workflowTemplateRef:
                   name: trio-ci-simple
           parameters:
@@ -348,8 +348,8 @@ spec:
             - dest: spec.arguments.parameters.10.value
               src:
                 dependencyName: github-4974779e-d82a-4702-96be-a88c8ed0f613
-                dataTemplate: registry-creds
+                dataTemplate: dockerhub-creds
             - dest: spec.arguments.parameters.11.value
               src:
                 dependencyName: github-4974779e-d82a-4702-96be-a88c8ed0f613
-                dataTemplate: docker-registry
+                dataTemplate: dockerhub-config
