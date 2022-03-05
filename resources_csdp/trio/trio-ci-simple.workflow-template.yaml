@@ -109,7 +109,7 @@ spec:
                   value: my-branch  # has a PR on it
                   #value: '{{ inputs.parameters.GIT_BRANCH }}'
                 - name: REPO
-                  value: 'codefresh-contrib/example-multiservice2'
+                  value: 'lrochette/example-multiservice2'
                   #value: '{{ regexReplaceAll "https?://github.com/(.*).git" .Input.body.repository.clone_url "${1}" | trim }}'
                   #value: '{{ inputs.parameters.REPO_SLUG }}'
                 - name: CF_API_KEY
@@ -140,9 +140,9 @@ spec:
                 - name: JIRA_PROJECT_PREFIX
                   value: 'KPT'
                 - name: MESSAGE
-                  value: 'KPT-6'
+                  value: 'FT-50'
                 - name: JIRA_HOST
-                  value: 'cf-demo-jira.atlassian.net'
+                  value: 'codefresh-io.atlassian.net'
                 - name: JIRA_API_TOKEN_SECRET
                   value: 'jira-token'
 
