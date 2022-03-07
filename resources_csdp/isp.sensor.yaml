@@ -33,6 +33,11 @@ spec:
           #   template: '{{ contains "\"prod/" .Input }}'
           #   value:
           #     - "true"
+
+          # - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+          #   type: string
+          #   value:
+          #     - ".*istreamPlanet/*"
   triggers:
     - template:
         name: gpu
