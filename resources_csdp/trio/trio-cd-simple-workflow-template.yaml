@@ -8,7 +8,7 @@ spec:
       - name: ARGOCD_APP
       - name: ARGOCD_SERVER
       - name: SLACK_HOOK_URL
-        value: 'https://hooks.slack.com/services/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'
+        value: 'https://hooks.slack.com/services/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'
   entrypoint: cd-steps
   onExit: slack-announce-finish
 
