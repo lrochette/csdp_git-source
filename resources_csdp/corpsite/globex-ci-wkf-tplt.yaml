@@ -143,7 +143,6 @@ spec:
                 value: '{{ inputs.parameters.REGISTRY_CREDS }}'
               - name: DOMAIN
                 value: '{{ inputs.parameters.REGISTRY_CREDS }}'
-          depends: build-docker-image
 
         - name: update-manifest
           depends: "build-image && clone-config"
