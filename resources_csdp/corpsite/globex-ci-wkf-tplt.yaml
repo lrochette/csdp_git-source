@@ -126,7 +126,7 @@ spec:
           arguments:
             parameters:
               - name: IMAGE
-                value: 'docker.io/lrochette/globex:{{ inputs.parameters.IMAGE_TAG }}'
+                value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
               - name: GIT_REVISION
@@ -236,28 +236,28 @@ spec:
               value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.COMMIT_SHA}}"}'
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-        - name: approve
-          depends: update-sn-cr-with-config-commit
-          template: approve
-        - name: close-sn-cr
-          depends: approve
-          templateRef:
-            name: argo-hub.servicenow.1.0.0
-            template: closecr
-          arguments:
-            parameters:
-            - name: SN_INSTANCE
-              value: "https://dev110939.service-now.com"
-            - name: SN_AUTH
-              value: "sn-auth"
-            - name: LOGLEVEL
-              value: "debug"
-            - name: CR_SYSID
-              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-            - name: CR_CLOSE_CODE
-              value: "successful"
-            - name: CR_CLOSE_NOTES
-              value: "Closed automatically by Argo-Hub ServiceNow workflow template"
+        # - name: approve
+        #   depends: update-sn-cr-with-config-commit
+        #   template: approve
+        # - name: close-sn-cr
+        #   depends: approve
+        #   templateRef:
+        #     name: argo-hub.servicenow.1.0.0
+        #     template: closecr
+        #   arguments:
+        #     parameters:
+        #     - name: SN_INSTANCE
+        #       value: "https://dev110939.service-now.com"
+        #     - name: SN_AUTH
+        #       value: "sn-auth"
+        #     - name: LOGLEVEL
+        #       value: "debug"
+        #     - name: CR_SYSID
+        #       value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+        #     - name: CR_CLOSE_CODE
+        #       value: "successful"
+        #     - name: CR_CLOSE_NOTES
+        #       value: "Closed automatically by Argo-Hub ServiceNow workflow template"
 
     # Additional templates
     - name: approve
