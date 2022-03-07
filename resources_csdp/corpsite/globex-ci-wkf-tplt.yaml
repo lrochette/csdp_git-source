@@ -138,11 +138,11 @@ spec:
               - name: GIT_COMMIT_MESSAGE
                 value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
               - name: DOCKER_USERNAME
-                value: '{{ inputs.parameters.REGISTRY_CREDS }}'
+                value: dockerhub-creds
               - name: DOCKER_PASSWORD
-                value: '{{ inputs.parameters.REGISTRY_CREDS }}'
+                value: dockerhub-creds
               - name: DOMAIN
-                value: '{{ inputs.parameters.REGISTRY_CREDS }}'
+                value: dockerhub-creds
 
         - name: update-manifest
           depends: "build-image && clone-config"
