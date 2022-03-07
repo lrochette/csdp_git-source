@@ -26,6 +26,12 @@ spec:
           - name: REPO
           - name: REVISION
           - name: SHA
+          - name: GIT_BRANCH
+            value: main
+          - name: GIT_COMMIT_URL
+            value: ''
+          - name: GIT_COMMIT_MESSAGE
+            value: ''
       dag:
         tasks:
         - name: clone
@@ -102,22 +108,42 @@ spec:
             parameters:
             - name: IMAGE
               value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+            - name: CF_API_KEY
+              value: "codefresh-token"
             - name: JIRA_PROJECT_PREFIX
               value: 'FT'
             - name: MESSAGE
               value: 'FT-50'
             - name: JIRA_HOST
               value: 'codefresh-io.atlassian.net'
-            # - name: JIRA_EMAIL
-            #   value: 'laurent.rochette@codefresh.io'
             - name: JIRA_API_TOKEN_SECRET
               value: 'jira-token'
-            - name: CF_API_KEY
-              value: "codefresh-token"
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: 'codefresh-token'
-              #     key: token
+        - name: report-image-info
+          depends: build-image
+          templateRef:
+            name: argo-hub.codefresh-csdp.0.0.6
+            template: report-image-info
+          arguments:
+            parameters:
+              - name: IMAGE
+                value: 'docker.io/lrochette/globex:{{ inputs.parameters.IMAGE_TAG }}'
+              - name: CF_API_KEY
+                value: codefresh-token # this secret is created as part of the runtime installation
+              - name: GIT_REVISION
+                value: '{{ inputs.parameters.SHA }}'
+              - name: GIT_BRANCH
+                value: '{{ inputs.parameters.GIT_BRANCH }}'
+              - name: GIT_COMMIT_URL
+                value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
+              - name: GIT_COMMIT_MESSAGE
+                value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
+              - name: DOCKER_USERNAME
+                value: '{{ inputs.parameters.REGISTRY_CREDS }}'
+              - name: DOCKER_PASSWORD
+                value: '{{ inputs.parameters.REGISTRY_CREDS }}'
+              - name: DOMAIN
+                value: '{{ inputs.parameters.REGISTRY_CREDS }}'
+          depends: build-docker-image
 
         - name: update-manifest
           depends: "build-image && clone-config"

@@ -48,6 +48,12 @@ spec:
                       value: ''
                     - name: SHA
                       value: ''
+                    - name: GIT_BRANCH
+                      value: main
+                    - name: GIT_COMMIT_URL
+                      value: ''
+                    - name: GIT_COMMIT_MESSAGE
+                      value: ''
                 workflowTemplateRef:
                   name: globex-ci
                 volumeClaimTemplates:
@@ -60,17 +66,33 @@ spec:
                         requests:
                           storage: 1Gi
           parameters:
+            # REPO (the repo URL)
             - dest: spec.arguments.parameters.0.value # REPO
               src:
                 dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
                 dataTemplate: '{{ .Input.body.repository.clone_url }}'
-
+            # REVISION
             - dest: spec.arguments.parameters.1.value #REVISION
               src:
                 dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
                 dataTemplate: '{{ .Input.body.ref }}'
-
+            # SHA
             - dest: spec.arguments.parameters.2.value # SHA
               src:
                 dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
                 dataTemplate: '{{ .Input.body.after }}'
+            # GIT_BRANCH
+            - dest: spec.arguments.parameters.3.value
+              src:
+                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            # GIT_COMMIT_URL
+            - dest: spec.arguments.parameters.4.value
+              src:
+                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dataTemplate: '{{ .Input.body.head_commit.url }}'
+            # GIT_COMMIT_MESSSAGE
+            - dest: spec.arguments.parameters.5.value
+              src:
+                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dataTemplate: '{{ .Input.body.head_commit.message }}'
