@@ -28,3 +28,10 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+          - path: /webhooks/csdp/demo9
+            backend:
+              service:
+                name: demo9-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
