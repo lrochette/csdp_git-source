@@ -109,7 +109,7 @@ spec:
             - name: IMAGE
               value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
             - name: CF_API_KEY
-              value: "codefresh-token"
+              value: "codefresh-v1-token"
             - name: JIRA_PROJECT_PREFIX
               value: 'FT'
             - name: MESSAGE
