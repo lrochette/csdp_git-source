@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cdp-csdp-default-git-source
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /webhooks/csdp/express
+            backend:
+              service:
+                name: express-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
