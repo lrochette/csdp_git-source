@@ -42,6 +42,10 @@ spec:
               spec:
                 arguments:
                   parameters:
+                    - name: REGISTRY_CREDS_SECRET
+                      value: ''
+                    - name: DOCKER_CONFIG_SECRET
+                      value: ''
                     - name: GIT_REPO_URL
                       value: ''
                     - name: IMAGE_NAME
@@ -62,28 +66,36 @@ spec:
             - dest: spec.arguments.parameters.0.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
-                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+                dataTemplate: quay-creds
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
-                dataTemplate: quay.io/lrochette/microservice
+                dataTemplate: quay-config
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
-                dataTemplate: '{{ .Input.body.after }}'
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
             - dest: spec.arguments.parameters.3.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
-                dataTemplate: '{{ .Input.body.after }}'
+                dataTemplate: quay.io/lrochette/microservice
             - dest: spec.arguments.parameters.4.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
-                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+                dataTemplate: '{{ .Input.body.after }}'
             - dest: spec.arguments.parameters.5.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
-                dataTemplate: '{{ .Input.body.head_commit.url }}'
+                dataTemplate: '{{ .Input.body.after }}'
             - dest: spec.arguments.parameters.6.value
+              src:
+                dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            - dest: spec.arguments.parameters.7.value
+              src:
+                dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
+                dataTemplate: '{{ .Input.body.head_commit.url }}'
+            - dest: spec.arguments.parameters.8.value
               src:
                 dependencyName: github-ae84d76c-57c0-4df3-ad1f-a860a2ecb8bd
                 dataTemplate: '{{ .Input.body.head_commit.message }}'
