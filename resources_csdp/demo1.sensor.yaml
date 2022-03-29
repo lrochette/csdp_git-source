@@ -98,4 +98,4 @@ spec:
             - dest: spec.arguments.parameters.8.value
               src:
                 dependencyName: github-d9393fa2-bcb5-462b-82ec-bc82d590a6a9
-                dataTemplate: quay-config
+                dataTemplate: quay3-config
