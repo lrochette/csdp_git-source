@@ -22,9 +22,9 @@ spec:
             type: string
             value:
               - main
-          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+          - path: {body.commits.#.modified,body.commits.#.added,body.commits.#.removed}
             type: string
-            template: '{{ matches "^istreamPlanet/.*" }}'
+            template: '{{ contains "\"istreamPlanet/" .Input }}'
             value:
               - "true"
           # - path: '{body.commits.#.modified,body.commits.#.added,body.commits.#.removed}'
