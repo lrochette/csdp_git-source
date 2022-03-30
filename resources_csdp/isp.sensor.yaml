@@ -22,11 +22,12 @@ spec:
             type: string
             value:
               - main
-          - path: {body.commits.#.modified,body.commits.#.added,body.commits.#.removed}
+          - path: >-
+              {body.commits.#.modified,body.commits.#.added,body.commits.#.removed}
             type: string
             template: '{{ contains "\"istreamPlanet/" .Input }}'
             value:
-              - "true"
+              - 'true'
           # - path: '{body.commits.#.modified,body.commits.#.added,body.commits.#.removed}'
           #   type: string
           #   # Example string: {"modified":[["prod/values.yaml", "prod/chart.yaml"]],"added":[["prod/mynewfile"]],"removed":[["prod/ingress.yaml"]]}
