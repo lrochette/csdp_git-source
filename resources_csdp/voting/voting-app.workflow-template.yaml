@@ -93,7 +93,7 @@ spec:
           arguments:
             parameters:
               - name: CMD
-                value: |+
+                value: |
                   sleep 30
                   echo s1
         - name: s2
@@ -101,7 +101,7 @@ spec:
           arguments:
             parameters:
               - name: CMD
-                value: |+
+                value: |
                   sleep 30
                   echo s2
 
