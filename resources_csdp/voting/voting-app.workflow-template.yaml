@@ -95,7 +95,7 @@ spec:
               source: |+
                   sleep 20
                   echo s1
-        - - name: s2
+          - name: s2
             script:
               image: ubuntu
               command: /bin/bash
