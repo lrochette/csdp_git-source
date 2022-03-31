@@ -87,7 +87,7 @@ spec:
               parameters:
                 - name: IMAGE
                   value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
-            depends: build-docker-image
+            depends: build-vote-image && build-worker-image && build-result-image
 
     # Test template
     - name: test
