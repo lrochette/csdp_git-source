@@ -106,7 +106,7 @@ spec:
                   echo s2
 
     - name: freestyle
-      arguments:
+      inputs:
         parameters:
           - name: CMD
       script:
