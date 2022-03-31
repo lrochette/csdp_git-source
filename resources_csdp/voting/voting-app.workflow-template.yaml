@@ -90,12 +90,27 @@ spec:
       steps:
       - - name: s1
           template: freestyle
+          arguments:
+            parameters:
+              - name: CMD
+                value: |+
+                  sleep 30
+                  echo s1
         - name: s2
           template: freestyle
+          arguments:
+            parameters:
+              - name: CMD
+                value: |+
+                  sleep 30
+                  echo s2
 
     - name: freestyle
+      arguments:
+        parameters:
+          - name: CMD
       script:
         image: ubuntu
         command: /bin/bash
-        source: |+
-            sleep 30
+        source: |
+          {{inputs.parameters.CMD}}
