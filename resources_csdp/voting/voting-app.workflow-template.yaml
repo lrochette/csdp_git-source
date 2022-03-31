@@ -111,6 +111,6 @@ spec:
           - name: CMD
       script:
         image: ubuntu
-        command: /bin/bash
+        command: [/bin/bash]
         source: |
           {{inputs.parameters.CMD}}
