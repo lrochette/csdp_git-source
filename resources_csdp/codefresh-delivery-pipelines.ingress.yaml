@@ -28,3 +28,10 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+          - path: /webhooks/csdp/voting
+            backend:
+              service:
+                name: voting-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix

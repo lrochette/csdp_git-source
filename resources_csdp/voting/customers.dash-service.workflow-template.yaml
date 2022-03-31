@@ -1,0 +1,100 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: voting-app-pipeline
+  annotations: {}
+
+spec:
+  volumes:
+    - name: docker-config
+      secret:
+        items:
+          - key: .dockerconfigjson
+            path: config.json
+        secretName: dockerhub-config
+  entrypoint: pipeline
+  templates:
+    - name: pipeline
+      inputs:
+        parameters:
+          - name: GIT_REPO_URL
+            default: https://github.com/lrochette/example-voting-app
+          - name: IMAGE_TAG
+            default: latest
+          - name: GIT_REVISION
+            default: main
+
+      dag:
+        tasks:
+          # https://codefresh.io/argohub/workflow-template/kaniko
+          - name: build-vote-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: docker.io/lrochette/vote
+                - name: GIT_TOKEN_SECRET
+                  value: 'github-token'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CONTEXT
+                  value: vote
+          - name: build-worker-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: docker.io/lrochette/worker
+                - name: GIT_TOKEN_SECRET
+                  value: 'github-token'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CONTEXT
+                  value: worker
+          - name: build-result-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: docker.io/lrochette/result
+                - name: GIT_TOKEN_SECRET
+                  value: 'github-token'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CONTEXT
+                  value: result
+          - name: test-image
+            template: test
+            arguments:
+              parameters:
+                - name: IMAGE
+                  value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
+            depends: build-docker-image
+
+    # Test template
+    - name: test
+      inputs:
+        parameters:
+          - name: IMAGE
+      container:
+        image: '{{ inputs.parameters.IMAGE }}'
+        command: [sh, -c]
+        args: ["ls"]
