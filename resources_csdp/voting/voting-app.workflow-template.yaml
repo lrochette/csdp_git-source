@@ -22,7 +22,7 @@ spec:
           - name: IMAGE_TAG
             default: latest
           - name: GIT_REVISION
-            default: main
+            default: master
 
       dag:
         tasks:

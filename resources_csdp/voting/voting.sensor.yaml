@@ -23,7 +23,7 @@ spec:
             type: string
   triggers:
     - template:
-        name: service
+        name: pipeline
         conditions: github-39e67556-f9bf-400d-b99a-1925981c2d2a
         argoWorkflow:
           operation: submit
@@ -32,7 +32,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: WorkflowTemplate
               metadata:
-                generateName: voting-service-
+                generateName: voting-app-
               spec:
                 arguments:
                   parameters:
