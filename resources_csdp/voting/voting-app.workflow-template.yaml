@@ -88,17 +88,14 @@ spec:
     # Test template
     - name: test
       steps:
-        - - name: s1
-            script:
-              image: ubuntu
-              command: /bin/bash
-              source: |+
-                  sleep 20
-                  echo s1
-          - name: s2
-            script:
-              image: ubuntu
-              command: /bin/bash
-              source: |+
-                  sleep 20
-                  echo s2
+      - - name: s1
+          template: freestyle
+        - name: s2
+          template: freestyle
+          
+    - name: freestyle
+      script:
+        image: ubuntu
+        command: /bin/bash
+        source: |+
+            sleep 30
