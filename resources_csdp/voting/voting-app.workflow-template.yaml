@@ -83,17 +83,26 @@ spec:
                   value: result
           - name: test-image
             template: test
-            arguments:
-              parameters:
-                - name: IMAGE
-                  value: 'docker.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
             depends: build-vote-image && build-worker-image && build-result-image
 
     # Test template
     - name: test
-      inputs:
-        parameters:
-          - name: IMAGE
+       steps:
+         - - name: s1
+            script:
+                image: ubuntu
+                command: /bin/bash
+                source: |+
+                    sleep 20
+                    echo s1
+         - - name: s2
+            script:
+                image: ubuntu
+                command: /bin/bash
+                source: |+
+                    sleep 20
+                    echo s2                    
+
       container:
         image: '{{ inputs.parameters.IMAGE }}'
         command: [sh, -c]
