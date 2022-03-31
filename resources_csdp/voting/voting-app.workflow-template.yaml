@@ -102,8 +102,3 @@ spec:
               source: |+
                   sleep 20
                   echo s2
-
-      container:
-        image: '{{ inputs.parameters.IMAGE }}'
-        command: [sh, -c]
-        args: ["ls"]
