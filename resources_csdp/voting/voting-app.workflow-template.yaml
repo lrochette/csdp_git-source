@@ -83,7 +83,7 @@ spec:
                   value: result
           - name: test-image
             template: test
-            depends: build-vote-image && build-worker-image && build-result-image
+            depends: "build-vote-image && build-worker-image && build-result-image"
 
     # Test template
     - name: test
@@ -92,7 +92,7 @@ spec:
           template: freestyle
         - name: s2
           template: freestyle
-          
+
     - name: freestyle
       script:
         image: ubuntu
