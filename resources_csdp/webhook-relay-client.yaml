@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: webhook-relay-client
-          image: quay.io/codefresh/webhook-relay-client:stable
+          image: quay.io/codefresh/webhook-relay-client:1.0.4
           env:
             - name: SOURCE_URL
               # Channel name should equal the runtime name
-              value: https://lrcsdp.support.cf-cd.com//subscribe/:channel
+              value: https://lrcsdp.support.cf-cd.com/subscribe/:channel
             - name: TARGET_BASE_URL
               # All payloads will be sent to TARGET_BASE_URL/webhooks/:channel/*
               value: https://lrcsdp.support.cf-cd.com/
