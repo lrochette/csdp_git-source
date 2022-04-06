@@ -18,7 +18,7 @@ spec:
           env:
             - name: SOURCE_URL
               # Channel name should equal the runtime name
-              value: https://lrcsdp.support.cf-cd.com/subscribe/:csdp
+              value: https://lrcsdp.support.cf-cd.com/subscribe/csdp
             - name: TARGET_BASE_URL
               # All payloads will be sent to TARGET_BASE_URL/webhooks/:channel/*
               value: https://lrcsdp.support.cf-cd.com/
