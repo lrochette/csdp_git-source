@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: argo-hub.ci-simple.0.0.1
+  name: express-ci-push
   annotations:
     argo-hub/version: '0.0.1'
     argo-hub/description: 'This Workflow Template is used to create your first CI pipeline in CSDP'
