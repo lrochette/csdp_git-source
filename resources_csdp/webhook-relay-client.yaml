@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: webhook-relay-client
-          image: quay.io/codefresh/webhook-relay-client:1.0.4
+          image: quay.io/codefresh/webhook-relay-client:1.0.8
           env:
             - name: SOURCE_URL
               # Channel name should equal the runtime name
