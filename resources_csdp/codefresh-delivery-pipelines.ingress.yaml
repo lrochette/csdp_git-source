@@ -6,13 +6,6 @@ spec:
   rules:
     - http:
         paths:
-          - path: /webhooks/corpsite
-            backend:
-              service:
-                name: corpsite-eventsource-svc
-                port:
-                  number: 80
-            pathType: ImplementationSpecific
           - path: /webhooks/isp
             backend:
               service:
