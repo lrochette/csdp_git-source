@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: microservice
+  # namespace: csdp # All app resources live in the argocd namespace
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app: microservice
+spec:
+  destination:
+    namespace: demo
+    name: in-cluster
+  project: demo
+  source:
+    repoURL: https://github.com/lrochette/express-microservice_gitops.git
+    targetRevision: main
+    path: .
