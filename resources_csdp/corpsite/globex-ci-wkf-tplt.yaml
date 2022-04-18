@@ -277,9 +277,9 @@ spec:
             value: "."
           ## Resource specification parameters
           - name: RESOURCES_LIMITS_CPU
-            value: "200m"
+            value: "1000m"
           - name: RESOURCES_LIMITS_MEMORY
-            value: "256M"
+            value: "1024M"
           - name: RESOURCES_REQUESTS_CPU
             value: "100m"
           - name: RESOURCES_REQUESTS_MEMORY
