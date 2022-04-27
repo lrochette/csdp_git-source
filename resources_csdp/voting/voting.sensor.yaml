@@ -9,7 +9,7 @@ spec:
   dependencies:
     - name: github-39e67556-f9bf-400d-b99a-1925981c2d2a
       eventName: github-39e67556-f9bf-400d-b99a-1925981c2d2a
-      eventSourceName: voting
+      eventSourceName: voting-git-source
       filters:
         data:
           - path: body.X-GitHub-Event
