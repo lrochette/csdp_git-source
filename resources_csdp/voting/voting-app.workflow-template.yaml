@@ -125,7 +125,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl '{{steps.vote.ip}}:80'
+                  curl 'https://{{steps.vote.ip}}:80'
 
         - name: s2
           template: freestyle
@@ -133,7 +133,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl '{{steps.vote.ip}}:80'
+                  curl 'https://{{steps.vote.ip}}:80'
 
     - name: freestyle
       inputs:
