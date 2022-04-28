@@ -91,6 +91,8 @@ spec:
       daemon: true
       container:
         image: influxdb:1.2
+        command: ["sh", "-c"]
+        args: ["echo world"]
         readinessProbe:
           httpGet:
             path: /ping
