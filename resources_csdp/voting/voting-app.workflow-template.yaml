@@ -127,7 +127,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl "https://{{ tasks.vote.ip }}:80"
+                  curl "https://google.com:80"
 
         - name: s2
           template: freestyle
@@ -136,7 +136,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl 'https://{{ tasks.vote.ip }}:80'
+                  curl 'https://oogle.com:80'
 
     - name: freestyle
       inputs:
