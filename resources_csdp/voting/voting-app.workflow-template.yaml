@@ -27,67 +27,67 @@ spec:
       dag:
         tasks:
           # https://codefresh.io/argohub/workflow-template/kaniko
-          - name: build-vote-image
-            templateRef:
-              name: argo-hub.kaniko.0.0.1
-              template: build
-            arguments:
-              parameters:
-                - name: REPO
-                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
-                - name: REVISION
-                  value: '{{ inputs.parameters.GIT_REVISION }}'
-                - name: IMAGE_NAME
-                  value: docker.io/lrochette/vote
-                - name: GIT_TOKEN_SECRET
-                  value: 'github-token'
-                - name: TAG
-                  value: '{{ inputs.parameters.IMAGE_TAG }}'
-                - name: CONTEXT
-                  value: vote
-          - name: build-worker-image
-            templateRef:
-              name: argo-hub.kaniko.0.0.1
-              template: build
-            arguments:
-              parameters:
-                - name: REPO
-                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
-                - name: REVISION
-                  value: '{{ inputs.parameters.GIT_REVISION }}'
-                - name: IMAGE_NAME
-                  value: docker.io/lrochette/worker
-                - name: GIT_TOKEN_SECRET
-                  value: 'github-token'
-                - name: TAG
-                  value: '{{ inputs.parameters.IMAGE_TAG }}'
-                - name: CONTEXT
-                  value: worker
-          - name: build-result-image
-            templateRef:
-              name: argo-hub.kaniko.0.0.1
-              template: build
-            arguments:
-              parameters:
-                - name: REPO
-                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
-                - name: REVISION
-                  value: '{{ inputs.parameters.GIT_REVISION }}'
-                - name: IMAGE_NAME
-                  value: docker.io/lrochette/result
-                - name: GIT_TOKEN_SECRET
-                  value: 'github-token'
-                - name: TAG
-                  value: '{{ inputs.parameters.IMAGE_TAG }}'
-                - name: CONTEXT
-                  value: result
+          # - name: build-vote-image
+          #   templateRef:
+          #     name: argo-hub.kaniko.0.0.1
+          #     template: build
+          #   arguments:
+          #     parameters:
+          #       - name: REPO
+          #         value: '{{ inputs.parameters.GIT_REPO_URL }}'
+          #       - name: REVISION
+          #         value: '{{ inputs.parameters.GIT_REVISION }}'
+          #       - name: IMAGE_NAME
+          #         value: docker.io/lrochette/vote
+          #       - name: GIT_TOKEN_SECRET
+          #         value: 'github-token'
+          #       - name: TAG
+          #         value: '{{ inputs.parameters.IMAGE_TAG }}'
+          #       - name: CONTEXT
+          #         value: vote
+          # - name: build-worker-image
+          #   templateRef:
+          #     name: argo-hub.kaniko.0.0.1
+          #     template: build
+          #   arguments:
+          #     parameters:
+          #       - name: REPO
+          #         value: '{{ inputs.parameters.GIT_REPO_URL }}'
+          #       - name: REVISION
+          #         value: '{{ inputs.parameters.GIT_REVISION }}'
+          #       - name: IMAGE_NAME
+          #         value: docker.io/lrochette/worker
+          #       - name: GIT_TOKEN_SECRET
+          #         value: 'github-token'
+          #       - name: TAG
+          #         value: '{{ inputs.parameters.IMAGE_TAG }}'
+          #       - name: CONTEXT
+          #         value: worker
+          # - name: build-result-image
+          #   templateRef:
+          #     name: argo-hub.kaniko.0.0.1
+          #     template: build
+          #   arguments:
+          #     parameters:
+          #       - name: REPO
+          #         value: '{{ inputs.parameters.GIT_REPO_URL }}'
+          #       - name: REVISION
+          #         value: '{{ inputs.parameters.GIT_REVISION }}'
+          #       - name: IMAGE_NAME
+          #         value: docker.io/lrochette/result
+          #       - name: GIT_TOKEN_SECRET
+          #         value: 'github-token'
+          #       - name: TAG
+          #         value: '{{ inputs.parameters.IMAGE_TAG }}'
+          #       - name: CONTEXT
+          #         value: result
           - name: test-image
             template: test
-            depends: "build-vote-image" # && build-worker-image && build-result-image"
+            # depends: "build-vote-image" # && build-worker-image && build-result-image"
             arguments:
               parameters:
                 - name: IMAGE_TAG
-                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                  value: latest #'{{ inputs.parameters.IMAGE_TAG }}'
 
     # service container equivalent
     # using daemon: true
