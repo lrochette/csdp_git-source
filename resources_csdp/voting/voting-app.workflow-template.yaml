@@ -83,7 +83,7 @@ spec:
                   value: result
           - name: test-image
             template: test
-            depends: "build-vote-image && build-worker-image && build-result-image"
+            depends: "build-vote-image" # && build-worker-image && build-result-image"
             arguments:
               parameters:
                 - name: IMAGE_TAG
@@ -127,7 +127,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                   curl "https://google.com:80"
+                   curl "http://{{tasks.vote.ip}}"
 
         - name: s2
           template: freestyle
@@ -136,7 +136,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl 'https://oogle.com:80'
+                  curl 'http://google.com:80'
 
     - name: freestyle
       inputs:
