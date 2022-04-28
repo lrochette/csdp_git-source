@@ -135,6 +135,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
+                  curl --silent -G http://{{steps.influx.ip}}:8086/query?pretty=true --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu"
                   sleep 30
                   echo s2
 
@@ -143,7 +144,7 @@ spec:
         parameters:
           - name: CMD
       script:
-        image: ubuntu
+        image: curlimages/curl # ubuntu
         command: [/bin/bash]
         source: |
           {{inputs.parameters.CMD}}
