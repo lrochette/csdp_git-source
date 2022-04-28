@@ -99,7 +99,7 @@ spec:
             default: latest
       daemon: true
       script:
-        command: ["/bin/sh", "-c"]
+        command: ["/bin/sh"]
         source: |
           echo starting voting service
           gunicorn app:app -b 0.0.0.0:80 --log-file - --access-logfile  - --workers 4 --keep-alive 0
