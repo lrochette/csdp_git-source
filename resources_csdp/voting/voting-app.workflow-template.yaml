@@ -102,7 +102,7 @@ spec:
         source:
           echo starting voting service
           gunicorn app:app -b 0.0.0.0:80 --log-file - --access-logfile  - --workers 4 --keep-alive 0
-        image: 'quay.io/lrochette/laurent-vote:{{ inputs.parameters.IMAGE_TAG }}'
+        image: 'quay.io/codefresh-training/laurent-vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
             path: /
