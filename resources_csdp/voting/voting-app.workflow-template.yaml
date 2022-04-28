@@ -130,9 +130,11 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                   curl "http://{{tasks.vote.ip}}"
-                   sleep 60
-                   echo "s1 done"
+                  date
+                  curl "http://{{tasks.vote.ip}}"
+                  sleep 60
+                  date
+                  echo "s1 done"
 
         - name: s2
           template: freestyle
@@ -141,9 +143,11 @@ spec:
             parameters:
               - name: CMD
                 value: |
+                  date
                   sleep 30
                   curl 'http://{{tasks.vote.ip}}'
                   sleep 45
+                  date
                   echo "s2 done"
 
     - name: freestyle
