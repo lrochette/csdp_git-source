@@ -127,7 +127,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                   curl "http://{{tasks.test.tasks.vote.ip}}"
+                   curl "http://{{tasks.vote.ip}}"
 
         - name: s2
           template: freestyle
