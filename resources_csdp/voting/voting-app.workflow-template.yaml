@@ -106,7 +106,7 @@ spec:
         - name: cmd
       container:
         image: codefresh/curl
-        command: ["/bin/bash"]
+        command: [curl]
         args: ["{{inputs.parameters.cmd}}"]
 
     - name: test
@@ -127,8 +127,7 @@ spec:
               - name: CMD
                 value: |
                   curl --silent -G http://{{steps.influx.ip}}:8086/query?pretty=true --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu"
-                  sleep 30
-                  echo s1
+
         - name: s2
           template: freestyle
           arguments:
@@ -136,8 +135,7 @@ spec:
               - name: CMD
                 value: |
                   curl --silent -G http://{{steps.influx.ip}}:8086/query?pretty=true --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu"
-                  sleep 30
-                  echo s2
+
 
     - name: freestyle
       inputs:
@@ -145,6 +143,6 @@ spec:
           - name: CMD
       script:
         image: codefresh/curl # ubuntu
-        command: [/bin/bash]
+        command: [curl]
         source: |
           {{inputs.parameters.CMD}}
