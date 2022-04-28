@@ -87,7 +87,7 @@ spec:
             arguments:
               parameters:
                 - name: IMAGE_TAG
-                  value: latest #'{{ inputs.parameters.IMAGE_TAG }}'
+                  value: master #'{{ inputs.parameters.IMAGE_TAG }}'
 
     # service container equivalent
     # using daemon: true
@@ -102,7 +102,7 @@ spec:
         source:
           echo starting voting service
           gunicorn app:app -b 0.0.0.0:80 --log-file - --access-logfile  - --workers 4 --keep-alive 0
-        image: 'docker.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
+        image: 'quay.io/lrochette/laurent-vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
             path: /
