@@ -91,6 +91,8 @@ spec:
     - name: vote_service
       daemon: true
       script:
+        command: ["/bin/sh", "-c"]
+        args: ["echo strating voting service"] 
         image: 'docker.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
