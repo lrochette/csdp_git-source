@@ -57,7 +57,7 @@ spec:
           #       - name: REVISION
           #         value: '{{ inputs.parameters.GIT_REVISION }}'
           #       - name: IMAGE_NAME
-          #         value: docker.io/lrochette/worker
+          #         value: quay.io/lrochette/worker
           #       - name: GIT_TOKEN_SECRET
           #         value: 'github-token'
           #       - name: TAG
@@ -75,7 +75,7 @@ spec:
           #       - name: REVISION
           #         value: '{{ inputs.parameters.GIT_REVISION }}'
           #       - name: IMAGE_NAME
-          #         value: docker.io/lrochette/result
+          #         value: quay.io/lrochette/result
           #       - name: GIT_TOKEN_SECRET
           #         value: 'github-token'
           #       - name: TAG
@@ -100,7 +100,7 @@ spec:
       daemon: true
       script:
         command: ["/bin/sh", "-c"]
-        source:
+        source: |
           echo starting voting service
           gunicorn app:app -b 0.0.0.0:80 --log-file - --access-logfile  - --workers 4 --keep-alive 0
         image: 'quay.io/codefresh-training/laurent-vote:{{ inputs.parameters.IMAGE_TAG }}'
