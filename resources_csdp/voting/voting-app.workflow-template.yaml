@@ -132,6 +132,7 @@ spec:
                 value: |
                    curl "http://{{tasks.vote.ip}}"
                    sleep 60
+                   echo "s1 done"
 
         - name: s2
           template: freestyle
@@ -143,6 +144,7 @@ spec:
                   sleep 30
                   curl 'http://{{tasks.vote.ip}}'
                   sleep 45
+                  echo "s2 done"
 
     - name: freestyle
       inputs:
