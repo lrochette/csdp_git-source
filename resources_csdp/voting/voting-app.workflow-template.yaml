@@ -86,14 +86,36 @@ spec:
             depends: "build-vote-image && build-worker-image && build-result-image"
 
     # Test template
+
+    - name: influxdb
+        daemon: true
+        container:
+          image: influxdb:1.2
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: "8086"
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+
     - name: test
       steps:
+      - - name: influx
+          template: influxdb
+      - - name: init-database
+          template: influxdb-client
+          arguments:
+            parameters:
+            - name: cmd
+              value: curl -XPOST 'http://{{steps.influx.ip}}:8086/query' --data-urlencode "q=CREATE DATABASE mydb"
+
       - - name: s1
           template: freestyle
           arguments:
             parameters:
               - name: CMD
                 value: |
+                  curl --silent -G http://{{steps.influx.ip}}:8086/query?pretty=true --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu"
                   sleep 30
                   echo s1
         - name: s2
