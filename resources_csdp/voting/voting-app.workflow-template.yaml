@@ -91,7 +91,7 @@ spec:
 
     # service container equivalent
     # using daemon: true
-    - name: vote_service
+    - name: vote-service
       inputs:
         parameters:
           - name: IMAGE_TAG
@@ -115,7 +115,7 @@ spec:
       dag:
         tasks:
         - name: vote
-          template: vote_service
+          template: vote-service
           arguments:
             parameters:
               - name: IMAGE_TAG
