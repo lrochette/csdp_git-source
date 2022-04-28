@@ -105,7 +105,7 @@ spec:
         parameters:
         - name: cmd
       container:
-        image: curlimages/curl
+        image: codefresh/curl
         command: ["/bin/bash"]
         args: ["{{inputs.parameters.cmd}}"]
 
@@ -144,7 +144,7 @@ spec:
         parameters:
           - name: CMD
       script:
-        image: curlimages/curl # ubuntu
+        image: codefresh/curl # ubuntu
         command: [/bin/bash]
         source: |
           {{inputs.parameters.CMD}}
