@@ -88,15 +88,15 @@ spec:
     # Test template
 
     - name: influxdb
-        daemon: true
-        container:
-          image: influxdb:1.2
-          readinessProbe:
-            httpGet:
-              path: /ping
-              port: "8086"
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
+      daemon: true
+      container:
+        image: influxdb:1.2
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: "8086"
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
 
     - name: test
       steps:
