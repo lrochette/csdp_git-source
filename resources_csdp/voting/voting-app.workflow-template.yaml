@@ -127,7 +127,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl "https://google.com:80"
+                   curl "https://google.com:80"
 
         - name: s2
           template: freestyle
@@ -144,6 +144,6 @@ spec:
           - name: CMD
       script:
         image: codefresh/curl # ubuntu
-        command: [curl]
+        command: [/bin/sh]
         source: |
           {{inputs.parameters.CMD}}
