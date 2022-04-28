@@ -20,7 +20,7 @@ spec:
       webhook:
         port: '80'
         method: POST
-        endpoint: /webhooks/csdp/voting/github-39e67556-f9bf-400d-b99a-1925981c2d2a
+        endpoint: /webhooks/voting/github-39e67556-f9bf-400d-b99a-1925981c2d2a
         url: https://lrcsdp.support.cf-cd.com
       active: true
       insecure: false
