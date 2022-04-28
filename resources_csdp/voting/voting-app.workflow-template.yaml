@@ -98,6 +98,15 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 1
 
+    - name: influxdb-client
+      inputs:
+        parameters:
+        - name: cmd
+      container:
+        image: appropriate/curl:latest
+        command: ["sh", "-c"]
+        args: ["{{inputs.parameters.cmd}}"]
+
     - name: test
       steps:
       - - name: influx
