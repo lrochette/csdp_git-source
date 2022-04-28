@@ -112,30 +112,31 @@ spec:
         parameters:
           - name: IMAGE_TAG
             default: latest
-      tasks:
-      - name: vote
-        template: vote_service
-        arguments:
-          parameters:
-            - name: IMAGE_TAG
-              value: '{{ inputs.parameters.IMAGE_TAG }}'
-      - name: s1
-        template: freestyle
-        depends: vote
-        arguments:
-          parameters:
-            - name: CMD
-              value: |
-                curl "https://{{ tasks.vote.ip }}:80"
+      dag:
+        tasks:
+        - name: vote
+          template: vote_service
+          arguments:
+            parameters:
+              - name: IMAGE_TAG
+                value: '{{ inputs.parameters.IMAGE_TAG }}'
+        - name: s1
+          template: freestyle
+          depends: vote
+          arguments:
+            parameters:
+              - name: CMD
+                value: |
+                  curl "https://{{ tasks.vote.ip }}:80"
 
-      - name: s2
-        template: freestyle
-        depends: vote
-        arguments:
-          parameters:
-            - name: CMD
-              value: |
-                curl 'https://{{ tasks.vote.ip }}:80'
+        - name: s2
+          template: freestyle
+          depends: vote
+          arguments:
+            parameters:
+              - name: CMD
+                value: |
+                  curl 'https://{{ tasks.vote.ip }}:80'
 
     - name: freestyle
       inputs:
