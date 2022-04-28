@@ -46,24 +46,24 @@ spec:
                   value: '{{ inputs.parameters.IMAGE_TAG }}'
                 - name: CONTEXT
                   value: vote
-          # - name: build-worker-image
-          #   templateRef:
-          #     name: argo-hub.kaniko.0.0.1
-          #     template: build
-          #   arguments:
-          #     parameters:
-          #       - name: REPO
-          #         value: '{{ inputs.parameters.GIT_REPO_URL }}'
-          #       - name: REVISION
-          #         value: '{{ inputs.parameters.GIT_REVISION }}'
-          #       - name: IMAGE_NAME
-          #         value: quay.io/lrochette/worker
-          #       - name: GIT_TOKEN_SECRET
-          #         value: 'github-token'
-          #       - name: TAG
-          #         value: '{{ inputs.parameters.IMAGE_TAG }}'
-          #       - name: CONTEXT
-          #         value: worker
+          - name: build-worker-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: quay.io/lrochette/worker
+                - name: GIT_TOKEN_SECRET
+                  value: 'github-token'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CONTEXT
+                  value: worker
           # - name: build-result-image
           #   templateRef:
           #     name: argo-hub.kaniko.0.0.1
@@ -84,11 +84,11 @@ spec:
           #         value: result
           - name: test-image
             template: test
-            # depends: "build-vote-image" # && build-worker-image && build-result-image"
+            depends: "build-vote-image" # && build-worker-image && build-result-image"
             arguments:
               parameters:
                 - name: IMAGE_TAG
-                  value: master #'{{ inputs.parameters.IMAGE_TAG }}'
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
 
     # service container equivalent
     # using daemon: true
@@ -103,7 +103,7 @@ spec:
         source: |
           echo starting voting service
           gunicorn app:app -b 0.0.0.0:80 --log-file - --access-logfile  - --workers 4 --keep-alive 0
-        image: 'quay.io/codefresh-training/laurent-vote:{{ inputs.parameters.IMAGE_TAG }}'
+        image: 'quay.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
             path: /
