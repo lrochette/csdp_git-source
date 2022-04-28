@@ -131,6 +131,7 @@ spec:
               - name: CMD
                 value: |
                    curl "http://{{tasks.vote.ip}}"
+                   sleep 60
 
         - name: s2
           template: freestyle
@@ -139,7 +140,9 @@ spec:
             parameters:
               - name: CMD
                 value: |
+                  sleep 30
                   curl 'http://{{tasks.vote.ip}}'
+                  sleep 45
 
     - name: freestyle
       inputs:
