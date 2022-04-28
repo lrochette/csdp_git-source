@@ -11,7 +11,8 @@ spec:
         items:
           - key: .dockerconfigjson
             path: config.json
-        secretName: dockerhub-config
+        secretName: quay-config
+        #secretName: dockerhub-config
   entrypoint: pipeline
   templates:
     - name: pipeline
@@ -27,24 +28,24 @@ spec:
       dag:
         tasks:
           # https://codefresh.io/argohub/workflow-template/kaniko
-          # - name: build-vote-image
-          #   templateRef:
-          #     name: argo-hub.kaniko.0.0.1
-          #     template: build
-          #   arguments:
-          #     parameters:
-          #       - name: REPO
-          #         value: '{{ inputs.parameters.GIT_REPO_URL }}'
-          #       - name: REVISION
-          #         value: '{{ inputs.parameters.GIT_REVISION }}'
-          #       - name: IMAGE_NAME
-          #         value: docker.io/lrochette/vote
-          #       - name: GIT_TOKEN_SECRET
-          #         value: 'github-token'
-          #       - name: TAG
-          #         value: '{{ inputs.parameters.IMAGE_TAG }}'
-          #       - name: CONTEXT
-          #         value: vote
+          - name: build-vote-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: quay.io/lrochette/vote
+                - name: GIT_TOKEN_SECRET
+                  value: 'github-token'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CONTEXT
+                  value: vote
           # - name: build-worker-image
           #   templateRef:
           #     name: argo-hub.kaniko.0.0.1
