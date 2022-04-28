@@ -105,8 +105,8 @@ spec:
         parameters:
         - name: cmd
       container:
-        image: appropriate/curl:latest
-        command: ["sh", "-c"]
+        image: curlimages/curl
+        command: ["/bin/bash"]
         args: ["{{inputs.parameters.cmd}}"]
 
     - name: test
