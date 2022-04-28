@@ -84,15 +84,22 @@ spec:
           - name: test-image
             template: test
             depends: "build-vote-image && build-worker-image && build-result-image"
-
+            arguments:
+              parameters:
+                - name: IMAGE_TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
 
     # service container equivalent
     # using daemon: true
     - name: vote_service
+      inputs:
+        parameters:
+          - name: IMAGE_TAG
+            default: latest
       daemon: true
       script:
         command: ["/bin/sh", "-c"]
-        args: ["echo strating voting service"] 
+        args: ["echo starting voting service"]
         image: 'docker.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
@@ -101,10 +108,17 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 1
     - name: test
+      inputs:
+        parameters:
+          - name: IMAGE_TAG
+            default: latest
       steps:
       - - name: vote
           template: vote_service
-
+          arguments:
+            parameters:
+              - name: IMAGE_TAG
+                value: '{{ inputs.parameters.IMAGE_TAG }}'
       - - name: s1
           template: freestyle
           arguments:
