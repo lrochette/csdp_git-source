@@ -64,24 +64,24 @@ spec:
                   value: '{{ inputs.parameters.IMAGE_TAG }}'
                 - name: CONTEXT
                   value: worker
-          # - name: build-result-image
-          #   templateRef:
-          #     name: argo-hub.kaniko.0.0.1
-          #     template: build
-          #   arguments:
-          #     parameters:
-          #       - name: REPO
-          #         value: '{{ inputs.parameters.GIT_REPO_URL }}'
-          #       - name: REVISION
-          #         value: '{{ inputs.parameters.GIT_REVISION }}'
-          #       - name: IMAGE_NAME
-          #         value: quay.io/lrochette/result
-          #       - name: GIT_TOKEN_SECRET
-          #         value: 'github-token'
-          #       - name: TAG
-          #         value: '{{ inputs.parameters.IMAGE_TAG }}'
-          #       - name: CONTEXT
-          #         value: result
+          - name: build-result-image
+            templateRef:
+              name: argo-hub.kaniko.0.0.1
+              template: build
+            arguments:
+              parameters:
+                - name: REPO
+                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                - name: REVISION
+                  value: '{{ inputs.parameters.GIT_REVISION }}'
+                - name: IMAGE_NAME
+                  value: quay.io/lrochette/result
+                - name: GIT_TOKEN_SECRET
+                  value: 'github-token'
+                - name: TAG
+                  value: '{{ inputs.parameters.IMAGE_TAG }}'
+                - name: CONTEXT
+                  value: result
           - name: test-image
             template: test
             depends: "build-vote-image" # && build-worker-image && build-result-image"
@@ -139,7 +139,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl 'http://google.com:80'
+                  curl 'http://{{tasks.vote.ip}}'
 
     - name: freestyle
       inputs:
