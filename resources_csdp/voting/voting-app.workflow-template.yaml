@@ -85,40 +85,23 @@ spec:
             template: test
             depends: "build-vote-image && build-worker-image && build-result-image"
 
-    # Test template
 
-    - name: influxdb
+    # service container equivalent
+    # using daemon: true
+    - name: vote_service
       daemon: true
-      container:
-        image: influxdb:1.2
-        command: ["sh", "-c"]
-        args: ["echo world"]
+      script:
+        image: 'docker.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
-            path: /ping
-            port: 8086
+            path: /
+            port: 80
           initialDelaySeconds: 5
           timeoutSeconds: 1
-
-    - name: influxdb-client
-      inputs:
-        parameters:
-        - name: cmd
-      container:
-        image: codefresh/curl
-        command: [curl]
-        args: ["{{inputs.parameters.cmd}}"]
-
     - name: test
       steps:
-      - - name: influx
-          template: influxdb
-      - - name: init-database
-          template: influxdb-client
-          arguments:
-            parameters:
-            - name: cmd
-              value: curl -XPOST 'http://{{steps.influx.ip}}:8086/query' --data-urlencode "q=CREATE DATABASE mydb"
+      - - name: vote
+          template: vote_service
 
       - - name: s1
           template: freestyle
@@ -126,7 +109,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl --silent -G http://{{steps.influx.ip}}:8086/query?pretty=true --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu"
+                  curl {{steps.vote.ip}}:80
 
         - name: s2
           template: freestyle
@@ -134,8 +117,7 @@ spec:
             parameters:
               - name: CMD
                 value: |
-                  curl --silent -G http://{{steps.influx.ip}}:8086/query?pretty=true --data-urlencode "db=mydb" --data-urlencode "q=SELECT * FROM cpu"
-
+                  curl {{steps.vote.ip}}:80
 
     - name: freestyle
       inputs:
