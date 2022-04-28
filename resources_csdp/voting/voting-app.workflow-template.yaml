@@ -99,7 +99,9 @@ spec:
       daemon: true
       script:
         command: ["/bin/sh", "-c"]
-        args: ["echo starting voting service"]
+        source:
+          echo starting voting service
+          gunicorn app:app -b 0.0.0.0:80 --log-file - --access-logfile  - --workers 4 --keep-alive 0
         image: 'docker.io/lrochette/vote:{{ inputs.parameters.IMAGE_TAG }}'
         readinessProbe:
           httpGet:
