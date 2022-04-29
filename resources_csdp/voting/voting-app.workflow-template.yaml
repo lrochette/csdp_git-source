@@ -89,7 +89,22 @@ spec:
               parameters:
                 - name: IMAGE_TAG
                   value: '{{ inputs.parameters.IMAGE_TAG }}'
-
+          - name: post-test1
+            template: freestyle
+            depends: test-image
+          arguments:
+            parameters:
+              - name: CMD
+                value: |
+                  echo "Hello world 1"
+          - name: post-test2
+            template: freestyle
+            depends: post-test1
+          arguments:
+            parameters:
+              - name: CMD
+                value: |
+                  echo "Hello world 2"
     # service container equivalent
     # using daemon: true
     - name: vote-service
