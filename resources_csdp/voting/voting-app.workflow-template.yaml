@@ -105,6 +105,8 @@ spec:
                 - name: CMD
                   value: |
                     echo "Hello world 2"
+
+
     # service container equivalent
     # using daemon: true
     - name: vote-service
