@@ -89,7 +89,7 @@ spec:
           depends: clone
 
         - name: slack-message
-          depend: maven-build
+          depends: maven-build
           templateRef:
             name: argo-hub.slack.0.0.2
             template: post-to-channel
