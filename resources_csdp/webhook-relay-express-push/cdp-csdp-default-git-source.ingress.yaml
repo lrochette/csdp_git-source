@@ -13,4 +13,12 @@ spec:
                 port:
                   number: 80
             pathType: Prefix
+          - path: /webhooks/csdp/deloitte
+            backend:
+              service:
+                name: deloitte-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
       host: lrcsdp.support.cf-cd.com
+  ingressClassName: nginx
