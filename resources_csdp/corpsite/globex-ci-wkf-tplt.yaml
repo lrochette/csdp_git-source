@@ -46,12 +46,12 @@ spec:
               value: "{{inputs.parameters.REVISION}}"
             - name: GIT_TOKEN_SECRET
               value: github-token
-        - name: wait
-          depends: clone
-          template: approve
+        # - name: wait
+        #   depends: clone
+        #   template: approve
 
         - name: clone-config
-          depends: wait
+          # depends: wait
           templateRef:
             name: lr.git
             template: clone
@@ -63,51 +63,51 @@ spec:
               value: "refs/heads/main"
             - name: GIT_TOKEN_SECRET
               value: github-token
-        # - name: ls1
-        #   template: listing
-        #   depends: clone
-        #   arguments:
-        #     parameters:
-        #       - name: DIR
-        #         value: "{{tasks.clone.outputs.parameters.REPO_NAME}}"
-        #       - name: RESOURCES_LIMITS_MEMORY
-        #         value: "256M"
-        #       - name: RESOURCES_REQUESTS_CPU
-        #         value: "100m"
-        # - name: ls2
-        #   template: listing
-        #   depends: clone-config
-        #   arguments:
-        #     parameters:
-        #       - name: DIR
-        #         value: "{{tasks.clone-config.outputs.parameters.REPO_NAME}}"
-        #       - name: RESOURCES_LIMITS_MEMORY
-        #         value: "512M"
-        #       - name: RESOURCES_REQUESTS_CPU
-        #         value: "400m"
+        - name: ls1
+          template: listing
+          depends: clone
+          arguments:
+            parameters:
+              - name: DIR
+                value: "{{tasks.clone.outputs.parameters.REPO_NAME}}"
+              - name: RESOURCES_LIMITS_MEMORY
+                value: "256M"
+              - name: RESOURCES_REQUESTS_CPU
+                value: "100m"
+        - name: ls2
+          template: listing
+          depends: clone-config
+          arguments:
+            parameters:
+              - name: DIR
+                value: "{{tasks.clone-config.outputs.parameters.REPO_NAME}}"
+              - name: RESOURCES_LIMITS_MEMORY
+                value: "512M"
+              - name: RESOURCES_REQUESTS_CPU
+                value: "400m"
         - name: maven-build
           template: maven
           arguments:
             parameters:
             - name: target
               value: "package"
-          depends: clone-config
+          depends: clone
 
-        - name: slack-message
-          depends: maven-build
-          templateRef:
-            name: argo-hub.slack.0.0.2
-            template: post-to-channel
-          arguments:
-            parameters:
-            - name: SLACK_CHANNEL
-              value: "@laurent.rochette"
-            - name: SLACK_MESSAGE
-              value: 'my cool message for build {{workflow.uid}}'
-            - name: SLACK_TOKEN
-              value: slack-token
-            - name: LOG_LEVEL
-              value: "debug"
+        # - name: slack-message
+        #   depends: maven-build
+        #   templateRef:
+        #     name: argo-hub.slack.0.0.2
+        #     template: post-to-channel
+        #   arguments:
+        #     parameters:
+        #     - name: SLACK_CHANNEL
+        #       value: "@laurent.rochette"
+        #     - name: SLACK_MESSAGE
+        #       value: 'my cool message for build {{workflow.uid}}'
+        #     - name: SLACK_TOKEN
+        #       value: slack-token
+        #     - name: LOG_LEVEL
+        #       value: "debug"
         - name: maven-test
           template: maven
           arguments:
