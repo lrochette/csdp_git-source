@@ -23,7 +23,7 @@ spec:
             name: '{{ inputs.parameters.GIT_TOKEN_SECRET }}'
             key: token
     script:
-      image: bitnami/git:latest
+      image: bitnami/git
       workingDir: /codefresh/volume
       command: [bash]
       source: |
@@ -61,7 +61,7 @@ spec:
         - name: VOLUMENAME
           value: codefresh-volume
     script:
-      image: quay.io/bitnami/git
+      image: bitnami/git
       workingDir: /codefresh/volume
       command: [bash]
       source: |
