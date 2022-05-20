@@ -93,19 +93,19 @@ spec:
               value: "package"
           depends: clone
 
-        # - name: slack-message
-        #   depends: maven-build
-        #   templateRef:
-        #     name: argo-hub.slack.0.0.2
-        #     template: post-to-channel
-        #   arguments:
-        #     parameters:
-        #     - name: SLACK_CHANNEL
-        #       value: "@laurent.rochette"
-        #     - name: SLACK_MESSAGE
-        #       value: 'my cool message for build {{workflow.uid}}'
-        #     - name: SLACK_TOKEN
-        #       value: slack-token
+        - name: slack-message
+          depends: maven-build
+          templateRef:
+            name: argo-hub.slack.0.0.2
+            template: post-to-channel
+          arguments:
+            parameters:
+            - name: SLACK_CHANNEL
+              value: "@laurent.rochette"
+            - name: SLACK_MESSAGE
+              value: 'Maven build successful for {{workflow.uid}}\nRepo: {{tasks.clone.outputs.parameters.REPO_NAME}}\nRevision: {{inputs.parameters.REVISION}}'
+            - name: SLACK_TOKEN
+              value: slack-token
         #     - name: LOG_LEVEL
         #       value: "debug"
         - name: maven-test
@@ -207,44 +207,44 @@ spec:
               - name: commit_message
                 value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
 
-        # - name: create-sn-cr
-        #   depends: clone
-        #   templateRef:
-        #     name: argo-hub.servicenow.1.0.0
-        #     template: createcr
-        #   arguments:
-        #     parameters:
-        #     - name: SN_INSTANCE
-        #       value: "https://dev110939.service-now.com"
-        #     - name: SN_AUTH
-        #       value: "sn-auth"
-        #     - name: LOGLEVEL
-        #       value: "info"
-        #     - name: CR_DATA
-        #       value: >-
-        #         {"short_description": "Globex deployment to QA environment",
-        #         "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh plugin",
-        #         "justification": "I do not need a justification\nMy app is awesome",
-        #         "cmdb_ci":"tomcat"
-        #         }
+        - name: create-sn-cr
+          depends: clone
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: createcr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: >-
+                {"short_description": "Globex deployment to QA environment",
+                "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh GitOps CI plugin",
+                "justification": "My app is awesome! Please deplopy ASAP",
+                "cmdb_ci":"tomcat"
+                }
 
-        # - name: update-sn-cr
-        #   depends: "build-image && create-sn-cr"
-        #   templateRef:
-        #     name: argo-hub.servicenow.1.0.0
-        #     template: updatecr
-        #   arguments:
-        #     parameters:
-        #     - name: SN_INSTANCE
-        #       value: "https://dev110939.service-now.com"
-        #     - name: SN_AUTH
-        #       value: "sn-auth"
-        #     - name: LOGLEVEL
-        #       value: "info"
-        #     - name: CR_DATA
-        #       value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
-        #     - name: CR_SYSID
-        #       value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+        - name: update-sn-cr
+          depends: "build-image && create-sn-cr"
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
 
         # - name: update-sn-cr-with-config-commit
         #   depends: "commit-config-change && create-sn-cr"
