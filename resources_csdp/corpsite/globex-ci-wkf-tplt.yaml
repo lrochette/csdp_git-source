@@ -103,7 +103,7 @@ spec:
             - name: SLACK_CHANNEL
               value: "@laurent.rochette"
             - name: SLACK_MESSAGE
-              value: 'Maven build successful for {{workflow.uid}}\nRepo: {{tasks.clone.outputs.parameters.REPO_NAME}}\nRevision: {{inputs.parameters.REVISION}}'
+              value: "Maven build successful for {{workflow.uid}}\nRepo: {{tasks.clone.outputs.parameters.REPO_NAME}}\nRevision: {{inputs.parameters.REVISION}}"
             - name: SLACK_TOKEN
               value: slack-token
         #     - name: LOG_LEVEL
