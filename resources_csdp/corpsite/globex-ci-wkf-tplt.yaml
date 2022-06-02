@@ -90,7 +90,7 @@ spec:
           arguments:
             parameters:
             - name: target
-              value: "package"
+              value: "package2"
           depends: clone
 
         - name: slack-message
