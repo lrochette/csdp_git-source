@@ -66,14 +66,15 @@ spec:
         - name: ls1
           depends: clone
           inline:
-            container: alpine:3.7
-            command: [ sh ]
-            source : |
-             ls -ail  /codefresh/volume/{{ inputs.paramters.DIR}}
-            volumeMounts:                     # same syntax as k8s Pod spec
-            - name: codefresh-volume
-              mountPath: /codefresh/volume/
-      
+            container:
+              image: alpine:3.7
+              command: [ sh ]
+              source : |
+               ls -ail  /codefresh/volume/{{ inputs.paramters.DIR}}
+              volumeMounts:                     # same syntax as k8s Pod spec
+              - name: codefresh-volume
+                mountPath: /codefresh/volume/
+
         - name: ls2
           template: listing
           depends: clone-config
