@@ -70,7 +70,7 @@ spec:
               image: alpine:3.7
               command: [ sh ]
               source : |
-               ls -ail  /codefresh/volume/{{ inputs.paramters.DIR}}
+               ls -ail  /codefresh/volume/{{tasks.clone.outputs.parameters.REPO_NAME}}
               volumeMounts:                     # same syntax as k8s Pod spec
               - name: codefresh-volume
                 mountPath: /codefresh/volume/
@@ -322,7 +322,7 @@ spec:
         command: [ sh ]
         source : |
          cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us || true
-         cd {{ inputs.paramters.DIR}}
+         cd {{ inputs.parameters.DIR}}
          ls -ail
          echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_CPU ', 'cpu: '         + inputs.parameters.RESOURCES_LIMITS_CPU ,     sprig.empty(inputs.parameters.RESOURCES_LIMITS_CPU ) )}} \n"
          echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_MEMORY ', 'memory: '   + inputs.parameters.RESOURCES_LIMITS_MEMORY,   sprig.empty(inputs.parameters.RESOURCES_LIMITS_MEMORY ) )}} \n"
