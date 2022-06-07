@@ -64,16 +64,16 @@ spec:
             - name: GIT_TOKEN_SECRET
               value: github-token
         - name: ls1
-          template: listing
           depends: clone
-          arguments:
-            parameters:
-              - name: DIR
-                value: "{{tasks.clone.outputs.parameters.REPO_NAME}}"
-              - name: RESOURCES_LIMITS_MEMORY
-                value: "256M"
-              - name: RESOURCES_REQUESTS_CPU
-                value: "100m"
+          inline:
+            container: alpine:3.7
+            command: [ sh ]
+            source : |
+             ls -ail  /codefresh/volume/{{ inputs.paramters.DIR}}
+            volumeMounts:                     # same syntax as k8s Pod spec
+            - name: codefresh-volume
+              mountPath: /codefresh/volume/
+      
         - name: ls2
           template: listing
           depends: clone-config
