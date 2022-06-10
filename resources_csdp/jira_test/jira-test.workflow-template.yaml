@@ -35,7 +35,7 @@ spec:
                 argo-hub-template/description: 'Builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image'
                 argo-hub-template/icon_url: "https://cdn.jsdelivr.net/gh/codefresh-io/argo-hub@main/workflows/ci-simple/assets/icon.svg"
                 argo-hub-template/icon_background: "#004C76"
-              inputs:
+              arguments:
                 parameters:
                 # required
                 - name: JIRA_API_KEY
