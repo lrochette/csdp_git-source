@@ -52,7 +52,7 @@ spec:
                 - name: JIRA_USERNAME_SECRET_KEY
                   value: 'email'
                 - name: ISSUE_PROJECT
-                  default: 'FT'
+                  value: 'FT'
                 - name: ISSUE_SUMMARY
                   value: 'test of Jira integration'
                 - name: ISSUE_DESCRIPTION
