@@ -20,5 +20,12 @@ spec:
                 port:
                   number: 80
             pathType: Prefix
+          - path: /webhooks/csdp/jira
+            backend:
+              service:
+                name: jira-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
       host: lrcsdp.support.cf-cd.com
   ingressClassName: nginx
