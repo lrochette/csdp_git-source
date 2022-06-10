@@ -23,7 +23,7 @@ spec:
 #         secretName: '{{ inputs.parameters.DOCKER_CONFIG_SECRET }}'
   entrypoint: create-jira
   templates:
-    - name: ci-tasks
+    - name: create-jira
       templateRef:
         name: argo-hub.jira.0.0.1
         template: create-issue    
