@@ -29,7 +29,7 @@ spec:
           - name: createjira
             templateRef:
               name: argo-hub.jira.0.0.1
-              template: create-issue    
+              template: create-issue
               metadata:
                 annotations:
                 argo-hub-template/description: 'Builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image'
@@ -62,5 +62,4 @@ spec:
                 #   - name: ISSUE_CUSTOMFIELDS
                 #     value: ''
                 - name: ISSUE_TYPE
-                  value: 'Bug'
-    
+                  value: 'Task'
