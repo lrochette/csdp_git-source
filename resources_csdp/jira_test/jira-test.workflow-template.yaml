@@ -45,8 +45,6 @@ spec:
                 - name: JIRA_USERNAME
                   value: jira-token
                 # optional
-                - name: ACTION
-                  value: 'issue_create'
                 - name: JIRA_API_KEY_SECRET_KEY
                   value: 'token'
                 - name: JIRA_USERNAME_SECRET_KEY
