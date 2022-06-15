@@ -39,7 +39,6 @@ spec:
             value: 'FT-82'
         -   name: COMMENT_BODY
             value: Test from codefresh pipeline
-
     templates:
     -   name: pipeline
         dag:
@@ -59,20 +58,5 @@ spec:
                     -   name: ISSUE_SUMMARY
                     -   name: ISSUE_DESCRIPTION
                     -   name: ISSUE_TYPE
-
-            -   name: create-comment
-                dependencies: [create-jira]
-                templateref:
-                    name: argo-hub.jira.0.0.1
-                    template: create-comment
-                arguments:
-                    parameters:
-                    -   name: JIRA_BASE_URL
-                    -   name: JIRA_USERNAME
-                    -   name: JIRA_USERNAME_SECRET_KEY
-                    -   name: JIRA_API_KEY
-                    -   name: JIRA_API_KEY_SECRET_KEY
-                    -   name: JIRA_ISSUE_SOURCE_FIELD
-                    -   name: COMMENT_BODY
                 
                 
