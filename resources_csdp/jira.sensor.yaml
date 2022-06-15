@@ -35,5 +35,5 @@ spec:
                 generateName: jira-test-
               spec:
                 workflowTemplateRef:
-                  name: jira-test
+                  name: ''
           parameters: []

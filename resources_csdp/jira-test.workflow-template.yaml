@@ -114,4 +114,29 @@ spec:
                         value: 'test of Jira integration comment new'
                     -   name: JIRA_COMMENT_ID
                         value: "{{tasks.create-jira-comment.outputs.parameters.JIRA_COMMENT_ID}}"
+            -   name: update-all-from-jql
+                dependencies: [update-jira-issue]
+                templateref:
+                    name: argo-hub.jira.0.0.1
+                    template: update-all-from-jql
+                arguments:
+                    parameters:
+                    -   name: JIRA_API_KEY
+                        value: jira-token
+                    -   name: JIRA_BASE_URL
+                        value: https://codefresh-io.atlassian.net/
+                    -   name: JIRA_USERNAME
+                        value: jira-token
+                    -   name: JIRA_API_KEY_SECRET_KEY
+                        value: 'token'
+                    -   name: JIRA_USERNAME_SECRET_KEY
+                        value: 'email'
+                    -   name: ISSUE_DESCRIPTION
+                        value: this is the new longer description jql
+                    -   name: ISSUE_TYPE
+                        value: Task
+                    -   name: JQL_QUERY
+                        value: key in ("{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}")
+                    -   name: JQL_QUERY_MAX_RESULTS
+                        value: '50'
                 
