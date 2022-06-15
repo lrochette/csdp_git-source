@@ -61,7 +61,7 @@ spec:
                     -   name: JIRA_USERNAME_SECRET_KEY
                         value: 'email'
                     -   name: JIRA_ISSUE_SOURCE_FIELD
-                        value: "{{create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
+                        value: "{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
                     -   name: COMMENT_BODY
                         value: 'test of Jira integration comment'
                 
