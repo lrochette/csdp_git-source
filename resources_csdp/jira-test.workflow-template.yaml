@@ -63,7 +63,7 @@ spec:
                     -   name: JIRA_ISSUE_SOURCE_FIELD
                         value: "{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
                     -   name: DESIRED_ISSUE_STATUS
-                        value: 'IN PROGRESS'
+                        value: 'In Progress'
                     -   name: VERBOSE
                         value: 'true'
             # -   name: update-jira-issue
