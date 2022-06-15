@@ -19,10 +19,10 @@ spec:
     -   name: pipeline
         dag:
             tasks:
-            -   name: create-jira
+            -   name: create-jira-comment
                 templateRef:
                     name: argo-hub.jira.0.0.1
-                    template: create-issue
+                    template: create-comment
                 arguments:
                     parameters:
                     -   name: JIRA_API_KEY
@@ -35,13 +35,9 @@ spec:
                         value: 'token'
                     -   name: JIRA_USERNAME_SECRET_KEY
                         value: 'email'
-                    -   name: ISSUE_PROJECT
-                        value: 'FT'
-                    -   name: ISSUE_SUMMARY
-                        value: 'test of Jira integration'
-                    -   name: ISSUE_DESCRIPTION
-                        value: 'this is the longer description'
-                    -   name: ISSUE_TYPE
-                        value: 'Task'
+                    -   name: JIRA_ISSUE_SOURCE_FIELD
+                        value: 'FT-84'
+                    -   name: COMMENT_BODY
+                        value: 'test of Jira integration comment'
                 
                 
