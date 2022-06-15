@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+    name: jira-test
+    annotations:
+        argo-hub/version: '0.0.1'
+        argo-hub/description: 'This Workflow Template is used to create your first CI pipeline in CSDP'
+        argo-hub/categories: 'starter template'
+        argo-hub/license: 'MIT'
+        argo-hub/owner_name: 'Eti Zaguri'
+        argo-hub/owner_email: 'eti.zaguri@codefresh.io'
+        argo-hub/owner_avatar: 'https://avatars.githubusercontent.com/u/85868206'
+        argo-hub/owner_url: 'https://github.com/eti-codefresh'
+        argo-hub/icon_url: "https://cdn.jsdelivr.net/gh/codefresh-io/argo-hub@main/examples/ci-simple/assets/icon.svg"
+        argo-hub/icon-background: "#004C76"
+spec:
+    entrypoint: pipeline
+    arguments:
+        parameters:
+        -   name: JIRA_API_KEY
+            value: jira-token
+        -   name: JIRA_BASE_URL
+            value: https://codefresh-io.atlassian.net/
+        -   name: JIRA_USERNAME
+            value: jira-token
+        -   name: JIRA_API_KEY_SECRET_KEY
+            value: 'token'
+        -   name: JIRA_USERNAME_SECRET_KEY
+            value: 'email'
+        -   name: ISSUE_PROJECT
+            value: 'FT'
+        -   name: ISSUE_SUMMARY
+            value: 'test of Jira integration'
+        -   name: ISSUE_DESCRIPTION
+            value: 'this is the longer description'
+        -   name: ISSUE_TYPE
+            value: 'Task'
+        -   name: JIRA_ISSUE_SOURCE_FIELD
+            value: 'FT-82'
+        -   name: COMMENT_BODY
+            value: Test from codefresh pipeline
+
+    templates:
+    -   name: pipeline
+        dag:
+            tasks:
+            -   name: create-jira
+                templateRef:
+                    name: argo-hub.jira.0.0.1
+                    template: create-issue
+                arguments:
+                    parameters:
+                    -   name: JIRA_API_KEY
+                    -   name: JIRA_BASE_URL
+                    -   name: JIRA_USERNAME
+                    -   name: JIRA_API_KEY_SECRET_KEY
+                    -   name: JIRA_USERNAME_SECRET_KEY
+                    -   name: ISSUE_PROJECT
+                    -   name: ISSUE_SUMMARY
+                    -   name: ISSUE_DESCRIPTION
+                    -   name: ISSUE_TYPE
+
+            -   name: create-comment
+                dependencies: [create-jira]
+                templateref:
+                    name: argo-hub.jira.0.0.1
+                    template: create-comment
+                arguments:
+                    parameters:
+                    -   name: JIRA_BASE_URL
+                    -   name: JIRA_USERNAME
+                    -   name: JIRA_USERNAME_SECRET_KEY
+                    -   name: JIRA_API_KEY
+                    -   name: JIRA_API_KEY_SECRET_KEY
+                    -   name: JIRA_ISSUE_SOURCE_FIELD
+                    -   name: COMMENT_BODY
+                
+                
