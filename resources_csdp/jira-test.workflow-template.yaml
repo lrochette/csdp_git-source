@@ -111,7 +111,7 @@ spec:
                     -   name: JIRA_ISSUE_SOURCE_FIELD
                         value: "{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
                     -   name: COMMENT_BODY
-                        value: 'test of Jira integration comment'
+                        value: 'test of Jira integration comment new'
                     -   name: JIRA_COMMENT_ID
                         value: "{{tasks.create-jira-comment.outputs.parameters.JIRA_COMMENT_ID}}"
                 
