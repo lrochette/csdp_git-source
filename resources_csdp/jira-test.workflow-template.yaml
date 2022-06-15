@@ -43,11 +43,11 @@ spec:
                         value: this is the longer description
                     -   name: ISSUE_TYPE
                         value: Task
-            -   name: issue-transition-status
+            -   name: issue-transition-status-and-update
                 dependencies: [create-jira-issue]
                 templateRef:
                     name: argo-hub.jira.0.0.1
-                    template: issue-transition-status
+                    template: issue-transition-status-and-update
                 arguments:
                     parameters:
                     -   name: JIRA_API_KEY
@@ -66,6 +66,8 @@ spec:
                         value: 'Get started'
                     -   name: VERBOSE
                         value: 'true'
+                    -   name: ISSUE_DESCRIPTION
+                        value: testing jira temp complete
             # -   name: update-jira-issue
             #     dependencies: [create-jira-issue]
             #     templateRef:
