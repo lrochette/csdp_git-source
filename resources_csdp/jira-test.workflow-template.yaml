@@ -43,11 +43,11 @@ spec:
                         value: this is the longer description
                     -   name: ISSUE_TYPE
                         value: Task
-            -   name: update-all-from-jql
+            -   name: issue-verify-status
                 dependencies: [create-jira-issue]
                 templateRef:
                     name: argo-hub.jira.0.0.1
-                    template: update-all-from-jql
+                    template: issue-verify-status
                 arguments:
                     parameters:
                     -   name: JIRA_API_KEY
@@ -60,14 +60,10 @@ spec:
                         value: 'token'
                     -   name: JIRA_USERNAME_SECRET_KEY
                         value: 'email'
-                    -   name: ISSUE_DESCRIPTION
-                        value: new issue description jql
-                    -   name: ISSUE_TYPE
-                        value: Task
-                    -   name: JQL_QUERY
-                        value: key in ("{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}")
-                    -   name: JQL_QUERY_MAX_RESULTS
-                        value: '50'
+                    -   name: JIRA_ISSUE_SOURCE_FIELD
+                        value: "{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
+                    -   name: DESIRED_ISSUE_STATUS
+                        value: Blocked
             # -   name: update-jira-issue
             #     dependencies: [create-jira-issue]
             #     templateRef:
