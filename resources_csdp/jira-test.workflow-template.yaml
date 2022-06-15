@@ -19,7 +19,32 @@ spec:
     -   name: pipeline
         dag:
             tasks:
+            -   name: create-jira-issue
+                templateRef:
+                    name: argo-hub.jira.0.0.1
+                    template: create-issue
+                arguments:
+                    parameters:
+                    -   name: JIRA_API_KEY
+                        value: jira-token
+                    -   name: JIRA_BASE_URL
+                        value: https://codefresh-io.atlassian.net/
+                    -   name: JIRA_USERNAME
+                        value: jira-token
+                    -   name: JIRA_API_KEY_SECRET_KEY
+                        value: 'token'
+                    -   name: JIRA_USERNAME_SECRET_KEY
+                        value: 'email'
+                    -   name: ISSUE_PROJECT
+                        value: FT
+                    -   name: ISSUE_SUMMARY
+                        value: this is the shorter description
+                    -   name: ISSUE_DESCRIPTION
+                        value: this is the longer description
+                    -   name: ISSUE_TYPE
+                        value: Task
             -   name: create-jira-comment
+                dependencies: [create-jira-issue]
                 templateRef:
                     name: argo-hub.jira.0.0.1
                     template: create-comment
@@ -36,7 +61,7 @@ spec:
                     -   name: JIRA_USERNAME_SECRET_KEY
                         value: 'email'
                     -   name: JIRA_ISSUE_SOURCE_FIELD
-                        value: 'FT-84'
+                        value: "{{dag.tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
                     -   name: COMMENT_BODY
                         value: 'test of Jira integration comment'
                 
