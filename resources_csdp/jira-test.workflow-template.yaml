@@ -43,11 +43,11 @@ spec:
                         value: this is the longer description
                     -   name: ISSUE_TYPE
                         value: Task
-            -   name: issue-verify-status-from-jql
+            -   name: issue-transition-status
                 dependencies: [create-jira-issue]
                 templateRef:
                     name: argo-hub.jira.0.0.1
-                    template: issue-verify-status-from-jql
+                    template: issue-transition-status
                 arguments:
                     parameters:
                     -   name: JIRA_API_KEY
@@ -60,10 +60,12 @@ spec:
                         value: 'token'
                     -   name: JIRA_USERNAME_SECRET_KEY
                         value: 'email'
-                    -   name: JQL_QUERY
-                        value: key in ("{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}")
+                    -   name: JIRA_ISSUE_SOURCE_FIELD
+                        value: "{{tasks.create-jira-issue.outputs.parameters.JIRA_ISSUE_SOURCE_FIELD}}"
                     -   name: DESIRED_ISSUE_STATUS
-                        value: To Do
+                        value: Done
+                    -   name: VERBOSE
+                        value: 'false'
             # -   name: update-jira-issue
             #     dependencies: [create-jira-issue]
             #     templateRef:
