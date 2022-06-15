@@ -15,30 +15,6 @@ metadata:
         argo-hub/icon-background: "#004C76"
 spec:
     entrypoint: pipeline
-    arguments:
-        parameters:
-        -   name: JIRA_API_KEY
-            value: jira-token
-        -   name: JIRA_BASE_URL
-            value: https://codefresh-io.atlassian.net/
-        -   name: JIRA_USERNAME
-            value: jira-token
-        -   name: JIRA_API_KEY_SECRET_KEY
-            value: 'token'
-        -   name: JIRA_USERNAME_SECRET_KEY
-            value: 'email'
-        -   name: ISSUE_PROJECT
-            value: 'FT'
-        -   name: ISSUE_SUMMARY
-            value: 'test of Jira integration'
-        -   name: ISSUE_DESCRIPTION
-            value: 'this is the longer description'
-        -   name: ISSUE_TYPE
-            value: 'Task'
-        -   name: JIRA_ISSUE_SOURCE_FIELD
-            value: 'FT-82'
-        -   name: COMMENT_BODY
-            value: Test from codefresh pipeline
     templates:
     -   name: pipeline
         dag:
@@ -50,13 +26,22 @@ spec:
                 arguments:
                     parameters:
                     -   name: JIRA_API_KEY
+                        value: jira-token
                     -   name: JIRA_BASE_URL
+                        value: https://codefresh-io.atlassian.net/
                     -   name: JIRA_USERNAME
+                        value: jira-token
                     -   name: JIRA_API_KEY_SECRET_KEY
+                        value: 'token'
                     -   name: JIRA_USERNAME_SECRET_KEY
+                        value: 'email'
                     -   name: ISSUE_PROJECT
+                        value: 'FT'
                     -   name: ISSUE_SUMMARY
+                        value: 'test of Jira integration'
                     -   name: ISSUE_DESCRIPTION
+                        value: 'this is the longer description'
                     -   name: ISSUE_TYPE
+                        value: 'Task'
                 
                 
