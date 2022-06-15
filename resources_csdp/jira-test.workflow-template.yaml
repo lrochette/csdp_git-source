@@ -20,7 +20,6 @@ spec:
         dag:
             tasks:
             -   name: update-jira-comment
-                dependencies: [create-jira-comment]
                 templateRef:
                     name: argo-hub.jira.0.0.1
                     template: update-comment
