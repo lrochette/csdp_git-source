@@ -3,10 +3,23 @@ kind: Ingress
 metadata:
   name: cdp-csdp-default-git-source
 spec:
-  ingressClassName: nginx
   rules:
     - http:
         paths:
+          - path: /webhooks/csdp/express/push
+            backend:
+              service:
+                name: express-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
+          - path: /webhooks/csdp/deloitte
+            backend:
+              service:
+                name: deloitte-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
           - path: /webhooks/csdp/jira
             backend:
               service:
@@ -15,3 +28,4 @@ spec:
                   number: 80
             pathType: Prefix
       host: lrcsdp.support.cf-cd.com
+  ingressClassName: nginx
