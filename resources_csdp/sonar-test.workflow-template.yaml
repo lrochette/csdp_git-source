@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+    name: sonar-test
+spec:
+    arguments:
+    # List here all the arguments to pass as variables to the Workflow from the Sensor
+    # Use this syntax to pass them into the Workflow Templates: "{{workflow.parameters.REPO}}"
+    # These are the arguments that are required for this CI pipeline:
+        parameters:
+        - name: REPO_URL
+    entrypoint: pipeline
+    templates:
+    -   name: pipeline
+        dag:
+            tasks:
+            -   name: clone-step
+                templateRef:
+                    name: argo-hub.git.0.0.2
+                    template: clone
+                arguments:
+                    parameters:
+                    -   name: REPO_URL
+                        value: 'https://github.com/codefresh-io/argo-hub'
+                    -   name: GIT_TOKEN_SECRET
+                        value: 'git-token-name'
+                outputs:
+                    artifacts:
+                    -   name: repo
+                        path: /tmp/sonar
+            -   name: sonar-scanner
+                dependencies: [clone-step]
+                templateRef:
+                    name: argo-hub.sonar.0.0.1
+                    template: sonar-scanner
+                arguments:
+                    parameters:
+                    -   name: SONAR_HOST_URL
+                        value: 'https://company-name.atlassian.net/'
+                    -   name: SONAR_LOGIN
+                        value: 'sonar-creds'
+                    -   name: SONAR_LOGIN_SECRET_KEY
+                        value: 'token'
+                    -   name: YOUR_REPO
+                        value: '/tmp/sonar/'
