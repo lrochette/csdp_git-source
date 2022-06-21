@@ -9,7 +9,7 @@ spec:
     repoURL: https://github.com/lrochette/express-microservice_gitops
     targetRevision: HEAD
   destination:
-    namespace: demo
+    namespace: csdp
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
