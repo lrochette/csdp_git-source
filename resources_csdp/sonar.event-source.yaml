@@ -16,7 +16,7 @@ spec:
       repositories:
         - owner: matthewchungcodefresh
           names:
-            - argo-hub
+            - example-multiservice2
       webhook:
         port: '80'
         method: POST

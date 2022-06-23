@@ -34,10 +34,6 @@ spec:
               metadata:
                 generateName: sonar-test-
               spec:
-                arguments:
-                  parameters:
-                    - name: REPO_URL
-                      value: '{{ .Input.body.repository.clone_url }}'
                 workflowTemplateRef:
                   name: sonar-test
           parameters: []
