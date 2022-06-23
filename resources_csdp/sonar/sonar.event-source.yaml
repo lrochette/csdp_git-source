@@ -14,9 +14,9 @@ spec:
       events:
         - push
       repositories:
-        - owner: matthewchungcodefresh
+        - owner: lrochette
           names:
-            - argo-hub
+            - express-microservice
       webhook:
         port: '80'
         method: POST
