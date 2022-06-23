@@ -94,6 +94,27 @@ spec:
               value: "package"
           depends: clone
 
+        - name: add-jira-comment
+          depends: maven-build.Succeeded
+          templateRef:
+            name: argo-hub.jira.0.0.1
+            template: jira-create-comment
+          arguments:
+            parameters:
+            - name: COMMENT_BODY
+              value: "Build {{ workflow.uui}} was successfull started"
+            -   name: JIRA_API_KEY
+                value: jira-token
+            -   name: JIRA_API_KEY_SECRET_KEY
+                value: 'token'
+            -   name: JIRA_BASE_URL
+                value: https://codefresh-io.atlassian.net/
+            -   name: JIRA_USERNAME
+                value: jira-token
+            -   name: JIRA_USERNAME_SECRET_KEY
+                value: 'email'
+            -   name: JIRA_ISSUE_SOURCE_FIELD
+                value: FT-50
         - name: slack-message
           depends: maven-build
           templateRef:
