@@ -226,7 +226,7 @@ spec:
                 value: "lrochette"
               - name: GIT_USER_EMAIL
                 value: "laurent.rochette@codefresh.io"
-              - name: commit_message
+              - name: COMMIT_MSG
                 value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
 
         - name: create-sn-cr
