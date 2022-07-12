@@ -7,8 +7,8 @@ spec:
     serviceAccountName: argo-server
   eventBusName: codefresh-eventbus
   dependencies:
-    - name: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
-      eventName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+    - name: github-corpsite-1
+      eventName: github-corpsite-1
       eventSourceName: corpsite
       filters:
         data:
@@ -30,7 +30,7 @@ spec:
   triggers:
     - template:
         name: ci
-        conditions: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+        conditions: github-corpsite-1
         argoWorkflow:
           operation: submit
           source:
@@ -69,30 +69,30 @@ spec:
             # REPO (the repo URL)
             - dest: spec.arguments.parameters.0.value # REPO
               src:
-                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dependencyName: github-corpsite-1
                 dataTemplate: '{{ .Input.body.repository.clone_url }}'
             # REVISION
             - dest: spec.arguments.parameters.1.value #REVISION
               src:
-                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dependencyName: github-corpsite-1
                 dataTemplate: '{{ .Input.body.ref }}'
             # SHA
             - dest: spec.arguments.parameters.2.value # SHA
               src:
-                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dependencyName: github-corpsite-1
                 dataTemplate: '{{ .Input.body.after }}'
             # GIT_BRANCH
             - dest: spec.arguments.parameters.3.value
               src:
-                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dependencyName: github-corpsite-1
                 dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
             # GIT_COMMIT_URL
             - dest: spec.arguments.parameters.4.value
               src:
-                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dependencyName: github-corpsite-1
                 dataTemplate: '{{ .Input.body.head_commit.url }}'
             # GIT_COMMIT_MESSSAGE
             - dest: spec.arguments.parameters.5.value
               src:
-                dependencyName: github-f7500b30-1d53-4a96-9793-5fd2c43bf9fe
+                dependencyName: github-corpsite-1
                 dataTemplate: '{{ .Input.body.head_commit.message }}'
