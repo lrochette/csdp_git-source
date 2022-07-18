@@ -73,7 +73,7 @@ spec:
               image: alpine:3.7
               command: [ sh ]
               source : |
-               ls -ail  /codefresh/volume/{{tasks.clone.outputs.parameters.REPO_NAME}}
+                ls -ail  /codefresh/volume/{{tasks.clone.outputs.parameters.REPO_NAME}}
               volumeMounts:                     # same syntax as k8s Pod spec
               - name: codefresh-volume
                 mountPath: /codefresh/volume/
@@ -109,9 +109,9 @@ spec:
             -   name: JIRA_API_KEY
                 value: jira-token
             -   name: JIRA_API_KEY_SECRET_KEY
-                value: 'token'
+                value: token
             -   name: JIRA_BASE_URL
-                value: https://codefresh-io.atlassian.net/
+                value: https://codefresh-io.atlassian.net
             -   name: JIRA_USERNAME
                 value: jira-token
             -   name: JIRA_USERNAME_SECRET_KEY
