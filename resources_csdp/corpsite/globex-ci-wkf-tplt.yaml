@@ -17,6 +17,9 @@ spec:
       - name: REPO
       - name: REVISION
       - name: SHA
+      - name: GIT_BRANCH
+      - name: GIT_COMMIT_URL
+      - name: GIT_COMMIT_MESSAGE
 
   entrypoint: ci-pipeline
   templates:
