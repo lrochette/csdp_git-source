@@ -14,7 +14,6 @@ spec:
       - name: REPO
       - name: REVISION
       - name: SHA
-      - name: GIT_BRANCH
       - name: GIT_COMMIT_URL
       - name: GIT_COMMIT_MESSAGE
 
@@ -26,8 +25,6 @@ spec:
           - name: REPO
           - name: REVISION
           - name: SHA
-          - name: GIT_BRANCH
-            value: main
           - name: GIT_COMMIT_URL
             value: ''
           - name: GIT_COMMIT_MESSAGE
@@ -189,7 +186,7 @@ spec:
     #           - name: GIT_REVISION
     #             value: '{{ inputs.parameters.SHA }}'
     #           - name: GIT_BRANCH
-    #             value: '{{ inputs.parameters.GIT_BRANCH }}'
+    #             value: '{{ inputs.parameters.REVISION }}'
     #           - name: GIT_COMMIT_URL
     #             value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
     #           - name: GIT_COMMIT_MESSAGE

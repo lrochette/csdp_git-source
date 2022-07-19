@@ -75,24 +75,20 @@ spec:
             - dest: spec.arguments.parameters.1.value #REVISION
               src:
                 dependencyName: github-corpsite
-                dataTemplate: '{{ .Input.body.ref }}'
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
             # SHA
             - dest: spec.arguments.parameters.2.value # SHA
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.after }}'
-            # GIT_BRANCH
-            - dest: spec.arguments.parameters.3.value
-              src:
-                dependencyName: github-corpsite
-                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+
             # GIT_COMMIT_URL
-            - dest: spec.arguments.parameters.4.value
+            - dest: spec.arguments.parameters.3.value
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.head_commit.url }}'
             # GIT_COMMIT_MESSSAGE
-            - dest: spec.arguments.parameters.5.value
+            - dest: spec.arguments.parameters.4.value
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.head_commit.message }}'
