@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: foo
+spec:
+  template:
+    serviceAccountName: argo-server
+  eventBusName: codefresh-eventbus
+  dependencies:
+    - name: github-907cb605-8ec7-4267-89f6-4143c2842315
+      eventName: github-907cb605-8ec7-4267-89f6-4143c2842315
+      eventSourceName: foo
+      filters:
+        data:
+          - path: body.X-GitHub-Event
+            value:
+              - push
+            type: string
+          - path: body.ref
+            template: '{{ (split "/" .Input)._1 }}'
+            value:
+              - heads
+            type: string
+          - path: body.ref
+            comparator: '='
+            template: '{{ trimPrefix "refs/heads/" .Input }}'
+            type: string
+            value:
+              - master
+  triggers:
+    - template:
+        name: push
+        conditions: github-907cb605-8ec7-4267-89f6-4143c2842315
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: WorkflowTemplate
+              metadata:
+                generateName: foo-push-
+              spec:
+                arguments:
+                  parameters:
+                    - name: GIT_REPO_URL
+                      value: ''
+                    - name: GIT_BRANCH
+                      value: ''
+                workflowTemplateRef:
+                  name: argo-hub.ci-simple.0.0.1
+          parameters:
+            - dest: spec.arguments.parameters.0.value
+              src:
+                dependencyName: github-907cb605-8ec7-4267-89f6-4143c2842315
+                dataTemplate: '{{ .Input.body.repository.clone_url }}'
+            - dest: spec.arguments.parameters.1.value
+              src:
+                dependencyName: github-907cb605-8ec7-4267-89f6-4143c2842315
+                dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
