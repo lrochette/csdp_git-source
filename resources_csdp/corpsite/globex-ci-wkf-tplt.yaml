@@ -99,7 +99,7 @@ spec:
               value: "package"
             artifacts:
               - name: repo
-                from: '{{ tasks.clone.ooutpuits.artifacts.repo }}'
+                from: '{{ tasks.clone.outputs.artifacts.repo }}'
           depends: clone
     #
     #     # - name: add-jira-comment
