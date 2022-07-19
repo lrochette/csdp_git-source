@@ -88,7 +88,7 @@ spec:
               - name: dir
                 from: '{{ tasks.clone-config.outputs.artifacts.repo }}'
             parameters:
-                - name: RESOURCES_LIMITS_MEMORY
+              - name: RESOURCES_LIMITS_MEMORY
                 value: "512M"
               - name: RESOURCES_REQUESTS_CPU
                 value: "400m"
