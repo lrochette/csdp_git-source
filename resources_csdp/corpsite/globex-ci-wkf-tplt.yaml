@@ -36,7 +36,7 @@ spec:
         tasks:
         - name: clone
           templateRef:
-            name: lr.git
+            name: argo-hub.git.0.0.3
             template: clone
           arguments:
             parameters:
@@ -46,6 +46,10 @@ spec:
               value: "{{inputs.parameters.REVISION}}"
             - name: GIT_TOKEN_SECRET
               value: github-token
+          outputs:
+            - artifacts:
+              - name: repo
+                path: /tmp/CorpSite
         # - name: wait
         #   depends: clone
         #   template: approve
@@ -53,7 +57,7 @@ spec:
         - name: clone-config
           # depends: wait
           templateRef:
-            name: lr.git
+            name: rgo-hub.git.0.0.3
             template: clone
           arguments:
             parameters:
@@ -63,6 +67,10 @@ spec:
               value: "refs/heads/main"
             - name: GIT_TOKEN_SECRET
               value: github-token
+          outputs:
+            - artifacts:
+              - name: repo
+                path: /tmp/CorpSite_gitops
         # - name: ls1
         #   depends: clone
         #   inline:
