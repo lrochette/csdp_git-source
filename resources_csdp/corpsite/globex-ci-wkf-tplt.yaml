@@ -324,8 +324,8 @@ spec:
     - name: listing
       inputs:
         artifacts:
-          - name: dir
-            path: /tmp/dir
+          - name: lsdir
+            path: /tmp/lsdir
           ## Resource specification parameters
           - name: RESOURCES_LIMITS_CPU
             value: "1000m"
@@ -348,7 +348,7 @@ spec:
 
       script:
         image: alpine:3.7
-        workingDir: {{ inputs.artifacts.dir.path }}
+        workingDir: /tmp/lsdir
         command: [ sh ]
         source : |
          cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us || true
@@ -365,20 +365,20 @@ spec:
     - name: maven
       inputs:
         artifacts:
-          - name: dir
+          - name: builddir
             path: /tmp/build
         parameters:
         - name: target
       script:
         image: maven:3.3-jdk-8
-        workingDir: {{ inputs.artifacts.repo.path }}
+        workingDir: /tmp/build
         command: [ bash ]
         source: |
           mvn -Dmaven.repo.local=/tmp/m2_repository {{inputs.parameters.target}}
       outputs:
         artifacts:
-          - name: repo
-            path: /tmp/repo
+          - name: builddir
+            path: /tmp/build
     #
     # - name: kaniko-build
     #   inputs:
