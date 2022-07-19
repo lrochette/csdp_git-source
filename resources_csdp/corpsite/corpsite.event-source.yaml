@@ -10,7 +10,7 @@ spec:
   template:
     serviceAccountName: argo-server
   github:
-    github-corpsite-1:
+    github-corpsite:
       events:
         - push
       repositories:
@@ -20,11 +20,12 @@ spec:
       webhook:
         port: '80'
         method: POST
-        endpoint: /webhooks/corpsite/github-corpsite-1
+        endpoint: /webhooks/corpsite/github-corpsite
         url: https://lrcsdp.support.cf-cd.com
       active: true
       insecure: false
       contentType: json
+      deleteHookOnFinish: true
       apiToken:
         name: autopilot-secret
         key: git_token
