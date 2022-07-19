@@ -50,24 +50,24 @@ spec:
         # - name: wait
         #   depends: clone
         #   template: approve
-    #
-    #     - name: clone-config
-    #       # depends: wait
-    #       templateRef:
-    #         name: rgo-hub.git.0.0.3
-    #         template: clone
-    #       arguments:
-    #         parameters:
-    #         - name: REPO_URL
-    #           value: "https://github.com/lrochette/CorpSite_gitops.git"
-    #         - name: REVISION
-    #           value: "refs/heads/main"
-    #         - name: GIT_TOKEN_SECRET
-    #           value: github-token
-    #       outputs:
-    #         - artifacts:
-    #           - name: repo
-    #             path: /tmp/CorpSite_gitops
+
+        - name: clone-config
+          # depends: wait
+          templateRef:
+            name: rgo-hub.git.0.0.3
+            template: clone
+          arguments:
+            parameters:
+            - name: REPO_URL
+              value: "https://github.com/lrochette/CorpSite_gitops.git"
+            - name: REVISION
+              value: "main"
+            - name: GIT_TOKEN_SECRET
+              value: github-token
+          outputs:
+            - artifacts:
+              - name: repo
+                path: /tmp/CorpSite_gitops
     #     # - name: ls1
     #     #   depends: clone
     #     #   inline:
@@ -91,13 +91,16 @@ spec:
     #             value: "512M"
     #           - name: RESOURCES_REQUESTS_CPU
     #             value: "400m"
-    #     - name: maven-build
-    #       template: maven
-    #       arguments:
-    #         parameters:
-    #         - name: target
-    #           value: "package"
-    #       depends: clone
+        - name: maven-build
+          template: maven
+          arguments:
+            parameters:
+            - name: target
+              value: "package"
+            artifacts:
+              - name: repo
+                from: '{{ tasks.clone.ooutpuits.artifacts.repo }}'
+          depends: clone
     #
     #     # - name: add-jira-comment
     #     #   depends: maven-build.Succeeded
@@ -359,19 +362,24 @@ spec:
     #     - name: codefresh-volume
     #       mountPath: /codefresh/volume
     #
-    # - name: maven
-    #   inputs:
-    #     parameters:
-    #     - name: target
-    #   script:
-    #     image: maven:3.3-jdk-8
-    #     workingDir: /codefresh/volume/CorpSite
-    #     command: [ bash ]
-    #     source: |
-    #       mvn -Dmaven.repo.local=/codefresh/volume/m2_repository {{inputs.parameters.target}}
-    #     volumeMounts:
-    #     - name: codefresh-volume
-    #       mountPath: /codefresh/volume
+    - name: maven
+      inputs:
+        artifacts:
+          - name: repo
+            path: /tmp/repo
+        parameters:
+        - name: target
+      script:
+        image: maven:3.3-jdk-8
+        workingDir: /codefresh/volume/CorpSite
+        command: [ bash ]
+        source: |
+          cd {{ inputs.artifacts.repo.path }}
+          mvn -Dmaven.repo.local=/tmp/m2_repository {{inputs.parameters.target}}
+      outputs:
+        artifacts:
+          - name: repo
+            path: /tmp/repo
     #
     # - name: kaniko-build
     #   inputs:
