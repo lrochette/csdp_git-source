@@ -72,7 +72,6 @@ spec:
         - name: ls1
           depends: clone
           inline:
-            inputs:
               artifacts:
                 - name: lsdir
                   path: /tmp/lsdir
