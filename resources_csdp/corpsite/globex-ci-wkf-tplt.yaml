@@ -168,7 +168,7 @@ spec:
           arguments:
             artifacts:
               - name: contextdir
-                from: '{{ tasks.clone.maven-build.artifacts.builddir }}'
+                from: '{{ tasks.maven-build.outputs.artifacts.builddir }}'
             parameters:
             - name: image
               value: "lrochette/globex"
