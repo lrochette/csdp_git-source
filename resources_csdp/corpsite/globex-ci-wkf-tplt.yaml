@@ -230,7 +230,7 @@ spec:
                 from: '{{ tasks.clone.outputs.artifacts.repo }}'
 
         - name: update-manifest
-          depends: "bget-version && clone-config"
+          depends: "get-version && clone-config"
           templateRef:
             name: lr.generic
             template: freestyle-with-artifact
