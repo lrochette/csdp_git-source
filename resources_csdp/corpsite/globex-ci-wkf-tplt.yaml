@@ -175,7 +175,7 @@ spec:
             - name: tag
               value: "{{inputs.parameters.SHA}}"
           depends: maven-build
-    
+
         - name: enrich-image-jira
           depends: build-image
           templateRef:
@@ -195,48 +195,50 @@ spec:
               value: 'codefresh-io.atlassian.net'
             - name: JIRA_API_TOKEN_SECRET
               value: 'jira-token'
-    #     - name: report-image-info
-    #       depends: build-image
-    #       templateRef:
-    #         name: argo-hub.codefresh-csdp.0.0.6
-    #         template: report-image-info
-    #       arguments:
-    #         parameters:
-    #           - name: IMAGE
-    #             value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
-    #           - name: CF_API_KEY
-    #             value: codefresh-token # this secret is created as part of the runtime installation
-    #           - name: GIT_REVISION
-    #             value: '{{ inputs.parameters.SHA }}'
-    #           - name: GIT_BRANCH
-    #             value: '{{ inputs.parameters.REVISION }}'
-    #           - name: GIT_COMMIT_URL
-    #             value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
-    #           - name: GIT_COMMIT_MESSAGE
-    #             value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
-    #           - name: DOCKER_USERNAME
-    #             value: dockerhub-creds
-    #           - name: DOCKER_PASSWORD
-    #             value: dockerhub-creds
-    #           - name: DOMAIN
-    #             value: dockerhub-creds
-    #
-    #     - name: update-manifest
-    #       depends: "build-image && clone-config"
-    #       templateRef:
-    #         name: lr.generic
-    #         template: freestyle
-    #       arguments:
-    #         parameters:
-    #           - name: image
-    #             value: "mikefarah/yq:3.3.4"
-    #           - name: working_directory
-    #             value: "{{tasks.clone-config.outputs.parameters.REPO_NAME}}"
-    #           - name: commands
-    #             value: |
-    #               yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{inputs.parameters.SHA}}"
-    #               yq r deployment.yaml
-    #
+
+        - name: report-image-info
+          depends: build-image
+          templateRef:
+            name: argo-hub.codefresh-csdp.0.0.6
+            template: report-image-info
+          arguments:
+            parameters:
+              - name: IMAGE
+                value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+              - name: CF_API_KEY
+                value: codefresh-token # this secret is created as part of the runtime installation
+              - name: GIT_REVISION
+                value: '{{ inputs.parameters.SHA }}'
+              - name: GIT_BRANCH
+                value: '{{ inputs.parameters.REVISION }}'
+              - name: GIT_COMMIT_URL
+                value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
+              - name: GIT_COMMIT_MESSAGE
+                value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
+              - name: DOCKER_USERNAME
+                value: dockerhub-creds
+              - name: DOCKER_PASSWORD
+                value: dockerhub-creds
+              - name: DOMAIN
+                value: dockerhub-creds
+
+        - name: update-manifest
+          depends: "build-image && clone-config"
+          templateRef:
+            name: lr.generic
+            template: freestyle-with-artifact
+          arguments:
+            artifacts:
+              - name: dir
+                from: '{{ tasks.clone-config.outputs.artifacts.repo }}'
+            parameters:
+              - name: image
+                value: "mikefarah/yq:3.3.4"
+              - name: commands
+                value: |
+                  yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{inputs.parameters.SHA}}"
+                  yq r deployment.yaml
+
     #     - name: commit-config-change
     #       depends: update-manifest
     #       templateRef:
