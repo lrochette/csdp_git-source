@@ -221,9 +221,16 @@ spec:
                 value: dockerhub-creds
               - name: DOMAIN
                 value: dockerhub-creds
+        - name: get-version
+          depends: build-image
+          template: get-version
+          arguments:
+            artifacts:
+              - name: repo
+                from: '{{ tasks.clone.outputs.artifacts.repo }}'
 
         - name: update-manifest
-          depends: "build-image && clone-config"
+          depends: "bget-version && clone-config"
           templateRef:
             name: lr.generic
             template: freestyle-with-artifact
@@ -236,7 +243,7 @@ spec:
                 value: "mikefarah/yq:3.3.4"
               - name: commands
                 value: |
-                  yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{inputs.parameters.SHA}}"
+                  yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{tasks.get-version.outputs.parameters.VERSION}}"
                   yq r deployment.yaml
 
     #     - name: commit-config-change
@@ -401,6 +408,17 @@ spec:
         artifacts:
           - name: builddir
             path: /tmp/build
+
+    - name: get-version
+      inputs:
+        artifacts:
+          - name: repo
+            path: /tmp/repo
+      outputs:
+        parameters:
+          - name: VERSION
+            valueFrom:
+              path: /tmp/repo/version.txt
 
     - name: kaniko-build
       inputs:
