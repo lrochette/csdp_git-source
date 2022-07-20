@@ -118,7 +118,7 @@ spec:
           arguments:
             parameters:
             - name: COMMENT_BODY
-              value: "Build {{ workflow.uui}} was successfull started"
+              value: "Build {{ workflow.uid}} was successfull started"
             -   name: JIRA_API_KEY
                 value: jira-token
             -   name: JIRA_API_KEY_SECRET_KEY
@@ -131,21 +131,22 @@ spec:
                 value: 'email'
             -   name: JIRA_ISSUE_SOURCE_FIELD
                 value: FT-50
-    #     # - name: slack-message
-    #     #   depends: maven-build
-    #     #   templateRef:
-    #     #     name: argo-hub.slack.0.0.2
-    #     #     template: post-to-channel
-    #     #   arguments:
-    #     #     parameters:
-    #     #     - name: SLACK_CHANNEL
-    #     #       value: "@laurent.rochette"
-    #     #     - name: SLACK_MESSAGE
-    #     #       value: "Maven build successful for {{workflow.uid}}\nRepo: {{tasks.clone.outputs.parameters.REPO_NAME}}\nRevision: {{inputs.parameters.REVISION}}"
-    #     #     - name: SLACK_TOKEN
-    #     #       value: slack-token
-    #     #     - name: LOG_LEVEL
-    #     #       value: "debug"
+
+        - name: slack-message
+          depends: maven-build
+          templateRef:
+            name: argo-hub.slack.0.0.2
+            template: post-to-channel
+          arguments:
+            parameters:
+            - name: SLACK_CHANNEL
+              value: "@laurent.rochette"
+            - name: SLACK_MESSAGE
+              value: "Maven build successful for {{workflow.uid}}\nRepo: {{tasks.clone.outputs.parameters.REPO_NAME}}\nRevision: {{inputs.parameters.REVISION}}"
+            - name: SLACK_TOKEN
+              value: slack-token
+            - name: LOG_LEVEL
+              value: "debug"
     #     - name: maven-test
     #       template: maven
     #       arguments:
