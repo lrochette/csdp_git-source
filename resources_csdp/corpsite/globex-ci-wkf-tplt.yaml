@@ -156,22 +156,25 @@ spec:
               value: "test"
             artifacts:
               - name: builddir
-                from: '{{ tasks.clone.maven-build.artifacts.buildidr }}'
+                from: '{{ tasks.clone.maven-build.artifacts.builddir }}'
           outputs:
             - artifacts:
               - name: builddir
                 path: /tmp/build
           depends: maven-build
-    #
-    #     - name: build-image
-    #       template: kaniko-build
-    #       arguments:
-    #         parameters:
-    #         - name: image
-    #           value: "lrochette/globex"
-    #         - name: tag
-    #           value: "{{inputs.parameters.SHA}}"
-    #       depends: maven-build
+
+        - name: build-image
+          template: kaniko-build
+          arguments:
+            artifacts:
+              - name: contextdir
+                from: '{{ tasks.clone.maven-build.artifacts.builddir }}'
+            parameters:
+            - name: image
+              value: "lrochette/globex"
+            - name: tag
+              value: "{{inputs.parameters.SHA}}"
+          depends: maven-build
     #
     #     - name: enrich-image-jira
     #       depends: build-image
@@ -396,36 +399,37 @@ spec:
         artifacts:
           - name: builddir
             path: /tmp/build
-    #
-    # - name: kaniko-build
-    #   inputs:
-    #     parameters:
-    #     - name: image
-    #     - name: tag
-    #   volumes:
-    #     - name: docker-config
-    #       secret:
-    #         items:
-    #         - key: .dockerconfigjson
-    #           path: config.json
-    #         secretName: dockerhub-config
-    #   container:
-    #     image: gcr.io/kaniko-project/executor:v1.6.0
-    #     # workingDir: /codefresh/volume/CorpSite
-    #     volumeMounts:
-    #       - name: codefresh-volume
-    #         mountPath: /codefresh/volume
-    #       - name: docker-config
-    #         mountPath: /kaniko/.docker
-    #     command:
-    #       - /kaniko/executor
-    #     args:
-    #       - "--dockerfile=Dockerfile"
-    #       - "--context=dir:///codefresh/volume/CorpSite"
-    #       - "--destination={{inputs.parameters.image}}:{{inputs.parameters.tag}}"
-    #       - "--destination={{inputs.parameters.image}}:latest"
-    #       - "--image-name-with-digest-file=/codefresh/volume/tmp/image_name_digest.txt"
-    #       - "--image-name-tag-with-digest-file=/codefresh/volume/tmp/image_name_tag.txt"
-    #     env:
-    #       - name: DOCKER_CONFIG
-    #         value: /kaniko/.docker
+
+    - name: kaniko-build
+      inputs:
+        parameters:
+          - name: image
+          - name: tag
+        artifacts:
+          - name: contextdir
+            path: /tmp/build
+      volumes:
+        - name: docker-config
+          secret:
+            items:
+            - key: .dockerconfigjson
+              path: config.json
+            secretName: dockerhub-config
+      container:
+        image: gcr.io/kaniko-project/executor:v1.6.0
+        # workingDir: /codefresh/volume/CorpSite
+        volumeMounts:
+          - name: docker-config
+            mountPath: /kaniko/.docker
+        command:
+          - /kaniko/executor
+        args:
+          - "--dockerfile=Dockerfile"
+          - "--context=dir:///tmp/build"
+          - "--destination={{inputs.parameters.image}}:{{inputs.parameters.tag}}"
+          - "--destination={{inputs.parameters.image}}:latest"
+          - "--image-name-with-digest-file=/tmp/build/image_name_digest.txt"
+          - "--image-name-tag-with-digest-file=/tmp/build/image_name_tag.txt"
+        env:
+          - name: DOCKER_CONFIG
+            value: /kaniko/.docker
