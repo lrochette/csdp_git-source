@@ -71,12 +71,12 @@ spec:
 
         - name: ls1
           depends: clone
-          inputs:
-            artifacts:
-              - name: lsdir
-                path: /tmp/lsdir
-                from: '{{ tasks.clone.outputs.artifacts.repo }}'
           inline:
+            inputs:
+              artifacts:
+                - name: lsdir
+                  path: /tmp/lsdir
+                  from: '{{ tasks.clone.outputs.artifacts.repo }}'
             container:
               image: alpine:3.7
               command: [ sh ]
