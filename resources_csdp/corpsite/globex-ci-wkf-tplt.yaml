@@ -132,21 +132,21 @@ spec:
             -   name: JIRA_ISSUE_SOURCE_FIELD
                 value: FT-50
 
-        - name: slack-message
-          depends: maven-build
-          templateRef:
-            name: argo-hub.slack.0.0.2
-            template: post-to-channel
-          arguments:
-            parameters:
-            - name: SLACK_CHANNEL
-              value: "laurent.rochette@codefresh.io"
-            - name: SLACK_MESSAGE
-              value: "Maven build successful for {{workflow.uid}}\nRepo: {{inputs.parameters.REPO}}\nRevision: {{inputs.parameters.REVISION}}"
-            - name: SLACK_TOKEN
-              value: slack-token
-            - name: LOG_LEVEL
-              value: "debug"
+        # - name: slack-message
+        #   depends: maven-build
+        #   templateRef:
+        #     name: argo-hub.slack.0.0.2
+        #     template: post-to-channel
+        #   arguments:
+        #     parameters:
+        #     - name: SLACK_CHANNEL
+        #       value: "laurent.rochette@codefresh.io"
+        #     - name: SLACK_MESSAGE
+        #       value: "Maven build successful for {{workflow.uid}}\nRepo: {{inputs.parameters.REPO}}\nRevision: {{inputs.parameters.REVISION}}"
+        #     - name: SLACK_TOKEN
+        #       value: slack-token
+        #     - name: LOG_LEVEL
+        #       value: "debug"
 
         - name: maven-test
           template: maven
@@ -175,26 +175,26 @@ spec:
             - name: tag
               value: "{{inputs.parameters.SHA}}"
           depends: maven-build
-    #
-    #     - name: enrich-image-jira
-    #       depends: build-image
-    #       templateRef:
-    #         name: argo-hub.codefresh-csdp.0.0.6
-    #         template: image-enricher-jira-info
-    #       arguments:
-    #         parameters:
-    #         - name: IMAGE
-    #           value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
-    #         - name: CF_API_KEY
-    #           value: "codefresh-v1-token"
-    #         - name: JIRA_PROJECT_PREFIX
-    #           value: 'FT'
-    #         - name: MESSAGE
-    #           value: 'FT-50'
-    #         - name: JIRA_HOST
-    #           value: 'codefresh-io.atlassian.net'
-    #         - name: JIRA_API_TOKEN_SECRET
-    #           value: 'jira-token'
+    
+        - name: enrich-image-jira
+          depends: build-image
+          templateRef:
+            name: argo-hub.codefresh-csdp.0.0.6
+            template: image-enricher-jira-info
+          arguments:
+            parameters:
+            - name: IMAGE
+              value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+            - name: CF_API_KEY
+              value: "codefresh-v1-token"
+            - name: JIRA_PROJECT_PREFIX
+              value: 'FT'
+            - name: MESSAGE
+              value: 'FT-50'
+            - name: JIRA_HOST
+              value: 'codefresh-io.atlassian.net'
+            - name: JIRA_API_TOKEN_SECRET
+              value: 'jira-token'
     #     - name: report-image-info
     #       depends: build-image
     #       templateRef:
