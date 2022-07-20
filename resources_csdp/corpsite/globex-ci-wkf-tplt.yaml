@@ -80,18 +80,18 @@ spec:
     #     #       - name: codefresh-volume
     #     #         mountPath: /codefresh/volume/
     #
-        # - name: ls2
-        #   template: listing
-        #   depends: clone-config
-        #   arguments:
-        #     artifacts:
-        #       - name: dir
-        #         from: '{{ tasks.clone-config.outputs.artifacts.repo }}'
-        #     parameters:
-        #       - name: RESOURCES_LIMITS_MEMORY
-        #         value: "512M"
-        #       - name: RESOURCES_REQUESTS_CPU
-        #         value: "400m"
+        - name: ls2
+          template: listing
+          depends: clone-config
+          arguments:
+            artifacts:
+              - name: dir
+                from: '{{ tasks.clone-config.outputs.artifacts.repo }}'
+            parameters:
+              - name: RESOURCES_LIMITS_MEMORY
+                value: "512M"
+              - name: RESOURCES_REQUESTS_CPU
+                value: "400m"
 
         - name: maven-build
           template: maven
@@ -326,42 +326,43 @@ spec:
     # - name: approve
     #   suspend: {}
     #
-    # - name: listing
-    #   inputs:
-    #     artifacts:
-    #       - name: lsdir
-    #         path: /tmp/lsdir
-    #       ## Resource specification parameters
-    #       - name: RESOURCES_LIMITS_CPU
-    #         value: "1000m"
-    #       - name: RESOURCES_LIMITS_MEMORY
-    #         value: "1024M"
-    #       - name: RESOURCES_REQUESTS_CPU
-    #         value: "100m"
-    #       - name: RESOURCES_REQUESTS_MEMORY
-    #         value: "50M"
-    #   podSpecPatch: |
-    #     containers:
-    #       - name: main
-    #         resources:
-    #           limits:
-    #             {{=sprig.ternary( '', 'cpu: '    + inputs.parameters.RESOURCES_LIMITS_CPU,      sprig.empty(inputs.parameters.RESOURCES_LIMITS_CPU)      )}}
-    #             {{=sprig.ternary( '', 'memory: ' + inputs.parameters.RESOURCES_LIMITS_MEMORY,   sprig.empty(inputs.parameters.RESOURCES_LIMITS_MEMORY)   )}}
-    #           requests:
-    #             {{=sprig.ternary( '', 'cpu: '    + inputs.parameters.RESOURCES_REQUESTS_CPU,    sprig.empty(inputs.parameters.RESOURCES_REQUESTS_CPU)    )}}
-    #             {{=sprig.ternary( '', 'memory: ' + inputs.parameters.RESOURCES_REQUESTS_MEMORY, sprig.empty(inputs.parameters.RESOURCES_REQUESTS_MEMORY) )}}
-    #
-    #   script:
-    #     image: alpine:3.7
-    #     workingDir: /tmp/lsdir
-    #     command: [ sh ]
-    #     source : |
-    #      cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us || true
-    #      ls -ail
-    #      echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_CPU ', 'cpu: '         + inputs.parameters.RESOURCES_LIMITS_CPU ,     sprig.empty(inputs.parameters.RESOURCES_LIMITS_CPU ) )}} \n"
-    #      echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_MEMORY ', 'memory: '   + inputs.parameters.RESOURCES_LIMITS_MEMORY,   sprig.empty(inputs.parameters.RESOURCES_LIMITS_MEMORY ) )}} \n"
-    #      echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_CPU', 'cpu: '        + inputs.parameters.RESOURCES_REQUESTS_CPU,    sprig.empty(inputs.parameters.RESOURCES_REQUESTS_CPU) )}} \n"
-    #      echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_MEMORY', 'memory: '  + inputs.parameters.RESOURCES_REQUESTS_MEMORY, sprig.empty(inputs.parameters.RESOURCES_REQUESTS_MEMORY) )}} \n"
+    - name: listing
+      inputs:
+        artifacts:
+          - name: lsdir
+            path: /tmp/lsdir
+          ## Resource specification parameters
+        parameters:
+          - name: RESOURCES_LIMITS_CPU
+            value: "1000m"
+          - name: RESOURCES_LIMITS_MEMORY
+            value: "1024M"
+          - name: RESOURCES_REQUESTS_CPU
+            value: "100m"
+          - name: RESOURCES_REQUESTS_MEMORY
+            value: "50M"
+      podSpecPatch: |
+        containers:
+          - name: main
+            resources:
+              limits:
+                {{=sprig.ternary( '', 'cpu: '    + inputs.parameters.RESOURCES_LIMITS_CPU,      sprig.empty(inputs.parameters.RESOURCES_LIMITS_CPU)      )}}
+                {{=sprig.ternary( '', 'memory: ' + inputs.parameters.RESOURCES_LIMITS_MEMORY,   sprig.empty(inputs.parameters.RESOURCES_LIMITS_MEMORY)   )}}
+              requests:
+                {{=sprig.ternary( '', 'cpu: '    + inputs.parameters.RESOURCES_REQUESTS_CPU,    sprig.empty(inputs.parameters.RESOURCES_REQUESTS_CPU)    )}}
+                {{=sprig.ternary( '', 'memory: ' + inputs.parameters.RESOURCES_REQUESTS_MEMORY, sprig.empty(inputs.parameters.RESOURCES_REQUESTS_MEMORY) )}}
+
+      script:
+        image: alpine:3.7
+        workingDir: /tmp/lsdir
+        command: [ sh ]
+        source : |
+         cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us || true
+         ls -ail
+         echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_CPU ', 'cpu: '         + inputs.parameters.RESOURCES_LIMITS_CPU ,     sprig.empty(inputs.parameters.RESOURCES_LIMITS_CPU ) )}} \n"
+         echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_MEMORY ', 'memory: '   + inputs.parameters.RESOURCES_LIMITS_MEMORY,   sprig.empty(inputs.parameters.RESOURCES_LIMITS_MEMORY ) )}} \n"
+         echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_CPU', 'cpu: '        + inputs.parameters.RESOURCES_REQUESTS_CPU,    sprig.empty(inputs.parameters.RESOURCES_REQUESTS_CPU) )}} \n"
+         echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_MEMORY', 'memory: '  + inputs.parameters.RESOURCES_REQUESTS_MEMORY, sprig.empty(inputs.parameters.RESOURCES_REQUESTS_MEMORY) )}} \n"
 
     #     volumeMounts:                     # same syntax as k8s Pod spec
     #     - name: codefresh-volume
