@@ -419,6 +419,13 @@ spec:
           - name: VERSION
             valueFrom:
               path: /tmp/repo/version.txt
+      script:
+        image: alpine:3.7
+
+        workingDir: /tmp/repo
+        command: [ bash ]
+        source: |
+          cat version.txt
 
     - name: kaniko-build
       inputs:
