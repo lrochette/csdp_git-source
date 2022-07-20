@@ -246,26 +246,23 @@ spec:
                   yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{tasks.get-version.outputs.parameters.VERSION}}"
                   yq r deployment.yaml
 
-    #     - name: commit-config-change
-    #       depends: update-manifest
-    #       templateRef:
-    #         name: lr.git
-    #         template: commit
-    #       arguments:
-    #         parameters:
-    #           - name: REPO
-    #             value: "lrochette/{{ tasks.clone-config.outputs.parameters.REPO_NAME }}"
-    #           - name: GIT_TOKEN_SECRET
-    #             value: "github-token"
-    #           - name: WORKING_DIR
-    #             value: "{{ tasks.clone-config.outputs.parameters.REPO_NAME }}"
-    #           - name: GIT_USER_NAME
-    #             value: "lrochette"
-    #           - name: GIT_USER_EMAIL
-    #             value: "laurent.rochette@codefresh.io"
-    #           - name: COMMIT_MSG
-    #             value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
-    #
+        - name: commit-config-change
+          depends: update-manifest
+          templateRef:
+            name: argo-hub.git.0.0.3
+            template: commit
+          arguments:
+            artifacts:
+              - name: repo
+                from: "{{tasks.update-manifest.outputs.artifacts.dir}}"
+            parameters:
+              - name: GIT_USER_NAME
+                value: "lrochette"
+              - name: GIT_USER_EMAIL
+                value: "laurent.rochette@codefresh.io"
+              - name: MESSAGE
+                value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
+
     #     - name: create-sn-cr
     #       depends: clone
     #       templateRef:
