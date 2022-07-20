@@ -85,7 +85,7 @@ spec:
           depends: clone-config
           arguments:
             artifacts:
-              - name: dir
+              - name: lsdir
                 from: '{{ tasks.clone-config.outputs.artifacts.repo }}'
             parameters:
               - name: RESOURCES_LIMITS_MEMORY
