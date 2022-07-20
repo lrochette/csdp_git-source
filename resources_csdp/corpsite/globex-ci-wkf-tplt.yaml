@@ -140,7 +140,7 @@ spec:
           arguments:
             parameters:
             - name: SLACK_CHANNEL
-              value: "@laurent.rochette"
+              value: "laurent.rochette@codefresh.io"
             - name: SLACK_MESSAGE
               value: "Maven build successful for {{workflow.uid}}\nRepo: {{inputs.parameters.REPO}}\nRevision: {{inputs.parameters.REVISION}}"
             - name: SLACK_TOKEN
@@ -156,7 +156,7 @@ spec:
               value: "test"
             artifacts:
               - name: builddir
-                from: '{{ tasks.clone.maven-build.artifacts.builddir }}'
+                from: '{{ tasks.maven-build.outputs.artifacts.builddir }}'
           outputs:
             - artifacts:
               - name: builddir
