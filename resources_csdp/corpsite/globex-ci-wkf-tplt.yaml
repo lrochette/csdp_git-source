@@ -68,14 +68,24 @@ spec:
             - artifacts:
               - name: repo
                 path: /tmp/CorpSite_gitops
-    #     # - name: ls1
-    #     #   depends: clone
-    #     #   inline:
-    #     #     container:
-    #     #       image: alpine:3.7
-    #     #       command: [ sh ]
-    #     #       source : |
-    #     #         ls -ail  /codefresh/volume/{{tasks.clone.outputs.parameters.REPO_NAME}}
+
+        - name: ls1
+          depends: clone
+          arguments:
+            artifacts:
+              - name: lsdir
+                from: '{{ tasks.clone.outputs.artifacts.repo }}'
+          inline:
+            container:
+            inputs:
+              artifacts:
+                - name: lsdir
+                  path: /tmp/lsdir
+
+              image: alpine:3.7
+              command: [ sh ]
+              source : |
+                ls -ail  /tmp/lsdir
     #     #       volumeMounts:                     # same syntax as k8s Pod spec
     #     #       - name: codefresh-volume
     #     #         mountPath: /codefresh/volume/
