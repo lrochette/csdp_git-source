@@ -109,12 +109,12 @@ spec:
               - name: builddir
                 path: /tmp/build
           depends: clone
-    
+
         - name: add-jira-comment
           depends: maven-build.Succeeded
           templateRef:
             name: argo-hub.jira.0.0.1
-            template: jira-create-comment
+            template: create-comment
           arguments:
             parameters:
             - name: COMMENT_BODY
