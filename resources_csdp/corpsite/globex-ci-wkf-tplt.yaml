@@ -365,7 +365,7 @@ spec:
     - name: maven
       inputs:
         artifacts:
-          - name: builddir
+          - name: dir
             path: /tmp/build
         parameters:
         - name: target
@@ -377,7 +377,7 @@ spec:
           mvn -Dmaven.repo.local=/tmp/m2_repository {{inputs.parameters.target}}
       outputs:
         artifacts:
-          - name: builddir
+          - name: outputdir
             path: /tmp/build
     #
     # - name: kaniko-build
