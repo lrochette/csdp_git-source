@@ -82,10 +82,7 @@ spec:
               command: [ sh ]
               source : |
                 ls -ail  /tmp/lsdir
-    #     #       volumeMounts:                     # same syntax as k8s Pod spec
-    #     #       - name: codefresh-volume
-    #     #         mountPath: /codefresh/volume/
-    #
+
         - name: ls2
           template: listing
           depends: clone-config
