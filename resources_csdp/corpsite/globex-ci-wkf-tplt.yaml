@@ -142,18 +142,26 @@ spec:
             - name: SLACK_CHANNEL
               value: "@laurent.rochette"
             - name: SLACK_MESSAGE
-              value: "Maven build successful for {{workflow.uid}}\nRepo: {{tasks.clone.outputs.parameters.REPO_NAME}}\nRevision: {{inputs.parameters.REVISION}}"
+              value: "Maven build successful for {{workflow.uid}}\nRepo: {{inputs.parameters.REPO}}\nRevision: {{inputs.parameters.REVISION}}"
             - name: SLACK_TOKEN
               value: slack-token
             - name: LOG_LEVEL
               value: "debug"
-    #     - name: maven-test
-    #       template: maven
-    #       arguments:
-    #         parameters:
-    #         - name: target
-    #           value: "test"
-    #       depends: maven-build
+
+        - name: maven-test
+          template: maven
+          arguments:
+            parameters:
+            - name: target
+              value: "test"
+            artifacts:
+              - name: builddir
+                from: '{{ tasks.clone.maven-build.artifacts.buildidr }}'
+          outputs:
+            - artifacts:
+              - name: builddir
+                path: /tmp/build
+          depends: maven-build
     #
     #     - name: build-image
     #       template: kaniko-build
