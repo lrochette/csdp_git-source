@@ -33,6 +33,8 @@ spec:
             value: ''
           - name: CREATE_CR
             value: true
+          - name: FOO
+            value: "this is foo2"
       dag:
         tasks:
         - name: clone
