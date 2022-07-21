@@ -54,15 +54,6 @@ spec:
                       value: ''
                 workflowTemplateRef:
                   name: globex-ci
-                # volumeClaimTemplates:
-                #   - metadata:
-                #       name: codefresh-volume
-                #     spec:
-                #       accessModes:
-                #         - ReadWriteOnce
-                #       resources:
-                #         requests:
-                #           storage: 1Gi
           parameters:
             # REPO (the repo URL)
             - dest: spec.arguments.parameters.0.value # REPO
