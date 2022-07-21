@@ -11,11 +11,11 @@ spec:
     # Use this syntax to pass them into the Workflow Templates: "{{workflow.parameters.REPO}}"
     # These are the arguments that are required for this CI pipeline:
     parameters:
-      - name: REPO
-      - name: REVISION
-      - name: SHA
-      - name: GIT_COMMIT_URL
-      - name: GIT_COMMIT_MESSAGE
+      # - name: REPO
+      # - name: REVISION
+      # - name: SHA
+      # - name: GIT_COMMIT_URL
+      # - name: GIT_COMMIT_MESSAGE
 
   entrypoint: ci-pipeline
   templates:
