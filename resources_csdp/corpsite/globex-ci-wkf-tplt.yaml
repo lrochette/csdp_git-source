@@ -263,85 +263,85 @@ spec:
               - name: MESSAGE
                 value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
 
-    #     - name: create-sn-cr
-    #       depends: clone
-    #       templateRef:
-    #         name: argo-hub.servicenow.1.0.0
-    #         template: createcr
-    #       arguments:
-    #         parameters:
-    #         - name: SN_INSTANCE
-    #           value: "https://dev110939.service-now.com"
-    #         - name: SN_AUTH
-    #           value: "sn-auth"
-    #         - name: LOGLEVEL
-    #           value: "info"
-    #         - name: CR_DATA
-    #           value: >-
-    #             {"short_description": "Globex deployment to QA environment",
-    #             "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh GitOps CI plugin",
-    #             "justification": "My app is awesome! Please deplopy ASAP",
-    #             "cmdb_ci":"tomcat"
-    #             }
-    #
-    #     - name: update-sn-cr
-    #       depends: "build-image && create-sn-cr"
-    #       templateRef:
-    #         name: argo-hub.servicenow.1.0.0
-    #         template: updatecr
-    #       arguments:
-    #         parameters:
-    #         - name: SN_INSTANCE
-    #           value: "https://dev110939.service-now.com"
-    #         - name: SN_AUTH
-    #           value: "sn-auth"
-    #         - name: LOGLEVEL
-    #           value: "info"
-    #         - name: CR_DATA
-    #           value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
-    #         - name: CR_SYSID
-    #           value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-    #
-    #     - name: update-sn-cr-with-config-commit
-    #       depends: "commit-config-change && create-sn-cr"
-    #       templateRef:
-    #         name: argo-hub.servicenow.1.0.0
-    #         template: updatecr
-    #       arguments:
-    #         parameters:
-    #         - name: SN_INSTANCE
-    #           value: "https://dev110939.service-now.com"
-    #         - name: SN_AUTH
-    #           value: "sn-auth"
-    #         - name: LOGLEVEL
-    #           value: "info"
-    #         - name: CR_DATA
-    #           value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.COMMIT_SHA}}"}'
-    #         - name: CR_SYSID
-    #           value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-    #     # - name: approve
-    #     #   depends: update-sn-cr-with-config-commit
-    #     #   template: approve
-    #     # - name: close-sn-cr
-    #     #   depends: approve
-    #     #   templateRef:
-    #     #     name: argo-hub.servicenow.1.0.0
-    #     #     template: closecr
-    #     #   arguments:
-    #     #     parameters:
-    #     #     - name: SN_INSTANCE
-    #     #       value: "https://dev110939.service-now.com"
-    #     #     - name: SN_AUTH
-    #     #       value: "sn-auth"
-    #     #     - name: LOGLEVEL
-    #     #       value: "debug"
-    #     #     - name: CR_SYSID
-    #     #       value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-    #     #     - name: CR_CLOSE_CODE
-    #     #       value: "successful"
-    #     #     - name: CR_CLOSE_NOTES
-    #     #       value: "Closed automatically by Argo-Hub ServiceNow workflow template"
-    #
+        - name: create-sn-cr
+          depends: clone
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: createcr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: >-
+                {"short_description": "Globex deployment to QA environment",
+                "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh GitOps CI plugin",
+                "justification": "My app is awesome! Please deplopy ASAP",
+                "cmdb_ci":"tomcat"
+                }
+
+        - name: update-sn-cr
+          depends: "build-image && create-sn-cr"
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+
+        - name: update-sn-cr-with-config-commit
+          depends: "commit-config-change && create-sn-cr"
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: '{"work_notes":"Deployment commit {{ tasks.commit-config-change.outputs.parameters.COMMIT_SHA}}"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+        # - name: approve
+        #   depends: update-sn-cr-with-config-commit
+        #   template: approve
+        # - name: close-sn-cr
+        #   depends: approve
+        #   templateRef:
+        #     name: argo-hub.servicenow.1.0.0
+        #     template: closecr
+        #   arguments:
+        #     parameters:
+        #     - name: SN_INSTANCE
+        #       value: "https://dev110939.service-now.com"
+        #     - name: SN_AUTH
+        #       value: "sn-auth"
+        #     - name: LOGLEVEL
+        #       value: "debug"
+        #     - name: CR_SYSID
+        #       value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+        #     - name: CR_CLOSE_CODE
+        #       value: "successful"
+        #     - name: CR_CLOSE_NOTES
+        #       value: "Closed automatically by Argo-Hub ServiceNow workflow template"
+
     # # Additional templates
     # - name: approve
     #   suspend: {}
@@ -384,10 +384,6 @@ spec:
          echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_CPU', 'cpu: '        + inputs.parameters.RESOURCES_REQUESTS_CPU,    sprig.empty(inputs.parameters.RESOURCES_REQUESTS_CPU) )}} \n"
          echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_MEMORY', 'memory: '  + inputs.parameters.RESOURCES_REQUESTS_MEMORY, sprig.empty(inputs.parameters.RESOURCES_REQUESTS_MEMORY) )}} \n"
 
-    #     volumeMounts:                     # same syntax as k8s Pod spec
-    #     - name: codefresh-volume
-    #       mountPath: /codefresh/volume
-    #
     - name: maven
       inputs:
         artifacts:
