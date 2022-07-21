@@ -29,6 +29,8 @@ spec:
             value: ''
           - name: GIT_COMMIT_MESSAGE
             value: ''
+          - name: CREATE_CR
+            value: true
       dag:
         tasks:
         - name: clone
@@ -268,6 +270,7 @@ spec:
           templateRef:
             name: argo-hub.servicenow.1.0.0
             template: createcr
+          when: " {{inputs.parameters.CREATE_CR}} == true "
           arguments:
             parameters:
             - name: SN_INSTANCE
@@ -289,6 +292,7 @@ spec:
           templateRef:
             name: argo-hub.servicenow.1.0.0
             template: updatecr
+          when: " {{inputs.parameters.CREATE_CR}} == true "
           arguments:
             parameters:
             - name: SN_INSTANCE
@@ -307,6 +311,7 @@ spec:
           templateRef:
             name: argo-hub.servicenow.1.0.0
             template: updatecr
+          when: " {{inputs.parameters.CREATE_CR}} == true "
           arguments:
             parameters:
             - name: SN_INSTANCE
