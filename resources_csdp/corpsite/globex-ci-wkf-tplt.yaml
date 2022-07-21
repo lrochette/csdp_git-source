@@ -37,6 +37,7 @@ spec:
             value: "this is foo2"
       dag:
         tasks:
+
         - name: clone
           templateRef:
             name: argo-hub.git.0.0.3
@@ -56,6 +57,22 @@ spec:
         # - name: wait
         #   depends: clone
         #   template: approve
+
+        - name: echo
+          templateRef:
+            name: lr.generic
+            template: freestyle-with-artifact
+          arguments:
+            artifacts:
+              - name: dir
+                from: '{{ tasks.clone-config.outputs.artifacts.repo }}'
+            parameters:
+              - name: image
+                value: "mikefarah/yq:3.3.4"
+              - name: commands
+                value: |
+                  echo {{ inputs.parameters.FOO }}
+                  echo {{ workflow.parameters.FOO }}
 
         - name: clone-config
           # depends: wait
