@@ -18,7 +18,8 @@ spec:
       # - name: GIT_COMMIT_MESSAGE
       - name: FOO
         value: "this is bar"
-
+      - name: CREATE_CR
+        value: false
   entrypoint: ci-pipeline
   templates:
     - name: ci-pipeline
@@ -31,8 +32,8 @@ spec:
             value: ''
           - name: GIT_COMMIT_MESSAGE
             value: ''
-          - name: CREATE_CR
-            value: true
+          # - name: CREATE_CR
+          #   value: true
           - name: FOO
             value: "this is foo2"
       dag:
