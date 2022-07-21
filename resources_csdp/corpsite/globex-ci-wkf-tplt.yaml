@@ -59,6 +59,7 @@ spec:
         #   template: approve
 
         - name: echo
+          depends: clone
           templateRef:
             name: lr.generic
             template: freestyle-with-artifact
