@@ -71,6 +71,14 @@ spec:
               - name: repo
                 path: /tmp/CorpSite_gitops
 
+        - name: ls1
+          template: listing
+          depends: clone
+          arguments:
+            artifacts:
+              - name: lsdir
+                from: '{{ tasks.clone.outputs.artifacts.repo }}'
+
         # - name: ls1
         #   depends: clone
         #   inline:
