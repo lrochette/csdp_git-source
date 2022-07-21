@@ -16,6 +16,8 @@ spec:
       # - name: SHA
       # - name: GIT_COMMIT_URL
       # - name: GIT_COMMIT_MESSAGE
+      - name: FOO
+        value: "this is bar"
 
   entrypoint: ci-pipeline
   templates:
@@ -396,7 +398,7 @@ spec:
          echo "{{=sprig.ternary('DEFAULT RESOURCES_LIMITS_MEMORY ', 'memory: '   + inputs.parameters.RESOURCES_LIMITS_MEMORY,   sprig.empty(inputs.parameters.RESOURCES_LIMITS_MEMORY ) )}} \n"
          echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_CPU', 'cpu: '        + inputs.parameters.RESOURCES_REQUESTS_CPU,    sprig.empty(inputs.parameters.RESOURCES_REQUESTS_CPU) )}} \n"
          echo "{{=sprig.ternary('DEFAULT RESOURCES_REQUESTS_MEMORY', 'memory: '  + inputs.parameters.RESOURCES_REQUESTS_MEMORY, sprig.empty(inputs.parameters.RESOURCES_REQUESTS_MEMORY) )}} \n"
-
+         echo 'FOO: {{ workflow.parameters.FOO}}'
     - name: maven
       inputs:
         artifacts:
