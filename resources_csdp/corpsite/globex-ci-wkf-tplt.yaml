@@ -211,11 +211,11 @@ spec:
         - name: report-image-info
           depends: build-image
           templateRef:
-            name: argo-hub.codefresh-csdp.0.0.6
+            name: argo-hub.codefresh-csdp.1.1.1
             template: report-image-info
           arguments:
             parameters:
-              - name: IMAGE
+              - name: IMAGE_NAME
                 value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
@@ -227,12 +227,12 @@ spec:
                 value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
               - name: GIT_COMMIT_MESSAGE
                 value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
-              - name: DOCKER_USERNAME
+              - name: DOCKERHUB_USERNAME
                 value: dockerhub-creds
-              - name: DOCKER_PASSWORD
+              - name: DOCKERHUB_PASSWORD
                 value: dockerhub-creds
-              - name: DOMAIN
-                value: dockerhub-creds
+              # - name: REGISTRY_DOMAIN
+              #   value: dockerhub-creds
         - name: get-version
           depends: build-image
           template: get-version
