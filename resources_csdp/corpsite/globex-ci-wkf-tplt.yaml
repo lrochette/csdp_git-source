@@ -188,25 +188,7 @@ spec:
               value: "{{inputs.parameters.SHA}}"
           depends: maven-build
 
-        - name: enrich-image-jira
-          depends: build-image
-          templateRef:
-            name: argo-hub.codefresh-csdp.0.0.6
-            template: image-enricher-jira-info
-          arguments:
-            parameters:
-            - name: IMAGE
-              value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
-            - name: CF_API_KEY
-              value: "codefresh-v1-token"
-            - name: JIRA_PROJECT_PREFIX
-              value: 'FT'
-            - name: MESSAGE
-              value: 'FT-50'
-            - name: JIRA_HOST
-              value: 'codefresh-io.atlassian.net'
-            - name: JIRA_API_TOKEN_SECRET
-              value: 'jira-token'
+
 
         - name: report-image-info
           depends: build-image
@@ -231,8 +213,49 @@ spec:
                 value: dockerhub-creds
               - name: DOCKERHUB_PASSWORD
                 value: dockerhub-creds
-              # - name: REGISTRY_DOMAIN
-              #   value: dockerhub-creds
+
+        - name: enrich-git
+          depends: report-image-info
+          templateRef:
+            name: argo-hub.codefresh-csdp.1.1.1
+            template: image-enricher-git-info
+          arguments:
+            parameters:
+              - name: IMAGE_NAME
+                value: '{{ tasks.report-image-info.outputs.parameters.image-name}}'
+              - name: IMAGE_SHA
+                value: '{{ tasks.report-image-info.outputs.parameters.image-sha }}'
+              - name: GIT_PROVIDER
+                value: github
+              - name: CF_API_KEY
+                value: codefresh-token # this secret is created as part of the runtime installation
+              - name: REPO
+                value: lrochette/CorpSite
+              - name: BRANCH
+                value: '{{ inputs.parameters.REVISION }}'
+              - name: GITHUB_TOKEN_SECRET_NAME
+                value: github-token
+
+        - name: enrich-image-jira
+          depends: report-image-info
+          templateRef:
+            name: argo-hub.codefresh-csdp.1.1.1
+            template: image-enricher-jira-info
+          arguments:
+            parameters:
+            - name: IMAGE_NAME
+              value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+            - name: CF_API_KEY
+              value: "codefresh-v1-token"
+            - name: JIRA_PROJECT_PREFIX
+              value: 'FT'
+            - name: JIRA_MESSAGE
+              value: 'FT-50'
+            - name: JIRA_HOST_URL
+              value: 'codefresh-io.atlassian.net'
+            - name: JIRA_API_TOKEN_SECRET
+              value: 'jira-token'
+
         - name: get-version
           depends: build-image
           template: get-version
