@@ -201,14 +201,6 @@ spec:
                 value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
-              - name: GIT_REVISION
-                value: '{{ inputs.parameters.SHA }}'
-              - name: GIT_BRANCH
-                value: '{{ inputs.parameters.REVISION }}'
-              - name: GIT_COMMIT_URL
-                value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
-              - name: GIT_COMMIT_MESSAGE
-                value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
               - name: DOCKERHUB_USERNAME
                 value: dockerhub-creds
               - name: DOCKERHUB_PASSWORD
