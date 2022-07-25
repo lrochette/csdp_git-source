@@ -244,7 +244,7 @@ spec:
             - name: JIRA_MESSAGE
               value: 'FT-50'
             - name: JIRA_HOST_URL
-              value: 'codefresh-io.atlassian.net'
+              value: 'https://codefresh-io.atlassian.net'
             - name: JIRA_API_TOKEN_SECRET
               value: 'jira-token'
 
