@@ -236,7 +236,7 @@ spec:
             template: report-image-info
           arguments:
             parameters:
-              - name: IMAGE
+              - name: IMAGE_NAME
                 value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
