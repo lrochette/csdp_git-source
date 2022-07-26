@@ -196,6 +196,8 @@ spec:
             parameters:
               - name: IMAGE_NAME
                 value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.parameters.VERSION }}'
+              - name: WORKFLOW_NAME
+                value: globex-ci
               - name: WORKFLOW_URL
                 value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name}}"
                 #value: "https://g.codefresh.io/2.0/workflows/corpsite-ci-xwqch"
