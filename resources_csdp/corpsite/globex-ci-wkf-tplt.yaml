@@ -16,7 +16,7 @@ spec:
       - name: GIT_COMMIT_URL
       - name: GIT_COMMIT_MESSAGE
       - name: CREATE_CR
-        value: false
+        value: true
   entrypoint: ci-pipeline
   templates:
     - name: ci-pipeline
@@ -29,7 +29,7 @@ spec:
           - name: GIT_COMMIT_MESSAGE
             value: ''
           - name: CREATE_CR
-            value: false
+            value: true
 
       dag:
         tasks:
