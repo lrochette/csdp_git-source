@@ -190,14 +190,15 @@ spec:
         - name: report-image-info
           depends: build-image
           templateRef:
-            name: argo-hub.codefresh-csdp.1.0.1
+            name: argo-hub.codefresh-csdp.1.1.1
             template: report-image-info
           arguments:
             parameters:
               - name: IMAGE_NAME
                 value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.parameters.VERSION }}'
               - name: WORKFLOW_URL
-                value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name}}"
+                value: "https://g.codefresh.io/2.0/workflows/
+                #value: "{{ workflow.name}}"
                 #value: "https://g.codefresh.io/2.0/workflows/corpsite-ci-xwqch"
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
@@ -209,7 +210,7 @@ spec:
         - name: enrich-git
           depends: report-image-info
           templateRef:
-            name: argo-hub.codefresh-csdp.1.0.1
+            name: argo-hub.codefresh-csdp.1.1.1
             template: image-enricher-git-info
           arguments:
             parameters:
@@ -231,7 +232,7 @@ spec:
         - name: enrich-image-jira
           depends: report-image-info
           templateRef:
-            name: argo-hub.codefresh-csdp.1.0.1
+            name: argo-hub.codefresh-csdp.1.1.1
             template: image-enricher-jira-info
           arguments:
             parameters:
