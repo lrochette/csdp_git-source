@@ -199,6 +199,9 @@ spec:
             parameters:
               - name: IMAGE_NAME
                 value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+              - name: WORKFLOW_URL
+                value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name }}"
+                #value: "https://g.codefresh.io/2.0/workflows/corpsite-ci-xwqch"
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
               - name: DOCKERHUB_USERNAME
