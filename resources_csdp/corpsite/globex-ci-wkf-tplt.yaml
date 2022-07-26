@@ -184,7 +184,7 @@ spec:
             - name: image
               value: "lrochette/globex"
             - name: tag
-              value: "{{ tasks.get-version.outputs.artifacts.VERSION }}"
+              value: "{{ tasks.get-version.outputs.parameters.VERSION }}"
           depends: get-version
 
         - name: report-image-info
@@ -195,7 +195,7 @@ spec:
           arguments:
             parameters:
               - name: IMAGE_NAME
-                value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.artifacts.VERSION }}'
+                value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.parameters.VERSION }}'
               - name: WORKFLOW_URL
                 value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name}}"
                 #value: "https://g.codefresh.io/2.0/workflows/corpsite-ci-xwqch"
@@ -236,7 +236,7 @@ spec:
           arguments:
             parameters:
             - name: IMAGE_NAME
-              value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.artifacts.VERSION }}'
+              value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.parameters.VERSION }}'
             - name: CF_API_KEY
               value: "codefresh-v1-token"
             - name: JIRA_PROJECT_PREFIX
@@ -327,7 +327,7 @@ spec:
             - name: LOGLEVEL
               value: "info"
             - name: CR_DATA
-              value: '{"work_notes":"Image build with tag {{tasks.get-version.outputs.artifacts.VERSION}}"}'
+              value: '{"work_notes":"Image build with tag {{tasks.get-version.outputs.parameters.VERSION}}"}'
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
 
