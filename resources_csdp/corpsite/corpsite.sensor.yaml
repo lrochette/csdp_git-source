@@ -44,9 +44,7 @@ spec:
                   parameters:
                     - name: REPO
                       value: ''
-                    - name: REVISION
-                      value: ''
-                    - name: SHA
+                    - name: BRANCH
                       value: ''
                     - name: GIT_COMMIT_URL
                       value: ''
@@ -60,24 +58,19 @@ spec:
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.repository.clone_url }}'
-            # REVISION
-            - dest: spec.arguments.parameters.1.value #REVISION
+            # BRANCH
+            - dest: spec.arguments.parameters.1.value #BRANCH
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
-            # SHA
-            - dest: spec.arguments.parameters.2.value # SHA
-              src:
-                dependencyName: github-corpsite
-                dataTemplate: '{{ .Input.body.after }}'
 
             # GIT_COMMIT_URL
-            - dest: spec.arguments.parameters.3.value
+            - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.head_commit.url }}'
             # GIT_COMMIT_MESSSAGE
-            - dest: spec.arguments.parameters.4.value
+            - dest: spec.arguments.parameters.3.value
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.head_commit.message }}'

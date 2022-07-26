@@ -12,8 +12,7 @@ spec:
     # These are the arguments that are required for this CI pipeline:
     parameters:
       - name: REPO
-      - name: REVISION
-      - name: SHA
+      - name: BRANCH
       - name: GIT_COMMIT_URL
       - name: GIT_COMMIT_MESSAGE
       - name: CREATE_CR
@@ -24,8 +23,7 @@ spec:
       inputs:
         parameters:
           - name: REPO
-          - name: REVISION
-          - name: SHA
+          - name: BRANCH
           - name: GIT_COMMIT_URL
             value: ''
           - name: GIT_COMMIT_MESSAGE
@@ -44,7 +42,7 @@ spec:
             - name: REPO_URL
               value: "{{inputs.parameters.REPO}}"
             - name: REVISION
-              value: "{{inputs.parameters.REVISION}}"
+              value: "{{inputs.parameters.BRANCH}}"
             - name: GIT_TOKEN_SECRET
               value: github-token
           outputs:
@@ -154,7 +152,7 @@ spec:
         #     - name: SLACK_CHANNEL
         #       value: "laurent.rochette@codefresh.io"
         #     - name: SLACK_MESSAGE
-        #       value: "Maven build successful for {{workflow.uid}}\nRepo: {{inputs.parameters.REPO}}\nRevision: {{inputs.parameters.REVISION}}"
+        #       value: "Maven build successful for {{workflow.uid}}\nRepo: {{inputs.parameters.REPO}}\nRevision: {{inputs.parameters.BRANCH}}"
         #     - name: SLACK_TOKEN
         #       value: slack-token
         #     - name: LOG_LEVEL
@@ -185,10 +183,8 @@ spec:
             - name: image
               value: "lrochette/globex"
             - name: tag
-              value: "{{inputs.parameters.SHA}}"
-          depends: maven-build
-
-
+              value: "{{ tasks.get-version.outputs.artifacts.VERSION }}"
+          depends: get-version
 
         - name: report-image-info
           depends: build-image
@@ -198,7 +194,7 @@ spec:
           arguments:
             parameters:
               - name: IMAGE_NAME
-                value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+                value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.artifacts.VERSION }}'
               - name: WORKFLOW_URL
                 value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name}}"
                 #value: "https://g.codefresh.io/2.0/workflows/corpsite-ci-xwqch"
@@ -227,7 +223,7 @@ spec:
               - name: REPO
                 value: lrochette/CorpSite
               - name: BRANCH
-                value: '{{ inputs.parameters.REVISION }}'
+                value: '{{ inputs.parameters.BRANCH }}'
               - name: GITHUB_TOKEN_SECRET_NAME
                 value: github-token
 
@@ -239,7 +235,7 @@ spec:
           arguments:
             parameters:
             - name: IMAGE_NAME
-              value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
+              value: 'docker.io/lrochette/globex:{{ tasks.get-version.outputs.artifacts.VERSION }}'
             - name: CF_API_KEY
               value: "codefresh-v1-token"
             - name: JIRA_PROJECT_PREFIX
@@ -252,7 +248,7 @@ spec:
               value: 'jira-token'
 
         - name: get-version
-          depends: build-image
+          depends: maven-build
           template: get-version
           arguments:
             artifacts:
@@ -291,7 +287,7 @@ spec:
               - name: GIT_USER_EMAIL
                 value: "laurent.rochette@codefresh.io"
               - name: MESSAGE
-                value: "Committing new changes for {{ tasks.clone.outputs.parameters.REPO_NAME }}:{{ workflow.name }}"
+                value: "Committing new changes for lrochette/CorpSite built in {{ workflow.name }}"
 
         - name: create-sn-cr
           depends: clone
@@ -330,7 +326,7 @@ spec:
             - name: LOGLEVEL
               value: "info"
             - name: CR_DATA
-              value: '{"work_notes":"Image build with tag {{inputs.parameters.SHA}}"}'
+              value: '{"work_notes":"Image build with tag {{tasks.get-version.outputs.artifacts.VERSION}}"}'
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
 
