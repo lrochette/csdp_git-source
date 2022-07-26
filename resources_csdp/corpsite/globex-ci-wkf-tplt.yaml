@@ -313,7 +313,7 @@ spec:
                 }
 
         - name: update-sn-cr
-          depends: "build-image && create-sn-cr"
+          depends: "get-version && create-sn-cr"
           templateRef:
             name: argo-hub.servicenow.1.0.0
             template: updatecr
