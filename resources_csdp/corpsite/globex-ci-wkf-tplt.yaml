@@ -28,7 +28,8 @@ spec:
             value: ''
           - name: GIT_COMMIT_MESSAGE
             value: ''
-
+          - name: CREATE_CR
+            value: false
 
       dag:
         tasks:

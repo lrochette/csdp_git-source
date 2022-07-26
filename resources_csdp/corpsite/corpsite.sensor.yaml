@@ -54,16 +54,15 @@ spec:
                   name: globex-ci
           parameters:
             # REPO (the repo URL)
-            - dest: spec.arguments.parameters.0.value # REPO
+            - dest: spec.arguments.parameters.0.value
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ .Input.body.repository.clone_url }}'
             # BRANCH
-            - dest: spec.arguments.parameters.1.value #BRANCH
+            - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-corpsite
                 dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
-
             # GIT_COMMIT_URL
             - dest: spec.arguments.parameters.2.value
               src:
