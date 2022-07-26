@@ -200,7 +200,7 @@ spec:
               - name: IMAGE_NAME
                 value: 'docker.io/lrochette/globex:{{inputs.parameters.SHA}}'
               - name: WORKFLOW_URL
-                value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name }}"
+                value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name}}"
                 #value: "https://g.codefresh.io/2.0/workflows/corpsite-ci-xwqch"
               - name: CF_API_KEY
                 value: codefresh-token # this secret is created as part of the runtime installation
@@ -245,7 +245,7 @@ spec:
             - name: JIRA_PROJECT_PREFIX
               value: 'FT'
             - name: JIRA_MESSAGE
-              value: 'FT-50'
+              value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE}}'
             - name: JIRA_HOST_URL
               value: 'https://codefresh-io.atlassian.net'
             - name: JIRA_API_TOKEN_SECRET
