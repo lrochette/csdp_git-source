@@ -22,7 +22,7 @@ spec:
             parameters:
             - name: SLACK_CHANNEL
               value: "laurent.rochette@codefresh.io"
-            - name: SLACK_TEXT
+            - name: SLACK_MESSAGE
               value: "Starting deployment of Argo CD app '{{workflow.parameters.ARGOCD_APP}}'"
             - name: SLACK_TOKEN
               value: slack-token
@@ -61,7 +61,7 @@ spec:
             parameters:
             - name: SLACK_CHANNEL
               value: "laurent.rochette@codefresh.io"
-            - name: SLACK_TEXT
+            - name: SLACK_MESSAGE
               value: "Finished deployment of Argo CD app '{{workflow.parameters.ARGOCD_APP}}' with status '{{workflow.status}}'"
             - name: SLACK_TOKEN
               value: slack-token
