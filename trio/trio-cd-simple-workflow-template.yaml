@@ -19,13 +19,15 @@ spec:
       - - name: slack-announce-start
           templateRef:
             name: argo-hub.slack.0.0.2
-            template: send-message
+            template: post-to-channel
           arguments:
             parameters:
-            - name: SLACK_HOOK_URL
-              value: "{{workflow.parameters.SLACK_HOOK_URL}}"
+            - name: SLACK_CHANNEL
+              value: "laurent.rochette@codefresh.io"
             - name: SLACK_TEXT
               value: "Starting deployment of Argo CD app '{{workflow.parameters.ARGOCD_APP}}'"
+            - name: SLACK_TOKEN
+              value: slack-token
       - - name: argocd-sync
           templateRef:
             name: argo-hub.argocd.0.0.1
@@ -56,10 +58,12 @@ spec:
       - - name: slack-announce-finish
           templateRef:
             name: argo-hub.slack.0.0.2
-            template: send-message
+            template: post-to-channel
           arguments:
             parameters:
-            - name: SLACK_HOOK_URL
-              value: "{{workflow.parameters.SLACK_HOOK_URL}}"
+            - name: SLACK_CHANNEL
+              value: "laurent.rochette@codefresh.io"
             - name: SLACK_TEXT
               value: "Finished deployment of Argo CD app '{{workflow.parameters.ARGOCD_APP}}' with status '{{workflow.status}}'"
+            - name: SLACK_TOKEN
+              value: slack-token
