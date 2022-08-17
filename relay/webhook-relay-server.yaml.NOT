@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-relay-server-svc
+spec:
+  ports:
+    - name: web
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: webhook-relay-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-relay-server
+spec:
+  selector:
+    matchLabels:
+      app: webhook-relay-server
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: webhook-relay-server
+    spec:
+      containers:
+        - name: webhook-relay-server
+          image: quay.io/codefresh/webhook-relay-server:1.0.8
+          ports:
+            - containerPort: 3000
+          # env:
+          #   - name: REDIS_URL
+          #     # You can specify your connection as a redis:// URL or rediss:// URL when using TLS encryption.
+          #     # Username and password can also be passed via URL redis://username:authpassword@127.0.0.1:6380/4.
+          #     value: redis://redis.my-service.com
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 9000
+            failureThreshold: 1
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 9000
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            # Allow sufficient amount of time (90 seconds = periodSeconds * failureThreshold)
+            # for the registered shutdown handlers to run to completion.
+            periodSeconds: 30
+            successThreshold: 1
+            # Setting a very low timeout value (e.g. 1 second) can cause false-positive
+            # checks and service interruption.
+            timeoutSeconds: 5

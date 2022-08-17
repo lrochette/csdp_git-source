@@ -7,6 +7,8 @@ spec:
     parameters:
       - name: ARGOCD_APP
       - name: ARGOCD_SERVER
+      - name: SLACK_HOOK_URL
+        value: 'https://hooks.slack.com/services/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'
   entrypoint: cd-steps
   onExit: slack-announce-finish
 
@@ -22,7 +24,7 @@ spec:
             parameters:
             - name: SLACK_CHANNEL
               value: "laurent.rochette@codefresh.io"
-            - name: SLACK_MESSAGE
+            - name: SLACK_TEXT
               value: "Starting deployment of Argo CD app '{{workflow.parameters.ARGOCD_APP}}'"
             - name: SLACK_TOKEN
               value: slack-token
@@ -61,7 +63,7 @@ spec:
             parameters:
             - name: SLACK_CHANNEL
               value: "laurent.rochette@codefresh.io"
-            - name: SLACK_MESSAGE
+            - name: SLACK_TEXT
               value: "Finished deployment of Argo CD app '{{workflow.parameters.ARGOCD_APP}}' with status '{{workflow.status}}'"
             - name: SLACK_TOKEN
               value: slack-token
