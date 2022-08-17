@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: push-commit
+spec:
+  dependencies:
+  - eventName: push-commit
+    eventSourceName: push-commit
+    filters:
+      data:
+      - path: body.X-GitHub-Event
+        type: string
+        value:
+        - push
+      - path: body.ref
+        template: '{{ (split "/" .Input)._1 }}'
+        type: string
+        value:
+        - heads
+    name: push-commit
+  eventBusName: codefresh-eventbus
+  template:
+    container:
+      name: ""
+      resources: {}
+    serviceAccountName: argo
+  triggers:
+  - retryStrategy:
+      steps: 3
+    template:
+      argoWorkflow:
+        operation: submit
+        parameters:
+        - dest: spec.arguments.parameters.0.value
+          src:
+            dataTemplate: '{{ trimPrefix "refs/heads/" .Input.body.ref }}'
+            dependencyName: push-commit
+        source:
+          resource:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:
+              generateName: push-commit-
+            spec:
+              arguments:
+                parameters:
+                - name: message
+              workflowTemplateRef:
+                name: echo-message
+      name: push-commit

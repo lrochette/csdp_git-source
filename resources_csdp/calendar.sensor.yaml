@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: calendar
+spec:
+  dependencies:
+  - eventName: example-with-interval
+    eventSourceName: calendar
+    name: calendar-dep
+  eventBusName: codefresh-eventbus
+  template:
+    container:
+      name: ""
+      resources: {}
+    serviceAccountName: argo
+  triggers:
+  - template:
+      argoWorkflow:
+        operation: submit
+        parameters:
+        - dest: spec.arguments.parameters.0.value
+          src:
+            dataKey: eventTime
+            dependencyName: calendar-dep
+        source:
+          resource:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:
+              generateName: calendar-
+            spec:
+              arguments:
+                parameters:
+                - name: message
+              workflowTemplateRef:
+                name: echo-message
+      name: echo-message
