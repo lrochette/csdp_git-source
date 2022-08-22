@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: globex
+  name: globex-dev
 spec:
   destination:
     namespace: globex
