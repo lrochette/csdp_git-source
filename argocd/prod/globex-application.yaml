@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: globex-prod
+  name: globex
 spec:
   destination:
-    namespace: globex-prod
+    namespace: globex
     name: lr2
   project: globex
   source:
     directory:
       jsonnet: {}
       recurse: true
-    path: .
+    path: globex/overlays/prod
     repoURL: https://github.com/lrochette/csdp_applications/globex/prod
     targetRevision: main
   syncPolicy:
