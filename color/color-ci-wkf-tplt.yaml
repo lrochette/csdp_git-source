@@ -31,12 +31,12 @@ spec:
           argo-hub-template/icon_background: "#004C76"
       inputs:
         parameters:
-          - name: GIT_REPO_URL
           - name: IMAGE_NAME
+            value: docker.io/lrochette/color
           - name: IMAGE_TAG
             default: latest
           - name: GIT_REVISION
-            default: main         # use default value if this parameter is not provided
+            default: master         # use default value if this parameter is not provided
           - name: GIT_BRANCH
             default: main
           - name: GIT_COMMIT_URL
@@ -76,7 +76,7 @@ spec:
             arguments:
               parameters:
                 - name: REPO
-                  value: '{{ inputs.parameters.GIT_REPO_URL }}'
+                  value: https://github.com/lrochette/color-coded
                 - name: REVISION
                   value: '{{ inputs.parameters.GIT_REVISION }}'
                 - name: IMAGE_NAME
@@ -93,49 +93,42 @@ spec:
           #  https://codefresh.io/argohub/workflow-template/CSDP-metadata
           - name: report-image-info
             templateRef:
-              name: argo-hub.codefresh-csdp.0.0.6
+              name: argo-hub.codefresh-csdp.1.1.1
               template: report-image-info
             arguments:
               parameters:
-                - name: IMAGE
+                - name: IMAGE_NAME
                   value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
+                - name: WORKFLOW_NAME
+                  value: color-ci
+                - name: WORKFLOW_URL
+                  value: "https://g.codefresh.io/2.0/workflows/{{ workflow.name}}"
                 - name: CF_API_KEY
                   value: codefresh-token # this secret is created as part of the runtime installation
-                - name: GIT_REVISION
-                  value: '{{ inputs.parameters.GIT_REVISION }}'
-                - name: GIT_BRANCH
-                  value: '{{ inputs.parameters.GIT_BRANCH }}'
-                - name: GIT_COMMIT_URL
-                  value: '{{ inputs.parameters.GIT_COMMIT_URL }}'
-                - name: GIT_COMMIT_MESSAGE
-                  value: '{{ inputs.parameters.GIT_COMMIT_MESSAGE }}'
-                - name: USERNAME
-                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}'
-                - name: PASSWORD
-                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}'
-                - name: DOMAIN
-                  value: '{{ inputs.parameters.REGISTRY_CREDS_SECRET }}'
+                - name: DOCKERHUB_USERNAME
+                  value: dockerhub-creds
+                - name: DOCKERHUB_PASSWORD
+                  value: dockerhub-creds
             depends: build-docker-image
 
-          - name: test-image
-            template: test
+          - name: enrich-git
+            depends: report-image-info
+            templateRef:
+              name: argo-hub.codefresh-csdp.1.1.1
+              template: image-enricher-git-info
             arguments:
               parameters:
-                - name: IMAGE
-                  value: '{{ inputs.parameters.IMAGE_NAME }}:{{ inputs.parameters.IMAGE_TAG }}'
-            depends: report-image-info
-
-    # Test template
-    - name: test
-      metadata:
-        annotations:
-          argo-hub-template/description: 'Test image pulling correctly and printing it content files'
-          argo-hub-template/icon_url: "https://cdn.jsdelivr.net/gh/codefresh-io/argo-hub@main/workflows/ci-simple/assets/icon.svg"
-          argo-hub-template/icon_background: "#004C76"
-      inputs:
-        parameters:
-          - name: IMAGE
-      container:
-        image: '{{ inputs.parameters.IMAGE }}'
-        command: [sh, -c]
-        args: ["ls"]
+                - name: IMAGE_NAME
+                  value: '{{ tasks.report-image-info.outputs.parameters.image-name}}'
+                - name: IMAGE_SHA
+                  value: '{{ tasks.report-image-info.outputs.parameters.image-sha }}'
+                - name: GIT_PROVIDER
+                  value: github
+                - name: CF_API_KEY
+                  value: codefresh-token # this secret is created as part of the runtime installation
+                - name: REPO
+                  value: lrochette/color-coded
+                - name: BRANCH
+                  value: '{{ inputs.parameters.GIT_BRANCH }}'
+                - name: GITHUB_TOKEN_SECRET_NAME
+                  value: github-token
