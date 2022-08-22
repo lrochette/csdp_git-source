@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: argo-hub.ci-simple.0.0.1
+  name: color
   annotations:
     argo-hub/version: '0.0.1'
     argo-hub/description: 'This Workflow Template is used to create your first CI pipeline in CSDP'
@@ -21,9 +21,9 @@ spec:
           - key: .dockerconfigjson
             path: config.json
         secretName: '{{ inputs.parameters.DOCKER_CONFIG_SECRET }}'
-  entrypoint: ci-tasks
+  entrypoint: pipleine
   templates:
-    - name: ci-tasks
+    - name: pipleine
       metadata:
         annotations:
           argo-hub-template/description: 'Builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image'
