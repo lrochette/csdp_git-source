@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: globex
+  name: globex-prod
 spec:
   destination:
-    namespace: csdp
-    server: https://kubernetes.default.svc
-  project: default
+    namespace: globex-prod
+    name: lr2
+  project: globex
   source:
     directory:
       jsonnet: {}
       recurse: true
     path: .
-    repoURL: https://github.com/lrochette/CorpSite_gitops
+    repoURL: https://github.com/lrochette/csdp_applications/globex/prod
     targetRevision: main
   syncPolicy:
     syncOptions:

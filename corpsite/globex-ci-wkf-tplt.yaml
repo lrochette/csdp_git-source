@@ -62,7 +62,7 @@ spec:
           arguments:
             parameters:
             - name: REPO_URL
-              value: "https://github.com/lrochette/CorpSite_gitops.git"
+              value: "https://github.com/lrochette/csdp_applications.git"
             - name: REVISION
               value: "main"
             - name: GIT_TOKEN_SECRET
@@ -272,8 +272,7 @@ spec:
                 value: "mikefarah/yq:3.3.4"
               - name: commands
                 value: |
-                  yq w -i deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{tasks.get-version.outputs.parameters.VERSION}}"
-                  yq r deployment.yaml
+                  yq w -i globex/dev/deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{tasks.get-version.outputs.parameters.VERSION}}"
 
         - name: commit-config-change
           depends: update-manifest
@@ -290,7 +289,7 @@ spec:
               - name: GIT_USER_EMAIL
                 value: "laurent.rochette@codefresh.io"
               - name: MESSAGE
-                value: "Committing new changes for lrochette/CorpSite built in {{ workflow.name }}"
+                value: "Committing new version for globex for lrochette/csdp_applications built in {{ workflow.name }}"
 
         - name: create-sn-cr
           depends: clone
