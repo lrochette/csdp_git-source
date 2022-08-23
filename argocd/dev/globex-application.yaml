@@ -11,7 +11,7 @@ spec:
     directory:
       jsonnet: {}
       recurse: true
-    path: globex/overlays/dev
+    path: ./globex/overlays/dev
     repoURL: https://github.com/lrochette/csdp_applications.git
     targetRevision: main
   syncPolicy:
