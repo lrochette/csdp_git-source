@@ -8,7 +8,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   # Project description
-  description: Deployment(s) of 'corpsite' app
+  description: Deployment(s) of 'corpsite' app in prod
 
   # Allow manifests to deploy from any Git repos
   sourceRepos:
