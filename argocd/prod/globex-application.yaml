@@ -12,7 +12,7 @@ spec:
       jsonnet: {}
       recurse: true
     path: globex/overlays/prod
-    repoURL: https://github.com/lrochette/csdp_applications/globex/prod
+    repoURL: https://github.com/lrochette/csdp_applications.git
     targetRevision: main
   syncPolicy:
     syncOptions:
