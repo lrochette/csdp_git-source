@@ -4,7 +4,7 @@ metadata:
   name: globex-prod
 spec:
   destination:
-    namespace: globex
+    namespace: globex-prod
     name: lr2
   project: globex
   source:

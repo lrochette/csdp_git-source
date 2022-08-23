@@ -4,7 +4,7 @@ metadata:
   name: globex-dev
 spec:
   destination:
-    namespace: globex
+    namespace: globex-dev
     server: https://kubernetes.default.svc
   project: globex
   source:
