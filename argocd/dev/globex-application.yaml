@@ -8,9 +8,9 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: csdp
+    namespace: dev
     name: in-cluster
-  project: globex
+  project: globex-dev
   source:
     path: ./globex/overlays/dev
     repoURL: https://github.com/lrochette/csdp_applications.git

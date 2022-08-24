@@ -9,8 +9,8 @@ metadata:
 spec:
   destination:
     namespace: prod
-    name: lr2
-  project: globex
+    name: in-cluster
+  project: globex-prod
   source:
     path: ./globex/overlays/prod
     repoURL: https://github.com/lrochette/csdp_applications.git
