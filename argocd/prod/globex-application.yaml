@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: globex-prod
+  labels:
+    app: globex
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: prod
+    name: lr2
+  project: globex
+  source:
+    path: ./globex/overlays/prod
+    repoURL: https://github.com/lrochette/csdp_applications.git
+    targetRevision: main
+  syncPolicy:
+    syncOptions:
+    - createNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
