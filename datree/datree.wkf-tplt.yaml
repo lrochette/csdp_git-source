@@ -37,7 +37,7 @@ spec:
               - name: repo
                 path: /tmp/datree
         - name: datree-policy-check
-          depends: clone-step
+          depends: clone
           templateRef:
             name: argo-hub.datree.0.0.1
             template: datree-policy-check
