@@ -6,7 +6,9 @@ spec:
   arguments:
     parameters:
       - name: GIT_REPO_URL
+        default: https://github.com/datreeio/datree
       - name: GIT_BRANCH
+        default: main
   entrypoint: pipeline
   templates:
     - name: pipeline
