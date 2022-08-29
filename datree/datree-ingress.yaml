@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: datree-git-source
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /webhooks/csdp/datree
+            backend:
+              service:
+                name: corpsite-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
+      host: lrcsdp.support.cf-cd.com
