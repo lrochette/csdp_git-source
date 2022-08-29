@@ -47,6 +47,6 @@ spec:
                 from: "{{tasks.clone.outputs.artifacts.repo}}"
             parameters:
               - name: DATREE_TOKEN
-                value: datree-secret
+                value: datree-token
               - name: INPUT_PATH
                 value: internal/fixtures/kube/k8s-demo.yaml
