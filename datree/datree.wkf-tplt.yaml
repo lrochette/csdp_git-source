@@ -36,7 +36,7 @@ spec:
             - artifacts:
               - name: repo
                 path: /tmp/datree
-        - name: datree-policy-check
+        - name: datree-policy-check-pass
           depends: clone
           templateRef:
             name: argo-hub.datree.0.0.1
@@ -50,7 +50,7 @@ spec:
                 value: datree-token
               - name: INPUT_PATH
                 value: internal/fixtures/kube/pass-all.yaml
-        - name: datree-policy-check
+        - name: datree-policy-check-fail
           depends: clone
           templateRef:
             name: argo-hub.datree.0.0.1
