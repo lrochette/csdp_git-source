@@ -36,8 +36,9 @@ spec:
             - artifacts:
               - name: repo
                 path: /tmp/CorpSite
-                
+
         - name: maven-test
+          depends: clone
           template: maven
           arguments:
             parameters:
@@ -53,7 +54,7 @@ spec:
           depends: clone
 
         - name: codecov-report
-          depends: clone
+          depends: maven-test
           templateRef:
             name: argo-hub.codecov.0.0.1
             template: codecov-report
