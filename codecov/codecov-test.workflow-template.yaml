@@ -11,7 +11,7 @@ spec:
         default: master
   entrypoint: pipeline
   templates:
-    - name: pipleine
+    - name: pipeline
       inputs:
         parameters:
           - name: GIT_REPO_URL
