@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: codecov-test
+spec:
+  arguments:
+    parameters:
+      - name: GIT_REPO_URL
+        default: https://github.com/lrochette/CorpSite
+      - name: GIT_BRANCH
+        default: master
+  entrypoint: pipeline
+  templates:
+    - name: pipleine
+      inputs:
+        parameters:
+          - name: GIT_REPO_URL
+            value: https://github.com/lrochette/CorpSite
+          - name: GIT_BRANCH
+            value: master
+      dag:
+        tasks:
+        - name: clone
+          templateRef:
+            name: argo-hub.git.0.0.3
+            template: clone
+          arguments:
+            parameters:
+              - name: REPO_URL
+                value: "{{inputs.parameters.GIT_REPO_URL}}"
+              - name: REVISION
+                value: "{{inputs.parameters.GIT_BRANCH}}"
+              - name: GIT_TOKEN_SECRET
+                value: github-token
+
+        - name: maven-test
+          template: maven
+          arguments:
+            parameters:
+            - name: target
+              value: "test"
+            artifacts:
+              - name: builddir
+                from: '{{ tasks.clone.outputs.artifacts.repo }}'
+          outputs:
+            - artifacts:
+              - name: builddir
+                path: /tmp/build
+          depends: clone
+
+        - name: codecov-report
+          depends: clone
+          templateRef:
+            name: argo-hub.codecov.0.0.1
+            template: codecov-report
+          arguments:
+            artifacts:
+              - name: REPO
+                from: "{{tasks.maven-tests.outputs.artifacts.repo}}"
+            parameters:
+              - name: CODECOV_API_KEY
+                value: codecov-token
+              - name: CODECOV_URL
+                value: https://codecov.io
