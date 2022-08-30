@@ -51,7 +51,6 @@ spec:
             - artifacts:
               - name: builddir
                 path: /tmp/build
-          depends: clone
 
         - name: codecov-report
           depends: maven-test
