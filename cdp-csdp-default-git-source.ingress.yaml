@@ -21,4 +21,11 @@ spec:
                 port:
                   number: 80
             pathType: Prefix
+          - path: /webhooks/corpsite
+            backend:
+              service:
+                name: corpsite-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
       host: lrcsdp.support.cf-cd.com
