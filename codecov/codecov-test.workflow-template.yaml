@@ -32,7 +32,11 @@ spec:
                 value: "{{inputs.parameters.GIT_BRANCH}}"
               - name: GIT_TOKEN_SECRET
                 value: github-token
-
+          outputs:
+            - artifacts:
+              - name: repo
+                path: /tmp/CorpSite
+                
         - name: maven-test
           template: maven
           arguments:
