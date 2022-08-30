@@ -65,8 +65,8 @@ spec:
             parameters:
               - name: CODECOV_API_KEY
                 value: codecov-token
-              - name: CODECOV_URL
-                value: https://codecov.io
+              # - name: CODECOV_URL
+              #   value: https://codecov.io
     #
     # Additional templates
     #
