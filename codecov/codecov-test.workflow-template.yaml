@@ -62,3 +62,23 @@ spec:
                 value: codecov-token
               - name: CODECOV_URL
                 value: https://codecov.io
+    #
+    # Additional templates
+    #
+    - name: maven
+      inputs:
+        artifacts:
+          - name: builddir
+            path: /tmp/build
+        parameters:
+        - name: target
+      script:
+        image: maven:3.3-jdk-8
+        workingDir: /tmp/build
+        command: [ bash ]
+        source: |
+          mvn -Dmaven.repo.local=/tmp/m2_repository {{inputs.parameters.target}}
+      outputs:
+        artifacts:
+          - name: builddir
+            path: /tmp/build
