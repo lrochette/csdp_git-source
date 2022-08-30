@@ -21,9 +21,9 @@ spec:
           - key: .dockerconfigjson
             path: config.json
         secretName: '{{ inputs.parameters.DOCKER_CONFIG_SECRET }}'
-  entrypoint: pipleine
+  entrypoint: pipeline
   templates:
-    - name: pipleine
+    - name: pipeline
       metadata:
         annotations:
           argo-hub-template/description: 'Builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image'
