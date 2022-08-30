@@ -56,7 +56,7 @@ spec:
           arguments:
             artifacts:
               - name: REPO
-                from: "{{tasks.maven-tests.outputs.artifacts.repo}}"
+                from: "{{tasks.maven-tests.outputs.artifacts.builddir}}"
             parameters:
               - name: CODECOV_API_KEY
                 value: codecov-token
