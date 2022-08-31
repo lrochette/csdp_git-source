@@ -42,4 +42,11 @@ spec:
                 port:
                   number: 80
             pathType: Prefix
+          - path: /webhooks/csdp/heroku
+            backend:
+              service:
+                name: heroku-eventsource-svc
+                port:
+                  number: 80
+            pathType: Prefix
       host: lrcsdp.support.cf-cd.com
