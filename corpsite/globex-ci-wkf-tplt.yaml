@@ -21,7 +21,7 @@ spec:
         default: false
   entrypoint: ci-pipeline
   templates:
-    - name: main
+    - name: ci-pipeline
       inputs:
         parameters:
           - name: REPO
