@@ -77,7 +77,7 @@ spec:
 
         - name: ls1
           template: listing
-          depends: clone
+          depends: clone2
           arguments:
             artifacts:
               - name: lsdir
