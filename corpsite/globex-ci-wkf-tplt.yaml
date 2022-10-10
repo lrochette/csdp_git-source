@@ -275,7 +275,7 @@ spec:
                 value: "mikefarah/yq:3.3.4"
               - name: commands
                 value: |
-                  yq w -i globex/overlays/dev/deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{tasks.get-version.outputs.parameters.VERSION}}"
+                  yq w -i kustomize/globex/overlays/dev/deployment.yaml 'spec.template.spec.containers[0].image' "lrochette/globex:{{tasks.get-version.outputs.parameters.VERSION}}"
 
         - name: commit-config-change
           depends: update-manifest
