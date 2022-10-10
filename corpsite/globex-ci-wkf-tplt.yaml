@@ -12,13 +12,13 @@ spec:
     # These are the arguments that are required for this CI pipeline:
     parameters:
       - name: REPO
-        default: https://github.com/lrochette/CorpSite
+        value: https://github.com/lrochette/CorpSite
       - name: BRANCH
         default: master
       - name: GIT_COMMIT_URL
       - name: GIT_COMMIT_MESSAGE
       - name: CREATE_CR
-        default: false
+        value: false
   entrypoint: ci-pipeline
   templates:
     - name: ci-pipeline
