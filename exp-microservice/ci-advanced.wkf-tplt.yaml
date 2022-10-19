@@ -58,11 +58,11 @@ spec:
           - name: CF_V1_TOKEN
             default: codefresh-v1-token
           - name: JIRA_PROJECT_PREFIX
-            default: 'KPT'
+            default: 'FT'
           - name: JIRA_HOST
-            default: 'cf-demo-jira.atlassian.net'
+            default: 'https://codefresh-io.atlassian.net'
           - name: JIRA_API_TOKEN_SECRET
-            default: 'jira-creds'
+            default: 'jira-token'
           - name: REPO_SLUG
       dag:
         tasks:
@@ -105,10 +105,10 @@ spec:
                   value: '{{ inputs.parameters.GIT_REVISION }}'
                 - name: IMAGE_NAME
                   value:  >-
-                    salesdemosa/{{=
+                    lrochette/{{=
                       sprig.split("/", inputs.parameters.IMAGE_NAME)._2
                     }}
-                  # value: 'salesdemosa/express-microservice'
+                  # value: 'lrochette/express-microservice'
                 - name: DOCKER_CONFIG_SECRET
                   value: 'dockerhub-regcreds'
                 - name: GIT_TOKEN_SECRET
@@ -177,10 +177,10 @@ spec:
               parameters:
                 - name: DOCKER_IMAGE
                   value:  >-
-                    salesdemosa/{{=
+                    lrochette/{{=
                       sprig.split("/", inputs.parameters.IMAGE_NAME)._2
                     }}:{{ inputs.parameters.IMAGE_TAG }}
-                  #value: 'salesdemosa/express-microservice:{{ inputs.parameters.IMAGE_TAG }}'
+                  #value: 'lrochette/express-microservice:{{ inputs.parameters.IMAGE_TAG }}'
                 - name: REGISTRY_PROVIDER
                   value: 'dockerhub'
                 - name: REGISTRY_CREDS_SECRET
