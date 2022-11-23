@@ -41,13 +41,13 @@ spec:
             - name: serverUrl
               value: 'argocd-server.csdp.svc.cluster.local'
 
-        # - name: test2
-        #   template: test
-        #   arguments:
-        #     parameters:
-        #     - name: IMAGE
-        #       value: bash
-        #   depends: wait
+        - name: test2
+          template: test
+          arguments:
+            parameters:
+            - name: IMAGE
+              value: bash
+          depends: wait
 
 
     # Test template
