@@ -15,18 +15,18 @@ spec:
             parameters:
             - name: IMAGE
               value: bash
-        # - name: sync
-        #   depends: test1
-        #   templateRef:
-        #     name: argo-hub.argocd.0.0.1
-        #     template: sync
-        #   arguments:
-        #     parameters:
-        #     - name: app
-        #       value: 'color-dev'
-        #     - name: serverUrl
-        #       value: 'argocd-server.csdp.svc.cluster.local'
-        #
+        - name: sync
+          depends: test1
+          templateRef:
+            name: argo-hub.argocd.0.0.1
+            template: sync
+          arguments:
+            parameters:
+            - name: app
+              value: 'color-dev'
+            - name: serverUrl
+              value: 'argocd-server.csdp.svc.cluster.local'
+
         # - name: wait
         #   depends: sync
         #   templateRef:
