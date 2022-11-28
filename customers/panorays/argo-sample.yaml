@@ -3,7 +3,10 @@ kind: WorkflowTemplate
 metadata:
   name: argo-panorays
 spec:
+
   arguments:
+    # List here all the arguments to pass as variables to the Workflow from the Sensor
+    # Use this syntax to pass them into the Workflow Templates: "{{workflow.parameters.REPO}}"
     parameters:
       - name: ARGOCD_SERVER
         value: a626d6e547916477ea3cfb3866d255a0-567556894.us-east-1.elb.amazonaws.com
