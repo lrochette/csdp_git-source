@@ -3,6 +3,10 @@ kind: WorkflowTemplate
 metadata:
   name: argo-panorays
 spec:
+  arguments:
+    parameters:
+      - name: ARGOCD_SERVER
+        value: a626d6e547916477ea3cfb3866d255a0-567556894.us-east-1.elb.amazonaws.com
   entrypoint: pipeline
   templates:
     - name: pipeline
@@ -25,7 +29,7 @@ spec:
             - name: app
               value: 'color-dev'
             - name: serverUrl
-              value: 'argocd-server.csdp.svc.cluster.local'
+              value: '{{workflow.parameters.ARGOCD_SERVER}}'
 
         - name: wait
           depends: sync
@@ -39,7 +43,7 @@ spec:
             - name: flags
               value: '--health'
             - name: serverUrl
-              value: 'argocd-server.csdp.svc.cluster.local'
+              value: '{{workflow.parameters.ARGOCD_SERVER}}'
 
         - name: test2
           template: test
