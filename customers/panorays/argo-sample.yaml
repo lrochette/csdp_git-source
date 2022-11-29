@@ -10,8 +10,7 @@ spec:
     # Forcing refresh
     parameters:
       - name: ARGOCD_SERVER
-        value: argocd-server
-        #argocd-server.csdp.svc.cluster.local
+        value: argocd-server.csdp.svc.cluster.local
         #value: a626d6e547916477ea3cfb3866d255a0-567556894.us-east-1.elb.amazonaws.com
   entrypoint: pipeline
   templates:
