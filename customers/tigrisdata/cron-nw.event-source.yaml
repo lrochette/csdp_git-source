@@ -8,5 +8,5 @@ spec:
     serviceAccountName: argo-server
   calendar:
     calendar-98f136fa-2488-461a-bfbb-f3bc64b0cd1f:
-      schedule: 0 0 6 * * *
-      timezone: AZ
+      schedule: 0 6 * * 1-5
+      timezone: America/Phoenix
