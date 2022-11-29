@@ -36,7 +36,8 @@ spec:
               value: 'color-dev'
             - name: serverUrl
               value: '{{workflow.parameters.ARGOCD_SERVER}}'
-
+            - name: opts
+              value: '--insecure --plaintext'
         - name: wait
           depends: sync
           templateRef:
