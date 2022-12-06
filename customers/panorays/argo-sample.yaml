@@ -5,7 +5,7 @@ metadata:
 spec:
   workflowMetadata:
     labels:
-      example-label: LABEL1
+      label1: "VALUE1"
   arguments:
     # List here all the arguments to pass as variables to the Workflow from the Sensor
     # Use this syntax to pass them into the Workflow Templates: "{{workflow.parameters.REPO}}"
