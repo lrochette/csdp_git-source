@@ -18,7 +18,7 @@ spec:
       - name: GIT_COMMIT_URL
       - name: GIT_COMMIT_MESSAGE
       - name: CREATE_CR
-        value: false
+        value: true
   entrypoint: ci-pipeline
   templates:
     - name: ci-pipeline
