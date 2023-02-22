@@ -20,6 +20,7 @@ spec:
       - name: CREATE_CR
         value: true
   entrypoint: ci-pipeline
+  serviceAccountName: argo-server
   templates:
     - name: ci-pipeline
       inputs:
