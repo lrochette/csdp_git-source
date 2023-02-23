@@ -61,11 +61,11 @@ spec:
           # --from-literal=domain=$DOMAIN \
           # --dry-run=client --save-config -o yaml | kubectl apply -f - -n $NAMESPACE
           - name: REGISTRY_CREDS_SECRET
-            default: dockerhubs-creds  # the name of the registry-creds secret you created
+            default: quay-creds  # the name of the registry-creds secret you created
           # Create a docker-registry secret with your docker credentials and apply it to your cluster under the runtime namespace
           # https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_create_secret_docker-registry/
           - name: DOCKER_CONFIG_SECRET
-            default: dockerhub-config  # the name of the registry-creds secret you created
+            default: quay-config  # the name of the registry-creds secret you created
       dag:
         tasks:
           # https://codefresh.io/argohub/workflow-template/kaniko

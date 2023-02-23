@@ -66,7 +66,7 @@ spec:
             - dest: spec.arguments.parameters.1.value
               src:
                 dependencyName: github-cc8a39d6-cf39-4123-869a-04f6142f8592
-                dataTemplate: docker.io/lrochette/microservice
+                dataTemplate: quay.io/lrochette/microservice
             - dest: spec.arguments.parameters.2.value
               src:
                 dependencyName: github-cc8a39d6-cf39-4123-869a-04f6142f8592
