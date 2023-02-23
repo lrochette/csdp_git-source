@@ -59,7 +59,7 @@ spec:
         #   template: approve
 
         - name: clone-config
-          # depends: wait
+          depends: build-image
           templateRef:
             name: argo-hub.git.0.0.3
             template: clone
@@ -263,7 +263,7 @@ spec:
                 from: '{{ tasks.clone.outputs.artifacts.repo }}'
 
         - name: update-manifest
-          depends: "get-version && clone-config"
+          depends: "clone-config"
           templateRef:
             name: lr.generic
             template: freestyle-with-artifact
