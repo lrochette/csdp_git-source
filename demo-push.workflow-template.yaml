@@ -22,6 +22,7 @@ spec:
             path: config.json
         secretName: '{{ inputs.parameters.DOCKER_CONFIG_SECRET }}'
   entrypoint: ci-tasks
+  serviceAccountName: codefresh-sa
   templates:
     - name: ci-tasks
       metadata:
