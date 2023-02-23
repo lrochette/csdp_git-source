@@ -20,7 +20,7 @@ spec:
       - name: CREATE_CR
         value: true
   entrypoint: ci-pipeline
-  serviceAccountName: argo-server
+  serviceAccountName: codefresh-sa
   templates:
     - name: ci-pipeline
       inputs:
