@@ -292,6 +292,15 @@ spec:
               - name: MESSAGE
                 value: "Committing new version for globex for lrochette/csdp_applications built in {{ workflow.name }}"
 
+        - name: deploy
+          depends: commit-config-change
+          inline:
+            container:
+              image: alpine:3.7
+              command: [ sh ]
+              source : |
+                sleep 300
+        #- name: promote-to-prod
         - name: create-sn-cr
           depends: clone
           templateRef:
