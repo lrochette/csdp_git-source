@@ -305,27 +305,27 @@ spec:
           templateRef:
             name: argo-hub.gitops-promotion.0.0.1
             template: promote-from-src-to-dest-env
-            arguments:
-              parameters:
-              # Git
-              - name: git-repo-url
-                value: "https://github.com/lrochette/csdp_applications.git"
-              - name: git-auth-secret
-                value: github-token
-              # Replacement Substrings
-              - name: env-src
-                value: dev
-              - name: env-dest
-                value: prod
-              - name: svc-name-list
-                value: "globex"
-              # Pattern Strings
-              - name: file-path-pattern
-                value: "kustomize/[[SVC_NAME]]/overlays/[[ENV]]/deployment.yaml"
-              - name: promotion-type
-                value: yaml-key
-              - name: yaml-key-pattern
-                value: ".spec.template.spec.containers.0.image"
+          arguments:
+            parameters:
+            # Git
+            - name: git-repo-url
+              value: "https://github.com/lrochette/csdp_applications.git"
+            - name: git-auth-secret
+              value: github-token
+            # Replacement Substrings
+            - name: env-src
+              value: dev
+            - name: env-dest
+              value: prod
+            - name: svc-name-list
+              value: "globex"
+            # Pattern Strings
+            - name: file-path-pattern
+              value: "kustomize/[[SVC_NAME]]/overlays/[[ENV]]/deployment.yaml"
+            - name: promotion-type
+              value: yaml-key
+            - name: yaml-key-pattern
+              value: ".spec.template.spec.containers.0.image"
         - name: create-sn-cr
           depends: clone
           templateRef:
