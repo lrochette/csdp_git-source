@@ -302,9 +302,9 @@ spec:
                 sleep 300
         - name: promote-to-prod
           depends: deploy
-            templateRef:
-              name: argo-hub.gitops-promotion.0.0.1
-              template: promote-from-src-to-dest-env
+          templateRef:
+            name: argo-hub.gitops-promotion.0.0.1
+            template: promote-from-src-to-dest-env
             arguments:
               parameters:
               # Git
