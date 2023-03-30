@@ -423,7 +423,7 @@ spec:
         workingDir: /tmp/lsdir
         command: [ sh ]
         source : |
-         sleep inputs.parameters.DURATION
+         sleep {{inputs.parameters.DURATION}}
 
     - name: listing
       inputs:
