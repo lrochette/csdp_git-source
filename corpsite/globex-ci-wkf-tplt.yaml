@@ -298,8 +298,9 @@ spec:
             container:
               image: alpine:3.7
               command: [ sh ]
-              source : |
+              source: |
                 sleep 300
+                
         - name: promote-to-prod
           depends: deploy
           templateRef:
@@ -326,6 +327,7 @@ spec:
               value: yaml-key
             - name: yaml-key-pattern
               value: ".spec.template.spec.containers.0.image"
+
         - name: create-sn-cr
           depends: clone
           templateRef:
