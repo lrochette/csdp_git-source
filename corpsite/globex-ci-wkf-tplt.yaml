@@ -294,12 +294,11 @@ spec:
 
         - name: deploy
           depends: commit-config-change
-          inline:
-            container:
-              image: alpine:3.7
-              command: [ sh ]
-              source: |
-                sleep 300
+          template: sleep
+          arguments:
+            paramters:
+              - name: DURATION
+                value: 300
 
         - name: promote-to-prod
           depends: deploy
@@ -414,6 +413,18 @@ spec:
     # - name: approve
     #   suspend: {}
     #
+    - name: sleep
+      inputs:
+        parameters:
+          - name: DURATION
+            value: 60
+      script:
+        image: alpine:3.7
+        workingDir: /tmp/lsdir
+        command: [ sh ]
+        source : |
+         sleep inputs.parameters.DURATION
+
     - name: listing
       inputs:
         artifacts:
