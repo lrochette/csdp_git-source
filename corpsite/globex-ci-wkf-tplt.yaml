@@ -296,7 +296,7 @@ spec:
           depends: commit-config-change
           template: sleep
           arguments:
-            paramters:
+            parameters:
               - name: DURATION
                 value: 300
 
