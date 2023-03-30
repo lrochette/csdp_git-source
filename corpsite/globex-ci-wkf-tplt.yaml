@@ -51,9 +51,6 @@ spec:
             - artifacts:
               - name: repo
                 path: /tmp/CorpSite
-        # - name: wait
-        #   depends: clone
-        #   template: approve
 
         - name: clone-config
           depends: build-image
@@ -292,13 +289,16 @@ spec:
               - name: MESSAGE
                 value: "Committing new version for globex for lrochette/csdp_applications built in {{ workflow.name }}"
 
+        # - name: deploy
+        #   depends: commit-config-change
+        #   template: sleep
+        #   arguments:
+        #     parameters:
+        #       - name: DURATION
+        #         value: 180
         - name: deploy
           depends: commit-config-change
-          template: sleep
-          arguments:
-            parameters:
-              - name: DURATION
-                value: 300
+          template: approve
 
         - name: promote-to-prod
           depends: deploy
@@ -409,10 +409,10 @@ spec:
         #     - name: CR_CLOSE_NOTES
         #       value: "Closed automatically by Argo-Hub ServiceNow workflow template"
 
-    # # Additional templates
-    # - name: approve
-    #   suspend: {}
-    #
+    # Additional templates
+    - name: approve
+      suspend: {}
+
     - name: sleep
       inputs:
         parameters:
