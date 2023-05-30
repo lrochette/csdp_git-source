@@ -26,7 +26,7 @@ spec:
             template: '{{ trimPrefix "refs/heads/" .Input }}'
             type: string
             value:
-              - master
+              - gitops
   triggers:
     - template:
         name: ci
