@@ -27,5 +27,5 @@ spec:
       contentType: json
       deleteHookOnFinish: true
       apiToken:
-        name: autopilot-secret
-        key: git_token
+        name: github-token
+        key: token
