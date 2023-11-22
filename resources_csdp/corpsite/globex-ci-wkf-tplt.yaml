@@ -17,7 +17,6 @@ spec:
       - name: CREATE_CR
         value: false
   entrypoint: ci-pipeline
-  serviceAccountName: codefresh-sa
   templates:
     - name: ci-pipeline
       inputs:
