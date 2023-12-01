@@ -1,0 +1,105 @@
+# This Workflow Template is used to create your first CI pipeline in CSDP
+# This CI pipeline builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image
+
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: snow
+spec:
+
+  entrypoint: pipeline
+  templates:
+    - name: pipeline
+      inputs:
+        parameters:
+          - name: REPO
+            value: https://github.com/lrochette/CorpSite
+          - name: BRANCH
+          - name: GIT_COMMIT_URL
+            value: ''
+          - name: GIT_COMMIT_MESSAGE
+            value: ''
+          # - name: CREATE_CR
+          #   value: false
+
+      dag:
+        tasks:
+
+        - name: create-sn-cr
+          depends: clone
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: createcr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: >-
+                {"short_description": "Globex deployment to QA environment",
+                "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh GitOps CI plugin",
+                "justification": "My app is awesome! Please deplopy ASAP",
+                "cmdb_ci":"tomcat"
+                }
+
+        - name: wait
+          depends: create-sn-cr
+          template: approve
+
+        - name: update-sn-cr
+          depends: wait
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: '{"work_notes":"Image build with tag TAG}"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+
+        - name: update-sn-cr-with-config-commit
+          depends: update-sn-cr
+          templateRef:
+            name: argo-hub.servicenow.1.0.0
+            template: updatecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev110939.service-now.com"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOGLEVEL
+              value: "info"
+            - name: CR_DATA
+              value: '{"work_notes":"Deployment commit 123456"}'
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+
+    # Additional templates
+    - name: approve
+      suspend: {}
+#        duration: "5m"
+
+
+    - name: sleep
+      inputs:
+        parameters:
+          - name: DURATION
+            value: 60
+      script:
+        image: alpine:3.7
+        workingDir: /tmp/lsdir
+        command: [ sh ]
+        source : |
+         sleep {{inputs.parameters.DURATION}}
