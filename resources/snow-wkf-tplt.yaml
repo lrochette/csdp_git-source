@@ -10,23 +10,10 @@ spec:
   entrypoint: pipeline
   templates:
     - name: pipeline
-      inputs:
-        parameters:
-          - name: REPO
-            value: https://github.com/lrochette/CorpSite
-          - name: BRANCH
-          - name: GIT_COMMIT_URL
-            value: ''
-          - name: GIT_COMMIT_MESSAGE
-            value: ''
-          # - name: CREATE_CR
-          #   value: false
-
       dag:
         tasks:
 
         - name: create-sn-cr
-          depends: clone
           templateRef:
             name: argo-hub.servicenow.1.3.0
             template: createcr
@@ -49,10 +36,6 @@ spec:
               value: docker.io/lrochette/argo-hub-servicenow-integration
             - name: SN_IMAGE_TAG
               value: 1.3.0-main
-
-        - name: wait
-          depends: create-sn-cr
-          template: approve
 
         - name: update-sn-cr
           depends: wait
