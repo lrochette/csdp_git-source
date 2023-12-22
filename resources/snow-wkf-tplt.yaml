@@ -19,6 +19,8 @@ spec:
             template: createcr
           arguments:
             parameters:
+            - name: TOKEN
+              value: codefresh-token
             - name: SN_INSTANCE
               value: "https://dev110939.service-now.com"
             - name: SN_AUTH
