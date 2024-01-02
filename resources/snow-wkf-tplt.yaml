@@ -22,7 +22,7 @@ spec:
             - name: TOKEN
               value: codefresh-token
             - name: SN_INSTANCE
-              value: "https://dev110939.service-now.com"
+              value: "https://dev207847.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOGLEVEL
@@ -47,7 +47,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev110939.service-now.com"
+              value: "https://dev207847.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOGLEVEL
