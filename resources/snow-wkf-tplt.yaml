@@ -26,7 +26,7 @@ spec:
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOGLEVEL
-              value: "info"
+              value: "debug"
             - name: CR_DATA
               value: >-
                 {"short_description": "Globex deployment to QA environment",
