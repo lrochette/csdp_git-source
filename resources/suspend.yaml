@@ -17,7 +17,7 @@ spec:
           template: sleep
           arguments:
             parameters:
-              - name: DURATION:
+              - name: DURATION
                 value: 5
         - name: wait1
           template: approve
@@ -28,7 +28,7 @@ spec:
           depends: wait1
           arguments:
             parameters:
-              - name: DURATION:
+              - name: DURATION
                 value: 5
 
         - name: wait2
@@ -40,13 +40,13 @@ spec:
           depends: wait2
           arguments:
             parameters:
-              - name: DURATION:
+              - name: DURATION
                 value: 5
 
         - name: wait3
           template: approve
           depends: sleep3
-          
+
     # Additional templates
     - name: approve
       suspend: {}
