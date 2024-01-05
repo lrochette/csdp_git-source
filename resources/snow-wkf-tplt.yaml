@@ -25,7 +25,7 @@ spec:
               value: "https://dev207847.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: LOGLEVEL
+            - name: LOG_LEVEL
               value: "debug"
             - name: CR_DATA
               value: >-
@@ -54,7 +54,7 @@ spec:
               value: "https://dev207847.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: LOGLEVEL
+            - name: LOG_LEVEL
               value: "info"
             - name: CR_DATA
               value: '{"work_notes":"Image build with tag TAG}"}'
@@ -76,7 +76,7 @@ spec:
               value: "https://dev207847.service-now.com/"
             - name: SN_AUTH
               value: "sn-auth"
-            - name: LOGLEVEL
+            - name: LOG_LEVEL
               value: "info"
             - name: CR_DATA
               value: '{"work_notes":"Deployment commit 123456"}'
