@@ -21,6 +21,8 @@ spec:
             parameters:
             - name: TOKEN
               value: codefresh-token
+            - name: CF_RUNTIME
+              value: 'csdp'
             - name: SN_INSTANCE
               value: "https://dev207847.service-now.com"
             - name: SN_AUTH
