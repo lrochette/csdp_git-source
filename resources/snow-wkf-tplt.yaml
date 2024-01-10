@@ -89,6 +89,30 @@ spec:
             - name: SN_IMAGE_TAG
               value: 1.3.0-main
 
+        - name: close-sn-cr
+          depends: update-sn-cr-with-config-commit
+          templateRef:
+            name: argo-hub.servicenow.1.3.0
+            template: closecr
+          arguments:
+            parameters:
+            - name: SN_INSTANCE
+              value: "https://dev207847.service-now.com/"
+            - name: SN_AUTH
+              value: "sn-auth"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: CR_SYSID
+              value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
+            - name: CR_CLOSE_CODE
+              value: "successful"
+            - name: CR_CLOSE_NOTES
+              value: "Closed automatically by Argo-Hub ServiceNow workflow template"
+            - name: SN_IMAGE_NAME
+              value: docker.io/lrochette/argo-hub-servicenow-integration
+            - name: SN_IMAGE_TAG
+              value: 1.3.0-main
+
     # Additional templates
     - name: approve
       suspend: {}
