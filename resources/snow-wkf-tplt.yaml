@@ -20,7 +20,7 @@ spec:
           arguments:
             parameters:
             - name: TOKEN
-              value: codefresh-token
+              value: cf-api-key
             - name: CF_RUNTIME
               value: 'csdp'
             - name: SN_INSTANCE
