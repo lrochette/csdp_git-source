@@ -24,7 +24,7 @@ spec:
             - name: CF_RUNTIME
               value: 'csdp'
             - name: SN_INSTANCE
-              value: "https://dev207847.service-now.com"
+              value: "https://dev202099.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -34,7 +34,7 @@ spec:
                 {"short_description": "Globex deployment to QA environment",
                 "description": "Change for build {{workflow.uid}}.\nThis change was created by the Codefresh GitOps CI plugin",
                 "justification": "My app is awesome! Please deploy ASAP",
-                "cmdb_ci":"tomcat"
+                "cmdb_ci":"tomcat", "assignment_group":"3Da715cd759f2002002920bde8132e7018"
                 }
             - name: SN_IMAGE_NAME
               value: docker.io/lrochette/argo-hub-servicenow-integration
