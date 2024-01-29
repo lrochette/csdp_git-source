@@ -81,7 +81,12 @@ spec:
             - name: LOG_LEVEL
               value: "info"
             - name: CR_DATA
-              value: '{"work_notes":"Deployment commit 123456", "state":0}'
+              value: >-
+                {"work_notes":"Deployment commit 123456",
+                 "state":0,
+                 "implementation_plan":"The implementation has been approved.",
+                 "test_plan":"The testing suite has passed."
+                }
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
             - name: SN_IMAGE_NAME
