@@ -24,7 +24,7 @@ spec:
             - name: CF_RUNTIME
               value: 'csdp'
             - name: SN_INSTANCE
-              value: "https://dev202099.service-now.com"
+              value: "https://dev227605.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -53,7 +53,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev202099.service-now.com"
+              value: "https://dev227605.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -75,7 +75,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev202099.service-now.com"
+              value: "https://dev227605.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -109,7 +109,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev202099.service-now.com"
+              value: "https://dev227605.service-now.com"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
