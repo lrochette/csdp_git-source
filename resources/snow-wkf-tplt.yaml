@@ -1,5 +1,4 @@
-# This Workflow Template is used to create your first CI pipeline in CSDP
-# This CI pipeline builds a docker image using Kaniko, uploads image metadata to CSDP, and tests the image
+# This Workflow Template is used to test the ServiceNow integration
 
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
@@ -36,10 +35,10 @@ spec:
                 "justification": "My app is awesome! Please deploy ASAP",
                 "cmdb_ci":"tomcat", "assignment_group":"a715cd759f2002002920bde8132e7018"
                 }
-            - name: SN_IMAGE_NAME
-              value: docker.io/lrochette/argo-hub-servicenow-integration
-            - name: SN_IMAGE_TAG
-              value: 1.3.0-main
+            # - name: SN_IMAGE_NAME
+            #   value: docker.io/lrochette/argo-hub-servicenow-integration
+            # - name: SN_IMAGE_TAG
+            #   value: 1.3.0-main
 
         - name: wait
           template: approve
@@ -62,10 +61,10 @@ spec:
               value: '{"work_notes":"Image build with tag TAG}"}'
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-            - name: SN_IMAGE_NAME
-              value: docker.io/lrochette/argo-hub-servicenow-integration
-            - name: SN_IMAGE_TAG
-              value: 1.3.0-main
+            # - name: SN_IMAGE_NAME
+            #   value: docker.io/lrochette/argo-hub-servicenow-integration
+            # - name: SN_IMAGE_TAG
+            #   value: 1.3.0-main
 
         - name: update-sn-cr-with-config-commit
           depends: update-sn-cr
@@ -89,10 +88,10 @@ spec:
                 }
             - name: CR_SYSID
               value: '{{ tasks.create-sn-cr.outputs.parameters.CR_SYSID}}'
-            - name: SN_IMAGE_NAME
-              value: docker.io/lrochette/argo-hub-servicenow-integration
-            - name: SN_IMAGE_TAG
-              value: 1.3.0-main
+            # - name: SN_IMAGE_NAME
+            #   value: docker.io/lrochette/argo-hub-servicenow-integration
+            # - name: SN_IMAGE_TAG
+            #   value: 1.3.0-main
         - name: pause
           depends: update-sn-cr-with-config-commit
           template: sleep
@@ -120,10 +119,10 @@ spec:
               value: "successful"
             - name: CR_CLOSE_NOTES
               value: "Closed automatically by Argo-Hub ServiceNow workflow template"
-            - name: SN_IMAGE_NAME
-              value: docker.io/lrochette/argo-hub-servicenow-integration
-            - name: SN_IMAGE_TAG
-              value: 1.3.0-main
+            # - name: SN_IMAGE_NAME
+            #   value: docker.io/lrochette/argo-hub-servicenow-integration
+            # - name: SN_IMAGE_TAG
+            #   value: 1.3.0-main
 
     # Additional templates
     - name: approve
