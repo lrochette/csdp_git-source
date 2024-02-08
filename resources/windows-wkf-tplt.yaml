@@ -1,0 +1,50 @@
+# This Workflow Template is used to test the ServiceNow integration
+
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: windows
+spec:
+
+  entrypoint: pipeline
+  templates:
+    - name: pipeline
+      dag:
+        tasks:
+
+        - name: echo1
+          template: echo
+
+        - name: win1
+          template: win2022
+          depends: echo1
+
+        - name: echo2
+          template: echo
+          depends: win1
+
+
+    # Additional templates
+    - name: approve
+      suspend: {}
+#        duration: "5m"
+
+
+    - name: win2022
+      nodeSelector:
+        kubernetes.io/os: windows    # specify the OS your step should run on
+      container:
+        image: mcr.microsoft.com/windows/nanoserver:ltsc2022
+        command: ["cmd", "/c"]
+        args: ["echo", "Hello from Windows 2022 Container!"]
+        
+    - name: echo
+      inputs:
+        parameters:
+          - name: DURATION
+            value: 60
+      script:
+        image: alpine:3.7
+        command: [ sh ]
+        source : |
+         echo "Running"
