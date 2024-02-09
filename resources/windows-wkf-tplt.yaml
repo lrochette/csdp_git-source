@@ -6,10 +6,10 @@ metadata:
   name: windows
 spec:
   tolerations:
-    - key: "kubernetes.io/os"
-      operator: Equal
-      value: "windows"
-      effect: "NoSchedule"
+    # - key: "kubernetes.io/os"
+    #   operator: Equal
+    #   value: "windows"
+    #   effect: "NoSchedule"
   entrypoint: pipeline
   templates:
     - name: pipeline
