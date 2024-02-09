@@ -1,0 +1,34 @@
+# This Workflow Template is used to test build the PD software
+
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: IRT-PD-build
+spec:
+  entrypoint: pipeline
+  templates:
+    - name: pipeline
+      dag:
+        tasks:
+        - name: win1
+          template: win2022
+          arguments:
+            parameters:
+              - name: COMMAND
+                value: ["echo first command on windows", "echo second command"]
+
+    # Additional templates
+    - name: win2022
+      nodeSelector:
+        kubernetes.io/os: windows    # specify the OS your step should run on
+        kubernetes.io/arch: amd64
+      inputs:
+        parameters:
+          - name: COMMAND
+            value: ["echo", "hello world"]
+
+      script:
+        image: mcr.microsoft.com/windows/nanoserver:ltsc2022
+        command: ["cmd", "/c"]
+        source : |
+           ${{ inputs.parameters.COMMAND }}
