@@ -40,6 +40,9 @@ spec:
         args: ["echo", "Hello from Windows 2022 Container!"]
 
     - name: echo
+      nodeSelector:
+        kubernetes.io/os: linux    # specify the OS your step should run on
+        kubernetes.io/arch: amd64
       inputs:
         parameters:
           - name: DURATION
