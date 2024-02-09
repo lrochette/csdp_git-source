@@ -5,7 +5,11 @@ kind: WorkflowTemplate
 metadata:
   name: windows
 spec:
-
+  tolerations:
+    - key: os
+      operator: Equal
+      value: "windows"
+      effect: "NoSchedule"
   entrypoint: pipeline
   templates:
     - name: pipeline
@@ -25,10 +29,6 @@ spec:
 
 
     # Additional templates
-    - name: approve
-      suspend: {}
-#        duration: "5m"
-
 
     - name: win2022
       nodeSelector:
