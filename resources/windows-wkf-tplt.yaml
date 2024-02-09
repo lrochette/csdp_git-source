@@ -6,7 +6,7 @@ metadata:
   name: windows
 spec:
   tolerations:
-    - key: os
+    - key: "kubernetes.io/os"
       operator: Equal
       value: "windows"
       effect: "NoSchedule"
