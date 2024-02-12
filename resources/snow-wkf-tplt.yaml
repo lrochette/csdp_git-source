@@ -5,10 +5,15 @@ kind: WorkflowTemplate
 metadata:
   name: snow
 spec:
+  arguments:
+    parameters:
+      - name INSTANCE:
+        value: https://dev202099.service-now.com
 
   entrypoint: pipeline
   templates:
     - name: pipeline
+
       dag:
         tasks:
 
@@ -23,7 +28,7 @@ spec:
             - name: CF_RUNTIME
               value: 'csdp'
             - name: SN_INSTANCE
-              value: "https://dev227605.service-now.com"
+              value: "{{workflow.parameters.INSTANCE}}"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -52,7 +57,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev227605.service-now.com"
+              value: "{{workflow.parameters.INSTANCE}}"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -74,7 +79,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev227605.service-now.com"
+              value: "{{workflow.parameters.INSTANCE}}"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
@@ -108,7 +113,7 @@ spec:
           arguments:
             parameters:
             - name: SN_INSTANCE
-              value: "https://dev227605.service-now.com"
+              value: "{{workflow.parameters.INSTANCE}}"
             - name: SN_AUTH
               value: "sn-auth"
             - name: LOG_LEVEL
