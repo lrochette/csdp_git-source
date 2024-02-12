@@ -7,7 +7,7 @@ metadata:
 spec:
   arguments:
     parameters:
-      - name INSTANCE:
+      - name: INSTANCE
         value: https://dev202099.service-now.com
 
   entrypoint: pipeline
