@@ -20,7 +20,7 @@ spec:
         repoURL: "{{app.src}}"
       destination:
         name: in-cluster # cluster is restricted
-        namespace: other # namespace is restricted
+        namespace: csdp # namespace is restricted
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
