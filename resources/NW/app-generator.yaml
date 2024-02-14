@@ -18,7 +18,7 @@ spec:
           # `clusterName`).
         - git:
             repoURL: https://github.com/lrochette/csdp_applications.git
-            revision: main
+            revision: HEAD
             files:
               - path: "manifests/nw/**/user_config.json"
             pathParamPrefix: user
@@ -30,7 +30,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/lrochette/csdp_applications.git
-        targetRevision: main
+        targetRevision: HEAD
         path: 'manifests/nw/{{.appName}}'
       destination:
         server: https://kubernetes.default.svc
