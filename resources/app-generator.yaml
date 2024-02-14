@@ -13,7 +13,7 @@ spec:
             repoURL: https://github.com/lrochette/csdp_applications.git
             revision: HEAD
             files:
-            - path: "apps/nw/**/config.json"
+            - path: "apps/nw/SRE/**/config.json"
           # git file generator referencing files containing details about
           # locations to which each app should deploy (e.g., `region` and
           # `clusterName`).
@@ -21,7 +21,7 @@ spec:
             repoURL: https://github.com/lrochette/csdp_applications.git
             revision: HEAD
             files:
-              - path: "manifests/nw/**/user_config.json"
+              - path: "manifests/nw/user/**/user_config.json"
             pathParamPrefix: user
   template:
     metadata:
