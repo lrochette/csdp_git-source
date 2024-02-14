@@ -5,6 +5,7 @@ metadata:
   namespace: csdp
 spec:
   goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - matrix:
       generators:
@@ -14,10 +15,10 @@ spec:
           repoURL: https://github.com/lrochette/csdp_applications.git
           revision: HEAD
           files:
-          - path: "apps/nw/SRE/**/config.json"
+            - path: "apps/nw/SRE/**/config.json"
+          pathParamPrefix: sre
         # git file generator referencing files containing details about
-        # locations to which each app should deploy (e.g., `region` and
-        # `clusterName`).
+        # locations to which each app should deploy (e.g., `namespace`).
       - git:
           repoURL: https://github.com/lrochette/csdp_applications.git
           revision: HEAD
@@ -36,7 +37,7 @@ spec:
         path: 'manifests/nw/{{.appName}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: dev # '{{user.namespace}}'
+        namespace: dev # '{{.namespace}}'
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
