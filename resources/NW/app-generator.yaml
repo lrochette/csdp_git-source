@@ -31,7 +31,7 @@ spec:
       source:
         repoURL: https://github.com/lrochette/csdp_applications.git
         targetRevision: main
-        path: "manifests/nw/{{.appName}}"
+        path: manifests/nw/{{.appName}}
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{user.namespace}}'
