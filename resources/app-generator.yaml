@@ -18,12 +18,12 @@ spec:
     # git file generator referencing files containing details about
     # locations to which each app should deploy (e.g., `region` and
     # `clusterName`).
-  - git:
-      repoURL: https://github.com/lrochette/csdp_applications.git
-      revision: HEAD
-      files:
-        - path: "manifests/nw/user/**/user_config.json"
-      pathParamPrefix: user
+  # - git:
+  #     repoURL: https://github.com/lrochette/csdp_applications.git
+  #     revision: HEAD
+  #     files:
+  #       - path: "manifests/nw/user/**/user_config.json"
+  #     pathParamPrefix: user
   template:
     metadata:
       name: '{{.appName}}'
