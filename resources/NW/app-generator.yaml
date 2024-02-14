@@ -4,7 +4,7 @@ metadata:
   name: guestbook
 spec:
   generators:
-    -matrix
+    - matrix:
       generators:
         - git:
             # git file generator referencing files containing details about each
@@ -16,12 +16,12 @@ spec:
           # git file generator referencing files containing details about
           # locations to which each app should deploy (e.g., `region` and
           # `clusterName`).
-          - git:
-              repoURL: hhttps://github.com/lrochette/csdp_applications.git
-              revision: main
-              files:
-                - path: "examples/git-generator-files-discovery/cluster-config/**/config.json"
-              pathParamPrefix: examples/git-generator-files-discovery/cluster-config
+        - git:
+            repoURL: hhttps://github.com/lrochette/csdp_applications.git
+            revision: main
+            files:
+              - path: "examples/git-generator-files-discovery/cluster-config/**/config.json"
+            pathParamPrefix: examples/git-generator-files-discovery/cluster-config
   template:
     metadata:
       name: '{{cluster.name}}-guestbook'
