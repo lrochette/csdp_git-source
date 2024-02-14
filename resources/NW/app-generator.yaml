@@ -5,7 +5,7 @@ metadata:
 spec:
   generators:
     - matrix:
-      generators:
+        generators:
         - git:
             # git file generator referencing files containing details about each
             # app to be deployed (e.g., `appName`).
