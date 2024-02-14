@@ -8,23 +8,23 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - matrix:
-      generators:
-      - git:
-          # git file generator referencing files containing details about each
-          # app to be deployed (e.g., `appName`).
-          repoURL: https://github.com/lrochette/csdp_applications.git
-          revision: HEAD
-          files:
-            - path: "apps/nw/SRE/**/config.json"
-          pathParamPrefix: sre
-        # git file generator referencing files containing details about
-        # locations to which each app should deploy (e.g., `namespace`).
-      - git:
-          repoURL: https://github.com/lrochette/csdp_applications.git
-          revision: HEAD
-          files:
-            - path: "manifests/nw/user/**/user_config.json"
-          pathParamPrefix: user
+        generators:
+        - git:
+            # git file generator referencing files containing details about each
+            # app to be deployed (e.g., `appName`).
+            repoURL: https://github.com/lrochette/csdp_applications.git
+            revision: HEAD
+            files:
+              - path: "apps/nw/SRE/**/config.json"
+            pathParamPrefix: sre
+          # git file generator referencing files containing details about
+          # locations to which each app should deploy (e.g., `namespace`).
+        - git:
+            repoURL: https://github.com/lrochette/csdp_applications.git
+            revision: HEAD
+            files:
+              - path: "manifests/nw/user/**/user_config.json"
+            pathParamPrefix: user
   template:
     metadata:
       name: '{{.appName}}'
