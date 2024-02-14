@@ -25,6 +25,7 @@ spec:
   template:
     metadata:
       name: '{{appName}}'
+      namespace: csdp
     spec:
       project: default
       source:
@@ -34,3 +35,9 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{user.namespace}}'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
