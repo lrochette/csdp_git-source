@@ -3,6 +3,7 @@ kind: ApplicationSet
 metadata:
   name: appset123
 spec:
+  goTemplate: true
   generators:
     - matrix:
         generators:
@@ -16,12 +17,12 @@ spec:
           # git file generator referencing files containing details about
           # locations to which each app should deploy (e.g., `region` and
           # `clusterName`).
-        - git:
-            repoURL: https://github.com/lrochette/csdp_applications.git
-            revision: HEAD
-            files:
-              - path: "manifests/nw/**/user_config.json"
-            pathParamPrefix: user
+        # - git:
+        #     repoURL: https://github.com/lrochette/csdp_applications.git
+        #     revision: HEAD
+        #     files:
+        #       - path: "manifests/nw/**/user_config.json"
+        #     pathParamPrefix: user
   template:
     metadata:
       name: '{{.appName}}'
@@ -34,7 +35,7 @@ spec:
         path: 'manifests/nw/{{.appName}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{user.namespace}}'
+        namespace: 'dev'
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
