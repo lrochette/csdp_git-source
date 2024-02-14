@@ -9,10 +9,10 @@ spec:
         - git:
             # git file generator referencing files containing details about each
             # app to be deployed (e.g., `appName`).
-            repoURL: https://github.com/argoproj/applicationset.git
+            repoURL: https://github.com/lrochette/csdp_applicationset.git
             revision: HEAD
             files:
-            - path: "examples/git-generator-files-discovery/cluster-config/**/config.json"
+            - path: "apps/nw/*/config.json"
           # git file generator referencing files containing details about
           # locations to which each app should deploy (e.g., `region` and
           # `clusterName`).
@@ -20,18 +20,17 @@ spec:
             repoURL: hhttps://github.com/lrochette/csdp_applications.git
             revision: main
             files:
-              - path: "examples/git-generator-files-discovery/cluster-config/**/user_config.json"
-            pathParamPrefix: examples/git-generator-files-discovery/cluster-config
+              - path: "manifests/nw/**/user_config.json"
+            pathParamPrefix: manifest/nw
   template:
     metadata:
-      name: '{{cluster.name}}-guestbook'
+      name: '{{appName}}'
     spec:
       project: default
       source:
-        repoURL: https://github.com/argoproj/applicationset.git
-        targetRevision: HEAD
-        path: "examples/git-generator-files-discovery/apps/guestbook"
+        repoURL: https://github.com/lrochette/csdp_applications.git
+        targetRevision: main
+        path: "manifests/nw/{{appname}}"
       destination:
         server: https://kubernetes.default.svc
-        #server: '{{cluster.address}}'
         namespace: '{{user.namespace}}'
