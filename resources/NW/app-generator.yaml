@@ -21,7 +21,7 @@ spec:
             revision: main
             files:
               - path: "manifests/nw/**/user_config.json"
-            pathParamPrefix: manifest/nw
+            pathParamPrefix: manifests/nw
   template:
     metadata:
       name: '{{appName}}'
