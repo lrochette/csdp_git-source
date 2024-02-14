@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: appset123
+  namespace: csdp
 spec:
   goTemplate: true
   generators:
