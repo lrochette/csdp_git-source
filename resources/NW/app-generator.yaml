@@ -21,7 +21,7 @@ spec:
             revision: main
             files:
               - path: "manifests/nw/**/user_config.json"
-            pathParamPrefix: target
+            pathParamPrefix: user
   template:
     metadata:
       name: '{{appName}}'
@@ -31,7 +31,7 @@ spec:
       source:
         repoURL: https://github.com/lrochette/csdp_applications.git
         targetRevision: main
-        path: "manifests/nw/{{appname}}"
+        path: "manifests/nw/{{.appName}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{user.namespace}}'
