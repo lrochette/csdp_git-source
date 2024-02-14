@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  generators:
+    -matrix
+      generators:
+        - git:
+            # git file generator referencing files containing details about each
+            # app to be deployed (e.g., `appName`).
+            repoURL: https://github.com/argoproj/applicationset.git
+            revision: HEAD
+            files:
+            - path: "examples/git-generator-files-discovery/cluster-config/**/config.json"
+          # git file generator referencing files containing details about
+          # locations to which each app should deploy (e.g., `region` and
+          # `clusterName`).
+          - git:
+              repoURL: hhttps://github.com/lrochette/csdp_applications.git
+              revision: main
+              files:
+                - path: "examples/git-generator-files-discovery/cluster-config/**/config.json"
+              pathParamPrefix: examples/git-generator-files-discovery/cluster-config
+  template:
+    metadata:
+      name: '{{cluster.name}}-guestbook'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/argoproj/applicationset.git
+        targetRevision: HEAD
+        path: "examples/git-generator-files-discovery/apps/guestbook"
+      destination:
+        server: https://kubernetes.default.svc
+        #server: '{{cluster.address}}'
+        namespace: '{{user.namespace}}'
