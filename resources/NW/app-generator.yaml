@@ -20,7 +20,7 @@ spec:
             repoURL: hhttps://github.com/lrochette/csdp_applications.git
             revision: main
             files:
-              - path: "examples/git-generator-files-discovery/cluster-config/**/config.json"
+              - path: "examples/git-generator-files-discovery/cluster-config/**/user_config.json"
             pathParamPrefix: examples/git-generator-files-discovery/cluster-config
   template:
     metadata:
