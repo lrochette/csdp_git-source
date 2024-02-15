@@ -23,7 +23,7 @@ spec:
               repoURL: https://github.com/lrochette/csdp_applications.git
               revision: HEAD
               files:
-                - path: "manifests/nw/user/**/user_config.json"
+                - path: "apps/nw/user/**/user_config.json"
               pathParamPrefix: user
   template:
     metadata:
