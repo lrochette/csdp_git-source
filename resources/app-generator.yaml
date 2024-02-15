@@ -37,7 +37,7 @@ spec:
         path: 'manifests/nw/{{.appName}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.user.ns}}'
+        namespace: '{{.user.namespace}}'
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
