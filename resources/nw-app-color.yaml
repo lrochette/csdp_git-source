@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nw-jk-appset
+  namespace: csdp
+spec:
+  goTemplate: true
+  generators:
+    - matrix:
+        generators:
+          - git:
+              # git file generator referencing files containing details about each
+              # app to be deployed (e.g., `appName`).
+              repoURL: https://github.com/lrochette/csdp_applications.git
+              revision: HEAD
+              files:
+                - path: "apps/nw/SRE/**/jk_config.json"
+              pathParamPrefix: sre
+            # git file generator referencing files containing details about
+            # locations to which each app should deploy (e.g., `namespace`).
+          - git:
+              repoURL: https://github.com/lrochette/csdp_applications.git
+              revision: HEAD
+              files:
+                - path: "apps/nw/user/{{.appName}}/user_config.json"
+              pathParamPrefix: user
+  template:
+    metadata:
+      name: '{{.appName}}'
+      namespace: csdp
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/lrochette/csdp_applications.git
+        targetRevision: HEAD
+        path: 'helm/nw/color'
+        helm:
+          releaseName: "{{.appName}}"
+          valuesFiles:
+              - values.yaml
+              - ./apps/nw/user/{{.appName}}/jk_values.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.appName}}'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
