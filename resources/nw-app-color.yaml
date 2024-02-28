@@ -36,7 +36,7 @@ spec:
         path: 'helm/nw/color'
         helm:
           releaseName: "{{.appName}}"
-          valuesFiles:
+          valueFiles:
               - values.yaml
               - /apps/nw/user/{{.appName}}/color_values.yaml
 
