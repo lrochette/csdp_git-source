@@ -14,7 +14,7 @@ spec:
               repoURL: https://github.com/lrochette/csdp_applications.git
               revision: HEAD
               files:
-                - path: "apps/nw/SRE/**/jk_config.json"
+                - path: "apps/nw/SRE/**/color.json"
               pathParamPrefix: sre
             # git file generator referencing files containing details about
             # locations to which each app should deploy (e.g., `namespace`).
