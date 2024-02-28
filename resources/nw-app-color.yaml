@@ -40,6 +40,8 @@ spec:
               - values.yaml
               - /apps/nw/user/{{.appName}}/color_values.yaml
               - compulsory.yaml
+          # Ignore locally missing valueFiles when installing Helm chart. Defaults to false
+          ignoreMissingValueFiles: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.appName}}'
