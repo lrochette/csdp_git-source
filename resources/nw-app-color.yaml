@@ -39,7 +39,7 @@ spec:
           valueFiles:
               - values.yaml
               - /apps/nw/user/{{.appName}}/color_values.yaml
-
+              - compulsory.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.appName}}'
