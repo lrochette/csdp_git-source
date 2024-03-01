@@ -141,7 +141,7 @@ spec:
           - name: DURATION
             value: 60
       script:
-        image: bash:5.2.26
+        image: alpine:3.7
         workingDir: /tmp/lsdir
         command: [ sh ]
         source : |
