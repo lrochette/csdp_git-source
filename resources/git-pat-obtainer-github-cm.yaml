@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: git-pat-obtainer-github
+  labels:
+    codefresh_io_entity: git-pat-obtainer
+    codefresh_io_git_provider: github
+data:
+  config: |
+    provider: github
+    mode: PAT
+    appName: ''
+    secret:
+      name: github-oauth2
+      namespace: csdp
+      path:
+        appId: '1870244'
+        clientId: c9ccada72dd33dd5cc03
+        clientSecret: 5e9a68c379a4415de9d2dcd733a8f8af65f7b27d
+        url: https://github.com
